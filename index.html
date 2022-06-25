@@ -1,0 +1,990 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 7 ]>    <html lang="zh-CN" class="ie7"> <![endif]-->
+<!--[if IE 8 ]>    <html lang="zh-CN" class="ie8"> <![endif]-->
+<!--[if IE 9 ]>    <html lang="zh-CN" class="ie9"> <![endif]-->
+<!--[if (gte IE 10)|!(IE)]><!--> <html lang="zh-CN"> <!--<![endif]-->
+
+<head>
+  <meta charset="UTF-8">
+
+  <title>南有嘉鱼 [Dylan Xu's Blog]</title>
+  
+  <meta name="description" content="一个程序员的技术博客，分享折腾的点点滴滴">
+  <meta name="author" content="Dylan Xu">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="/icon.png">
+
+  <!-- Feed -->
+  <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="/rss.xml">
+  <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/atom.xml">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/assets/themes/twitter/css/style.css">
+  <link rel="stylesheet" href="/assets/themes/twitter/css/font-awesome.min.css">
+  <!--[if IE 7 ]><link rel="stylesheet" href="/assets/themes/twitter/css/font-awesome-ie7.min.css?ver=20151122"><![endif]-->
+
+  <!-- Gitalk -->
+  <link rel="stylesheet" href="/assets/themes/twitter/css/gitalk-style.css">
+  <script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
+
+  <!-- Scripts -->
+  <script type="text/javascript" src="/assets/themes/twitter/js/jquery-1.11.1.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/github.min.css">
+</head>
+
+<body>
+
+  <div id="wrap">
+    <header id="top">
+      <!-- Home Link -->
+      <a id="logo" href="/" title="回到首页">
+        <img src="/assets/themes/twitter/img/icon.png" height="50" alt="南有嘉鱼">
+      </a>
+      
+      <!-- Navigation Bar -->
+      <nav id="navbar">
+        <ul>
+          <li class="active">
+            <a href="/" title="首页">首页</a>
+          </li>
+          <li>
+            <a href="/categories.html" title="分类">分类</a>
+          </li>
+          <li>
+            <a href="/tags.html" title="标签">标签</a>
+          </li>
+          <li>
+            <a href="/messages.html" title="留言板">留言板</a>
+          </li>
+          <li id="about-link" >
+            <a href="/about.html" title="关于我">关于我</a>
+          </li>
+          <li id="rss-link">
+            <a href="/rss.xml" title="订阅 RSS"><i class="icon-large icon-fixed-width icon-rss"></i></a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <section id="main">
+
+      <!-- Sidebar -->
+      <aside id="sidebar">
+        <section id="search-box">
+          <form id="search-form">
+  <input id="query" type="text" placeholder="正则搜索"></input>
+  <button type="submit"><i class="icon-search"></i></button>
+</form>
+<script type="text/javascript">
+$(document).ready(function() {
+  $('#search-form').submit(function() {
+    $('#query').blur().attr('disabled', true);
+    $('#main-content').hide();
+    $('#loader').show();
+    $.ajax({url: '/atom.xml?r=' + (Math.random() * 999999), dataType: 'xml', success: function(data) {
+      var rq = new RegExp($('#query').val(), 'im');
+      var rl = /\/([^\/]+)\.html$/;
+      var html = '';
+      $(data).find('entry').each(function(index, entry) {
+        var title = $(entry).find('title').text();
+        var link = $(entry).find('link').attr('href');
+        var title_en = rl.exec(link)[1].replace('-', ' ');
+        var content = $(entry).find('content').text();
+        if (rq.test(title) || rq.test(title_en) || rq.test(content)) {
+          var parts = $(entry).find('updated').text().split(/[-T:+]/g);
+          var months = [ "January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December" ];
+          date = parts[2] + ' ' + months[parts[1] - 1] + ' ' + parts[0];
+          html += '<article class="nested">';
+          html += '<header><h2><a href="' + link + '">' + title + '</a></h2></header>';
+          html += '<section><p>' + content + '</p></section>';
+          html += '<footer><p>更新日期：' + date + '</p></footer>';
+          html += '</article>';
+        }
+      });
+      $('#main-content').html(html);
+      $('#loader').hide();
+      $('#main-content').show();
+    }});
+    $('#query').blur().attr('disabled', false);
+    return false;
+  });
+});
+</script>
+
+        </section>
+        <section>
+          <a href="/" title="查看最近发表"><i class="icon-fixed-width icon-edit"></i> 最近发表</a>
+<ul>
+
+  <li><a href="/%E6%8A%80%E6%9C%AF/max-min-fairness.html" title="查看《Max-Min Fairness算法及边缘计算应用》">Max-Min Fairness算法及边缘计算应用</a></li>
+
+  <li><a href="/%E7%AE%97%E6%B3%95/graph-algorithms.html" title="查看《图算法总结》">图算法总结</a></li>
+
+  <li><a href="/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/system-design.html" title="查看《系统设计入门【转载】》">系统设计入门【转载】</a></li>
+
+  <li><a href="/%E7%AE%97%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/algorithms-primer.html" title="查看《算法刷题总结【转载】》">算法刷题总结【转载】</a></li>
+
+  <li><a href="/%E6%8A%80%E6%9C%AF/delay-message.html" title="查看《延迟消息设计与实现【转载】》">延迟消息设计与实现【转载】</a></li>
+
+  <li><a href="/%E6%8A%80%E6%9C%AF/game-programer.html" title="查看《游戏开发学习之路》">游戏开发学习之路</a></li>
+
+  <li><a href="/%E5%B7%A5%E5%85%B7/supervisor.html" title="查看《supervisor进程管理工具》">supervisor进程管理工具</a></li>
+
+  <li><a href="/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1/database-design.html" title="查看《关系型数据库设计【转载】》">关系型数据库设计【转载】</a></li>
+
+  <li><a href="/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E8%AF%AD%E8%A8%80/go-performance-optimization.html" title="查看《Go性能优化【转载】》">Go性能优化【转载】</a></li>
+
+  <li><a href="/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1/nosql-misunderstanding.html" title="查看《几种NoSQL的使用误区【转载】》">几种NoSQL的使用误区【转载】</a></li>
+
+</ul>
+
+        </section>
+        <section>
+          <a href="/archive.html" title="查看所有存档"><i class="icon-fixed-width icon-file-text"></i> 文章存档</a>
+<span title="文章总数">21</span>
+<ul>
+
+
+  
+  
+  
+  
+
+  
+  
+  
+  
+    <li><a href="/archive.html#June-2022">2022 年 06 月 (2)</a></li>
+    
+  
+
+  
+  
+  
+  
+
+  
+  
+  
+  
+    <li><a href="/archive.html#May-2022">2022 年 05 月 (2)</a></li>
+    
+  
+
+  
+  
+  
+  
+    <li><a href="/archive.html#October-2017">2017 年 10 月 (1)</a></li>
+    
+  
+
+  
+  
+  
+  
+
+  
+  
+  
+  
+
+  
+  
+  
+  
+
+  
+  
+  
+  
+
+  
+  
+  
+  
+
+  
+  
+  
+  
+    <li><a href="/archive.html#July-2017">2017 年 07 月 (6)</a></li>
+    
+  
+
+  
+  
+  
+  
+    <li><a href="/archive.html#October-2016">2016 年 10 月 (1)</a></li>
+    
+  
+
+  
+  
+  
+  
+    <li><a href="/archive.html#September-2016">2016 年 09 月 (1)</a></li>
+    
+  
+
+  
+  
+  
+  
+
+  
+  
+  
+  
+
+  
+  
+  
+  
+    <li><a href="/archive.html#July-2016">2016 年 07 月 (3)</a></li>
+    
+  
+
+  
+  
+  
+  
+
+  
+  
+  
+  
+
+  
+  
+  
+  
+    <li><a href="/archive.html#April-2016">2016 年 04 月 (3)</a></li>
+    
+  
+
+  
+  
+  
+  
+    <li><a href="/archive.html#January-2016">2016 年 01 月 (1)</a></li>
+    
+  
+
+  
+  
+  
+  
+    <li><a href="/archive.html#January-2015">2015 年 01 月 (1)</a></li>
+    
+  
+
+</ul>
+
+        </section>
+        <section>
+          <a href="/categories.html" title="查看所有分类"><i class="icon-fixed-width icon-folder-open"></i> 文章分类</a>
+<span title="分类总数">11</span>
+<ul>
+
+  <li><a href="/categories.html#阅读-ref">阅读 (1)</a></li>
+
+  <li><a href="/categories.html#工具-ref">工具 (3)</a></li>
+
+  <li><a href="/categories.html#技术-ref">技术 (9)</a></li>
+
+  <li><a href="/categories.html#解决方案-ref">解决方案 (1)</a></li>
+
+  <li><a href="/categories.html#行业-ref">行业 (1)</a></li>
+
+  <li><a href="/categories.html#数据库设计-ref">数据库设计 (2)</a></li>
+
+  <li><a href="/categories.html#程序设计语言-ref">程序设计语言 (1)</a></li>
+
+  <li><a href="/categories.html#算法-ref">算法 (2)</a></li>
+
+  <li><a href="/categories.html#数据结构-ref">数据结构 (1)</a></li>
+
+  <li><a href="/categories.html#系统设计-ref">系统设计 (1)</a></li>
+
+  <li><a href="/categories.html#分布式系统-ref">分布式系统 (1)</a></li>
+
+</ul>
+
+        </section>
+        <section>
+          <a href="/tags.html" title="查看所有标签"><i class="icon-fixed-width icon-tags"></i> 标签云</a>
+<span title="标签总数">23</span>
+<div id="tag-cloud">
+
+
+
+
+
+
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#工具-ref" style="font-size: 13.5pt; color: #444;">工具</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#博客-ref" style="font-size: 9pt; color: #999;">博客</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#shell-ref" style="font-size: 13.5pt; color: #444;">shell</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#C++-ref" style="font-size: 13.5pt; color: #444;">C++</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#Algorithm-ref" style="font-size: 9pt; color: #999;">Algorithm</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#程序员-ref" style="font-size: 13.5pt; color: #444;">程序员</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#CDN-ref" style="font-size: 9pt; color: #999;">CDN</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#linux-ref" style="font-size: 9pt; color: #999;">linux</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#NoSQL-ref" style="font-size: 9pt; color: #999;">NoSQL</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#数据库-ref" style="font-size: 13.5pt; color: #444;">数据库</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#Go-ref" style="font-size: 9pt; color: #999;">Go</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#性能优化-ref" style="font-size: 9pt; color: #999;">性能优化</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#SQL-ref" style="font-size: 9pt; color: #999;">SQL</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#python-ref" style="font-size: 9pt; color: #999;">python</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#进程管理-ref" style="font-size: 9pt; color: #999;">进程管理</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#游戏开发-ref" style="font-size: 9pt; color: #999;">游戏开发</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#Golang-ref" style="font-size: 9pt; color: #999;">Golang</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#数据结构-ref" style="font-size: 18pt; color: #000;">数据结构</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#算法-ref" style="font-size: 13.5pt; color: #444;">算法</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#系统设计-ref" style="font-size: 9pt; color: #999;">系统设计</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#分布式系统-ref" style="font-size: 9pt; color: #999;">分布式系统</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#资源调度-ref" style="font-size: 9pt; color: #999;">资源调度</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#算法设计-ref" style="font-size: 9pt; color: #999;">算法设计</a>
+  
+
+</div>
+
+        </section>
+        <div id="fixed-container">
+  <section>
+    <a href="#"><i class="icon-fixed-width icon-code"></i> 代码仓库</a>
+<ul>
+</ul>
+
+  </section>
+  <section>
+    <a href="#"><i class="icon-fixed-width icon-heart"></i> 与我联系</a>
+<div id="contacts-list">
+  <a href="mailto:dunyixu@gmail.com" target="_blank" title="Gmail">
+    <i class="icon-large icon-fixed-width icon-envelope"></i>
+  </a>
+  <a href="https://github.com/dyxu" target="_blank" title="GitHub">
+    <i class="icon-large icon-fixed-width icon-github"></i>
+  </a>
+  <a href="http://weibo.com/dunyixu" target="_blank" title="新浪微博">
+    <i class="icon-large icon-fixed-width icon-weibo"></i>
+  </a>
+  <a href="https://twitter.com/dunyixu" target="_blank" title="Twitter">
+    <i class="icon-large icon-fixed-width icon-twitter"></i>
+  </a>
+</div>
+
+  </section>
+  <section>
+    <a href="#"><i class="icon-fixed-width icon-link"></i> 友情链接</a>
+<ul>
+  <li><a href="https://wfwu.github.io" target="_blank">会叫猫～的猫</a></li>
+</ul>
+
+  </section>
+</div>
+<script type="text/javascript">
+$(document).ready(function() {
+  var position = $('#fixed-container').offset();
+  $(window).scroll(function() {
+    if($(window).scrollTop() > position.top) {
+      $('#fixed-container').css('position','fixed').css('top','0');
+    } else {
+      $('#fixed-container').css('position','static');
+    }
+  });
+});
+</script>
+
+      </aside>
+
+      <!-- Main Content -->
+      <div id="main-inner">
+        <div id="loader"><img src="/assets/themes/twitter/img/loading.gif" alt="请稍侯"></div>
+        <div id="main-content">
+          
+
+
+<!-- Recent Posts  -->
+<section>
+  
+  <article class="nested">
+
+    <header>
+      <h2><a href="/%E6%8A%80%E6%9C%AF/max-min-fairness.html" title="查看《Max-Min Fairness算法及边缘计算应用》">Max-Min Fairness算法及边缘计算应用</a></h2>
+    </header>
+
+    <section>
+      <p>
+        
+调度系统中算法设计往往对资源利用率起着关键作用。软件设计没有银弹，算法的优劣往往依赖于对应的业务场景。
+该系列文章将整理几种资源调度算法，并分析算法的特性，适用场景等，最后分享在边缘云调度场景中的应用。
+
+
+1 前言
+Max-Min Fairness（MMF）是一种兼顾公平的前提下，尽可能让...
+      </p>
+    </section>
+
+    <footer>
+      <p>
+        发表日期：<a href="/archive.html#June-2022" title="查看此月所有文章">19 June 2022</a>，
+        作者：<a href="mailto:dunyixu@gmail.com" title="向作者发送邮件">Dylan Xu</a>，
+        类别：<a href="/categories.html#-ref" title="查看此类别下的所有文章"></a>
+      </p>
+    </footer>
+
+  </article>
+  
+  <article class="nested">
+
+    <header>
+      <h2><a href="/%E7%AE%97%E6%B3%95/graph-algorithms.html" title="查看《图算法总结》">图算法总结</a></h2>
+    </header>
+
+    <section>
+      <p>
+        
+图算法总结
+概述
+
+编程的通用模式：
+
+  问题理解和建模。
+  分解子问题，简化复杂度。
+  逐个解决子问题，解决主问题。
+
+
+本文尝试用尽量短的文字概况问题的核心，总结LeetCode中图算法题目。
+
+经典图算法
+
+图的搜索
+
+
+  DFS（深度优先搜索）
+
+
+void bfs(vect...
+      </p>
+    </section>
+
+    <footer>
+      <p>
+        发表日期：<a href="/archive.html#June-2022" title="查看此月所有文章">09 June 2022</a>，
+        作者：<a href="mailto:dunyixu@gmail.com" title="向作者发送邮件">Dylan Xu</a>，
+        类别：<a href="/categories.html#-ref" title="查看此类别下的所有文章"></a>
+      </p>
+    </footer>
+
+  </article>
+  
+  <article class="nested">
+
+    <header>
+      <h2><a href="/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/system-design.html" title="查看《系统设计入门【转载】》">系统设计入门【转载】</a></h2>
+    </header>
+
+    <section>
+      <p>
+        
+本文在system-design-primer基础上，根据自身对系统设计学习情况，收集和汇总分布式系统设计相关资料，用于后续学习和巩固。
+
+系统设计入门
+
+
+
+目的
+
+
+  学习如何设计大型系统。
+  为系统设计的面试做准备。
+
+
+学习如何设计大型系统
+
+学习如何设计可扩展的系统将会有助于你...
+      </p>
+    </section>
+
+    <footer>
+      <p>
+        发表日期：<a href="/archive.html#May-2022" title="查看此月所有文章">03 May 2022</a>，
+        作者：<a href="mailto:dunyixu@gmail.com" title="向作者发送邮件">Dylan Xu</a>，
+        类别：<a href="/categories.html#系统设计-ref" title="查看此类别下的所有文章">系统设计</a>
+      </p>
+    </footer>
+
+  </article>
+  
+  <article class="nested">
+
+    <header>
+      <h2><a href="/%E7%AE%97%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/algorithms-primer.html" title="查看《算法刷题总结【转载】》">算法刷题总结【转载】</a></h2>
+    </header>
+
+    <section>
+      <p>
+        
+算法刷题总结，原文labuladong
+
+目录
+
+第零章、必读文章
+
+
+  学习算法和刷题的框架思维
+  我的刷题心得
+  动态规划解题套路框架
+  回溯算法解题套路框架
+  BFS 算法解题套路框架
+  手把手带你刷二叉树（纲领篇）
+  一文搞懂单链表的六大解题套路
+  一文秒杀所有岛屿题...
+      </p>
+    </section>
+
+    <footer>
+      <p>
+        发表日期：<a href="/archive.html#May-2022" title="查看此月所有文章">03 May 2022</a>，
+        作者：<a href="mailto:dunyixu@gmail.com" title="向作者发送邮件">Dylan Xu</a>，
+        类别：<a href="/categories.html#-ref" title="查看此类别下的所有文章"></a>
+      </p>
+    </footer>
+
+  </article>
+  
+  <article class="nested">
+
+    <header>
+      <h2><a href="/%E6%8A%80%E6%9C%AF/delay-message.html" title="查看《延迟消息设计与实现【转载】》">延迟消息设计与实现【转载】</a></h2>
+    </header>
+
+    <section>
+      <p>
+        
+本文转载自博客和微信公众号
+
+1 缘起
+
+很多时候，业务有“在一段时间之后，完成一个工作任务”的需求。
+
+例如：滴滴打车订单完成后，如果用户一直不评价，48小时后会将自动评价为5星。
+
+一般来说怎么实现这类“48小时后自动评价为5星”需求呢？
+
+常见方案：启动一个cron定时任务，每小时跑一...
+      </p>
+    </section>
+
+    <footer>
+      <p>
+        发表日期：<a href="/archive.html#October-2017" title="查看此月所有文章">08 October 2017</a>，
+        作者：<a href="mailto:dunyixu@gmail.com" title="向作者发送邮件">Dylan Xu</a>，
+        类别：<a href="/categories.html#-ref" title="查看此类别下的所有文章"></a>
+      </p>
+    </footer>
+
+  </article>
+  
+  <article class="nested">
+
+    <header>
+      <h2><a href="/%E6%8A%80%E6%9C%AF/game-programer.html" title="查看《游戏开发学习之路》">游戏开发学习之路</a></h2>
+    </header>
+
+    <section>
+      <p>
+        
+
+
+    
+    
+    
+        
+    
+    
+    
+    
+        游戏开发学习路线
+    
+
+
+
+      </p>
+    </section>
+
+    <footer>
+      <p>
+        发表日期：<a href="/archive.html#July-2017" title="查看此月所有文章">31 July 2017</a>，
+        作者：<a href="mailto:dunyixu@gmail.com" title="向作者发送邮件">Dylan Xu</a>，
+        类别：<a href="/categories.html#-ref" title="查看此类别下的所有文章"></a>
+      </p>
+    </footer>
+
+  </article>
+  
+  <article class="nested">
+
+    <header>
+      <h2><a href="/%E5%B7%A5%E5%85%B7/supervisor.html" title="查看《supervisor进程管理工具》">supervisor进程管理工具</a></h2>
+    </header>
+
+    <section>
+      <p>
+        
+Supervisor是一款基于客户端、服务端模式的进程管理工具。当然，通过nohup、screen等命令也可以实现Linux程序的后台运行，但是如果服务因为内存泄露等原因导致程序异常退出，上述方案就无能为力了。Supervisor就是这样由Python开发的通用进程管理工具，能够将一个普通进...
+      </p>
+    </section>
+
+    <footer>
+      <p>
+        发表日期：<a href="/archive.html#July-2017" title="查看此月所有文章">26 July 2017</a>，
+        作者：<a href="mailto:dunyixu@gmail.com" title="向作者发送邮件">Dylan Xu</a>，
+        类别：<a href="/categories.html#-ref" title="查看此类别下的所有文章"></a>
+      </p>
+    </footer>
+
+  </article>
+  
+  <article class="nested">
+
+    <header>
+      <h2><a href="/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1/database-design.html" title="查看《关系型数据库设计【转载】》">关系型数据库设计【转载】</a></h2>
+    </header>
+
+    <section>
+      <p>
+        
+本文转载自博客
+
+数据库设计，一个软件项目成功的基石。很多从业人员都认为，数据库设计其实不那么重要。现实中的情景也相当雷同，开发人员的数量是数据库设计人员的数倍。多数人使用数据库中的一部分，所以也会把数据库设计想的如此简单。其实不然，数据库设计也是门学问。
+
+　　从笔者的经历看来，笔者更赞成...
+      </p>
+    </section>
+
+    <footer>
+      <p>
+        发表日期：<a href="/archive.html#July-2017" title="查看此月所有文章">20 July 2017</a>，
+        作者：<a href="mailto:dunyixu@gmail.com" title="向作者发送邮件">Dylan Xu</a>，
+        类别：<a href="/categories.html#-ref" title="查看此类别下的所有文章"></a>
+      </p>
+    </footer>
+
+  </article>
+  
+  <article class="nested">
+
+    <header>
+      <h2><a href="/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E8%AF%AD%E8%A8%80/go-performance-optimization.html" title="查看《Go性能优化【转载】》">Go性能优化【转载】</a></h2>
+    </header>
+
+    <section>
+      <p>
+        
+本文转载自知乎专栏
+
+Go的性能优化其实总的来说和C／C++等这些都差不多，但也有它自己独有的排查方法和陷阱，这些都来源于它的语言特性和环境。
+
+性能优化前提——任何好的东西都是在正确的前提上
+
+代码界的很多事是和我们生活的哲学息息相关的，我们想要做好一件事，首先要保证我们能按时完成我们的任...
+      </p>
+    </section>
+
+    <footer>
+      <p>
+        发表日期：<a href="/archive.html#July-2017" title="查看此月所有文章">17 July 2017</a>，
+        作者：<a href="mailto:dunyixu@gmail.com" title="向作者发送邮件">Dylan Xu</a>，
+        类别：<a href="/categories.html#-ref" title="查看此类别下的所有文章"></a>
+      </p>
+    </footer>
+
+  </article>
+  
+  <article class="nested">
+
+    <header>
+      <h2><a href="/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1/nosql-misunderstanding.html" title="查看《几种NoSQL的使用误区【转载】》">几种NoSQL的使用误区【转载】</a></h2>
+    </header>
+
+    <section>
+      <p>
+        
+本文转载自博客
+
+最近经常看到关于NoSQL怎么用的讨论，加上自己也已经有四年多在正式项目中使用NoSQL数据库的经验，写下来与大家分享。
+
+1 通常不适合Java程序
+
+NoSQL数据库最大的特点就是数据结构自由，不管是键值对还是JSON格式。使用动态语言，Ruby、Python或Java...
+      </p>
+    </section>
+
+    <footer>
+      <p>
+        发表日期：<a href="/archive.html#July-2017" title="查看此月所有文章">13 July 2017</a>，
+        作者：<a href="mailto:dunyixu@gmail.com" title="向作者发送邮件">Dylan Xu</a>，
+        类别：<a href="/categories.html#-ref" title="查看此类别下的所有文章"></a>
+      </p>
+    </footer>
+
+  </article>
+  
+
+  
+    
+<div id="gitalk-container"></div>
+
+
+<script>
+    var gitalk = new Gitalk({
+        id: '南有嘉鱼 [Dylan Xu's Blog]',
+        clientID: 'bcc0fcb9be8afc0e7a91',
+        clientSecret: 'eb79578ece8e4dcefa19ebd39b224c6c605cd563',
+        repo: 'blog',
+        owner: 'dyxu',
+        admin: 'dyxu',
+        distractionFreeMode: 'false'
+    })
+
+    gitalk.render('gitalk-container')
+</script>
+
+  
+
+</section>
+
+<!-- Pagination Links -->
+<section class="pagination pagination-centered">
+  <ul>
+    <!-- First Page -->
+    
+    <li class="disabled"><a href="#">&laquo;&laquo;</a></li>
+    
+
+    <!-- Previous Page -->
+    
+    <li class="disabled"><a href="#">&laquo;</a></li>
+    
+
+    <!-- Current Page -->
+    <li class="active">
+      <span class="page_number ">第 1/3 页</span>
+    </li>
+
+    <!-- Next Page -->
+    
+    <li><a href="/page2">&raquo;</a></li>
+    
+
+    <!-- Last Page -->
+    
+    <li><a href="/page3">&raquo;&raquo;</a></li>
+    
+  </ul>
+</section>
+
+        </div>
+      </div>
+
+      <div id="back-top">
+  <a href="#top" title="回到顶部">
+    <i class="icon-2x icon-arrow-up"></i>
+  </a>
+</div>
+<script type="text/javascript">
+$("#back-top").hide();
+$(document).ready(function () {
+  $(window).scroll(function () {
+    if ($(this).scrollTop() > 100) {
+      $('#back-top').fadeIn();
+    } else {
+      $('#back-top').fadeOut();
+    }
+  });
+  $('#back-top a').click(function () {
+    $('body,html').animate({
+      scrollTop: 0
+    }, 500);
+    return false;
+  });
+});
+</script>
+
+
+    </section>
+
+    <footer id="bottom">
+      <p align="center">&copy; 2022 Dylan Xu
+        with help from <a href="https://jekyllrb.com" target="_blank" title="Transform your plain text into static websites and blogs.">Jekyll Bootstrap</a>
+        and <a href="https://getbootstrap.com" target="_blank">Twitter Bootstrap</a>
+      </p>
+    </footer>
+  </div>
+
+  <script type="text/javascript">
+    $('article.post a').attr('target', '_blank');
+    if (navigator.appVersion.indexOf("Mac") != -1) {
+      $('code, pre').css('font-family', 'Courier, monospace');
+    }
+  </script>
+  
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({ TeX: {equationNumbers: {autoNumber: ["AMS"], useLabelIds: true}}, "HTML-CSS": {linebreaks: {automatic:true}},
+    SVG: {linebreaks: {automatic: true}} });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
+</body>
+</html>
+

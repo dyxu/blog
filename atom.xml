@@ -1,0 +1,525 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="https://www.w3.org/2005/Atom">
+  <title>南有嘉鱼</title>
+  <link href="https://dyxu.net/atom.xml" rel="self"/>
+  <link href="https://dyxu.net"/>
+  <updated>2022-06-25T14:34:07+00:00</updated>
+  <id>https://dyxu.net</id>
+  <author>
+    <name>Dylan Xu</name>
+    <email>dunyixu@gmail.com</email>
+  </author>
+
+
+  <entry>
+    <title>Max-Min Fairness算法及边缘计算应用</title>
+    <link href="https://dyxu.net/%E6%8A%80%E6%9C%AF/max-min-fairness.html"/>
+    <updated>2022-06-19T00:00:00+00:00</updated>
+    <id>https://dyxu.net/%E6%8A%80%E6%9C%AF/max-min-fairness</id>
+    <content type="html">
+调度系统中算法设计往往对资源利用率起着关键作用。软件设计没有银弹，算法的优劣往往依赖于对应的业务场景。
+该系列文章将整理几种资源调度算法，并分析算法的特性，适用场景等，最后分享在边缘云调度场景中的应用。
+
+
+1 前言
+Max-Min Fairness（MMF）是一种兼顾公平的前提下，尽可能让更多人满意的资源分配算法。常用于单一共享资源的分配场景，如多路复用的通信系统中多任务共享信道传输。算法的优势在于有着较高的平均吞吐量和资源利用率，同时算法稳定性高，单一任务突发不容易影响其他任务1。算法的劣势在于一般只适用于单一共享资源。
+
+边缘计算场景中，边缘网络节点带宽上联有限，多应用共享上联时...</content>
+  </entry>
+
+  <entry>
+    <title>图算法总结</title>
+    <link href="https://dyxu.net/%E7%AE%97%E6%B3%95/graph-algorithms.html"/>
+    <updated>2022-06-09T00:00:00+00:00</updated>
+    <id>https://dyxu.net/%E7%AE%97%E6%B3%95/graph-algorithms</id>
+    <content type="html">
+图算法总结
+概述
+
+编程的通用模式：
+
+  问题理解和建模。
+  分解子问题，简化复杂度。
+  逐个解决子问题，解决主问题。
+
+
+本文尝试用尽量短的文字概况问题的核心，总结LeetCode中图算法题目。
+
+经典图算法
+
+图的搜索
+
+
+  DFS（深度优先搜索）
+
+
+void bfs(vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt;&amp;amp; G, vector&amp;lt;bool&amp;gt;&amp;amp; seen, int u) {
+	if (减枝条件) {
+		return;
+	}
+	if (满足答案) {
+		// 记录结果
+		return;
+	}
+	
+	// 访问节点u
+	...</content>
+  </entry>
+
+  <entry>
+    <title>系统设计入门【转载】</title>
+    <link href="https://dyxu.net/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/system-design.html"/>
+    <updated>2022-05-03T00:00:00+00:00</updated>
+    <id>https://dyxu.net/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/system-design</id>
+    <content type="html">
+本文在system-design-primer基础上，根据自身对系统设计学习情况，收集和汇总分布式系统设计相关资料，用于后续学习和巩固。
+
+系统设计入门
+
+
+
+目的
+
+
+  学习如何设计大型系统。
+  为系统设计的面试做准备。
+
+
+学习如何设计大型系统
+
+学习如何设计可扩展的系统将会有助于你成为一个更好的工程师。
+
+系统设计是一个很宽泛的话题。在互联网上，关于系统设计原则的资源也是多如牛毛。
+
+这个仓库就是这些资源的组织收集，它可以帮助你学习如何构建可扩展的系统。
+
+为系统设计的面试做准备
+
+在很多科技公司中，除了代码面试，系统设计也是技术面试过程中的一个必要环节。
+
+实践常见的系统设...</content>
+  </entry>
+
+  <entry>
+    <title>算法刷题总结【转载】</title>
+    <link href="https://dyxu.net/%E7%AE%97%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/algorithms-primer.html"/>
+    <updated>2022-05-03T00:00:00+00:00</updated>
+    <id>https://dyxu.net/%E7%AE%97%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/algorithms-primer</id>
+    <content type="html">
+算法刷题总结，原文labuladong
+
+目录
+
+第零章、必读文章
+
+
+  学习算法和刷题的框架思维
+  我的刷题心得
+  动态规划解题套路框架
+  回溯算法解题套路框架
+  BFS 算法解题套路框架
+  手把手带你刷二叉树（纲领篇）
+  一文搞懂单链表的六大解题套路
+  一文秒杀所有岛屿题目
+  我写了首诗，让你闭着眼睛也能写对二分搜索
+  我写了首诗，把滑动窗口算法算法变成了默写题
+  一个方法团灭 LeetCode 股票买卖问题
+  一个方法团灭 LeetCode 打家劫舍问题
+  一个方法团灭 nSum 问题
+  提高刷题幸福感的小技巧
+
+
+第一章、手把手刷数据结构
+
+
+  手...</content>
+  </entry>
+
+  <entry>
+    <title>延迟消息设计与实现【转载】</title>
+    <link href="https://dyxu.net/%E6%8A%80%E6%9C%AF/delay-message.html"/>
+    <updated>2017-10-08T00:00:00+00:00</updated>
+    <id>https://dyxu.net/%E6%8A%80%E6%9C%AF/delay-message</id>
+    <content type="html">
+本文转载自博客和微信公众号
+
+1 缘起
+
+很多时候，业务有“在一段时间之后，完成一个工作任务”的需求。
+
+例如：滴滴打车订单完成后，如果用户一直不评价，48小时后会将自动评价为5星。
+
+一般来说怎么实现这类“48小时后自动评价为5星”需求呢？
+
+常见方案：启动一个cron定时任务，每小时跑一次，将完成时间超过48小时的订单取出，置为5星，并把评价状态置为已评价。
+假设订单表的结构为：t_order(oid, finish_time, stars, status, …)，更具体的，定时任务每隔一个小时会这么做一次：
+select oid from t_order where finish...</content>
+  </entry>
+
+  <entry>
+    <title>游戏开发学习之路</title>
+    <link href="https://dyxu.net/%E6%8A%80%E6%9C%AF/game-programer.html"/>
+    <updated>2017-07-31T00:00:00+00:00</updated>
+    <id>https://dyxu.net/%E6%8A%80%E6%9C%AF/game-programer</id>
+    <content type="html">
+
+
+    
+    
+    
+        
+    
+    
+    
+    
+        游戏开发学习路线
+    
+
+
+</content>
+  </entry>
+
+  <entry>
+    <title>supervisor进程管理工具</title>
+    <link href="https://dyxu.net/%E5%B7%A5%E5%85%B7/supervisor.html"/>
+    <updated>2017-07-26T00:00:00+00:00</updated>
+    <id>https://dyxu.net/%E5%B7%A5%E5%85%B7/supervisor</id>
+    <content type="html">
+Supervisor是一款基于客户端、服务端模式的进程管理工具。当然，通过nohup、screen等命令也可以实现Linux程序的后台运行，但是如果服务因为内存泄露等原因导致程序异常退出，上述方案就无能为力了。Supervisor就是这样由Python开发的通用进程管理工具，能够将一个普通进程变为守护进程，并且监控进程状态，异常退出时能够自动重启。
+
+安装
+
+Supervisor的安装和其他python程序一样，可通过pip install supervisor命令直接安装。对于没有网络，或者防火墙比较厚的机器需要下载以下两个依赖包：
+
+
+  setuptools
+  meld3
+
+
+...</content>
+  </entry>
+
+  <entry>
+    <title>关系型数据库设计【转载】</title>
+    <link href="https://dyxu.net/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1/database-design.html"/>
+    <updated>2017-07-20T00:00:00+00:00</updated>
+    <id>https://dyxu.net/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1/database-design</id>
+    <content type="html">
+本文转载自博客
+
+数据库设计，一个软件项目成功的基石。很多从业人员都认为，数据库设计其实不那么重要。现实中的情景也相当雷同，开发人员的数量是数据库设计人员的数倍。多数人使用数据库中的一部分，所以也会把数据库设计想的如此简单。其实不然，数据库设计也是门学问。
+
+　　从笔者的经历看来，笔者更赞成在项目早期由开发者进行数据库设计（后期调优需要DBA）。根据笔者的项目经验，一个精通OOP和ORM的开发者，设计的数据库往往更为合理，更能适应需求的变化，如果追其原因，笔者个人猜测是因为数据库的规范化，与OO的部分思想雷同（如内聚）。而DBA，设计的数据库的优势是能将DBMS的能力发挥到极致，能够使...</content>
+  </entry>
+
+  <entry>
+    <title>Go性能优化【转载】</title>
+    <link href="https://dyxu.net/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E8%AF%AD%E8%A8%80/go-performance-optimization.html"/>
+    <updated>2017-07-17T00:00:00+00:00</updated>
+    <id>https://dyxu.net/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E8%AF%AD%E8%A8%80/go-performance-optimization</id>
+    <content type="html">
+本文转载自知乎专栏
+
+Go的性能优化其实总的来说和C／C++等这些都差不多，但也有它自己独有的排查方法和陷阱，这些都来源于它的语言特性和环境。
+
+性能优化前提——任何好的东西都是在正确的前提上
+
+代码界的很多事是和我们生活的哲学息息相关的，我们想要做好一件事，首先要保证我们能按时完成我们的任务，其次再去想如何把工作做的更好。如果一味只去要求做的尽善尽美可能会导致延期，失败，半途而废。
+
+所以，先写正确的代码，再去考虑如何去让代码更快更好的运行；先完成基本的功能，再去想如何优化它。正确是优化的基础，没有这个基础，任何的优化都是毫无意义的。
+
+性能优化限制——架构设计和硬件资源
+
+良好的架...</content>
+  </entry>
+
+  <entry>
+    <title>几种NoSQL的使用误区【转载】</title>
+    <link href="https://dyxu.net/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1/nosql-misunderstanding.html"/>
+    <updated>2017-07-13T00:00:00+00:00</updated>
+    <id>https://dyxu.net/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1/nosql-misunderstanding</id>
+    <content type="html">
+本文转载自博客
+
+最近经常看到关于NoSQL怎么用的讨论，加上自己也已经有四年多在正式项目中使用NoSQL数据库的经验，写下来与大家分享。
+
+1 通常不适合Java程序
+
+NoSQL数据库最大的特点就是数据结构自由，不管是键值对还是JSON格式。使用动态语言，Ruby、Python或JavaScript，程序员可以非常流畅直接地书写JSON等数据：
+
+// JSON in Python
+action = {
+    &quot;_index&quot;: &quot;tickets-index&quot;,
+    &quot;_id&quot;: j + 1,
+    &quot;_source&quot;: {
+        &quot;flight&quot;:df[1][j...</content>
+  </entry>
+
+  <entry>
+    <title>Archlinux构建系统</title>
+    <link href="https://dyxu.net/%E6%8A%80%E6%9C%AF/archlinux-build-system.html"/>
+    <updated>2017-07-13T00:00:00+00:00</updated>
+    <id>https://dyxu.net/%E6%8A%80%E6%9C%AF/archlinux-build-system</id>
+    <content type="html">
+1 pacman命令
+
+在archlinux中通过pacman来管理软件，全称为package manager，使用方式如下：
+
+
+  更新系统
+    
+      pacman -Syu 更新整个系统
+      pacman -Sy 同步本地包数据库和远程的仓库
+      pacman -Su 根据本地包数据库更新系统
+      pacman -Syu -ignore 包名 更新系统时不升级制定包
+    
+  
+  安装软件包
+    
+      pacman -S包名 安装软件包，多个包间用空格分割
+      pacman -Sy 包名 先同步本地数据库，再安装软件包...</content>
+  </entry>
+
+  <entry>
+    <title>一篇文让你秒懂CDN（转载）</title>
+    <link href="https://dyxu.net/%E8%A1%8C%E4%B8%9A/CDN.html"/>
+    <updated>2016-10-21T00:00:00+00:00</updated>
+    <id>https://dyxu.net/%E8%A1%8C%E4%B8%9A/CDN</id>
+    <content type="html">
+原文链接
+
+著名的 《哲学简史》 将2400年的西方哲学取精用宏、深入浅出地呈现给读者。虽然 内容分发网络（CDN） 的历史要比哲学史短得多，但受此启发，Akamai将CDN 18年来的演化历程浓缩到本文中，以期帮助人们了解CDN的成因、历年的变化以及未来发展前景。
+
+第一章 缓存年代（1998年-2003年
+
+我们的旅程要从麻省理工学院一栋大楼的走廊开始，在这里，一位计算机科学家与一位数学教授见了面。这位计算机科学家就是  万维网的发明人Tim Berners Lee  ，他当时注意到互联网正变得异常拥挤和缓慢。于是，他便向那位名叫Tom Leighton的数学教授请教，问其能否写个...</content>
+  </entry>
+
+  <entry>
+    <title>Chrome漏字母解决方案</title>
+    <link href="https://dyxu.net/%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/chrome-fcitx.html"/>
+    <updated>2016-09-26T00:00:00+00:00</updated>
+    <id>https://dyxu.net/%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/chrome-fcitx</id>
+    <content type="html">
+问题描述
+
+Linux版本Chrome浏览器在打字速度快时会漏字母。例如：
+我要打“今天天气真好” （jintiantianqizhenhao)
+打得快时会变成：
+“tq几年踢啊你真好”（jin(t)iantian(q)izhenhao)
+两个字母直接到屏幕上了。
+
+解决方法
+
+应该是安装的fcitx版本有问题，安装fcitx-gtk2就可以了。
+</content>
+  </entry>
+
+  <entry>
+    <title>程序员的30本书（转载）</title>
+    <link href="https://dyxu.net/%E6%8A%80%E6%9C%AF/books-for-programers.html"/>
+    <updated>2016-07-05T00:00:00+00:00</updated>
+    <id>https://dyxu.net/%E6%8A%80%E6%9C%AF/books-for-programers</id>
+    <content type="html">
+本文转载自推酷
+
+“如果能时光倒流，回到过去，作为一个开发人员，你可以告诉自己在职业生涯初期应该读一本， 你会选择哪本书呢？我希望这个书单列表内容丰富，可以涵盖很多东西。”
+
+1、《代码大全》 史蒂夫·迈克康奈尔
+
+推荐数：1684
+
+“优秀的编程实践的百科全书，《代码大全》注重个人技术，其中所有东西加起来， 就是我们本能所说的”编写整洁的代码”。这本书有50页在谈论代码布局。” —— Joel Spolsky
+
+对于新手来说，这本书中的观念有点高阶了。到你准备阅读此书时，你应该已经知道并实践过书中99%的观念。– esac
+
+Steve McConnell的原作《代码大全》(第1版)...</content>
+  </entry>
+
+  <entry>
+    <title>Keith Schwarz算法实现</title>
+    <link href="https://dyxu.net/%E6%8A%80%E6%9C%AF/keith-schwarz.html"/>
+    <updated>2016-07-04T00:00:00+00:00</updated>
+    <id>https://dyxu.net/%E6%8A%80%E6%9C%AF/keith-schwarz</id>
+    <content type="html">
+Keith Schwarz是一个斯坦福大学计算机科学系的讲师，他在自己的
+主页上实现了各种各样有意思的算法和数据结果。
+
+算法列表
+
+
+  
+    
+      算法
+      链接
+      语言
+      简介
+    
+    
+      Binomial Heap
+      link
+      C++
+      An implementation of a binomial heap data structure for use as a priority queue.
+    
+    
+      Bounded Priority Queue
+      l...</content>
+  </entry>
+
+  <entry>
+    <title>C++11新特性</title>
+    <link href="https://dyxu.net/%E6%8A%80%E6%9C%AF/cpp-11.html"/>
+    <updated>2016-07-04T00:00:00+00:00</updated>
+    <id>https://dyxu.net/%E6%8A%80%E6%9C%AF/cpp-11</id>
+    <content type="html">
+
+  C++11是曾经被叫做C++0x，是对目前C++语言的扩展和修正，C++11不仅包含核心语言的新机能，而且扩
+展了C++的标准程序库（STL），并入了大部分的C++ Technical Report 1（TR1）程序库(数学的特殊
+函数除外)。
+
+  C++11包括大量的新特性：包括lambda表达式，类型推导关键字auto、decltype，和模板的大量改进。
+编译器通过添加 -std=c++11 或者 -std=c++0x 参数来支持C++11。
+
+
+核心语言运行时性能强化
+
+以下特性基本上用于提升程序运行时的性能。
+
+右值引用和move语义
+
+右值引用(R-values)是...</content>
+  </entry>
+
+  <entry>
+    <title>Shell简明教程 1</title>
+    <link href="https://dyxu.net/%E6%8A%80%E6%9C%AF/shell-learning-1.html"/>
+    <updated>2016-04-16T00:00:00+00:00</updated>
+    <id>https://dyxu.net/%E6%8A%80%E6%9C%AF/shell-learning-1</id>
+    <content type="html">
+Shell脚本语法
+
+Shell中一条语句一行，如果想把多条语句写在同一行，则用分号;隔开。
+
+变量
+
+Shell中的变量是“弱”变量，正常情况下，被保存字符串，若要进行数学运算需要进行转换，如$((EXPR))。变量名的格式和C语言中相同
+通过NAME=VALUE定义变量，unset NAME来清除变量。Shell中提供了丰富的变量操作语法，如下图所示(图片取自
+博客)
+
+
+
+
+
+Shell还定义了一些系统环境变量和特殊的变量，环境变量用env指令查看，特殊变量如下表所示
+
+
+  
+    
+       
+      特殊变量
+       
+      含义
+       
+  ...</content>
+  </entry>
+
+  <entry>
+    <title>Shell简明教程 0</title>
+    <link href="https://dyxu.net/%E6%8A%80%E6%9C%AF/shell-learning-0.html"/>
+    <updated>2016-04-16T00:00:00+00:00</updated>
+    <id>https://dyxu.net/%E6%8A%80%E6%9C%AF/shell-learning-0</id>
+    <content type="html">
+Shell配置
+
+Bash Shell启动配置文件
+
+用户在登录shell时，会执行相应的配置文件，对shell进行配置和定制。主要分为三种类型
+
+
+  用户登录主机时，loginshell先执行/etc/profile，接着依次检查用户主目录是否有.bash_profile 或 .bash_login 或 .profile
+文件，若存在，则执行且只执行其中的一个。
+  在登录后执行shell时，分为两种情况：
+    
+      执行交付式的shell。例如打开终端，此时bash会以此执行/etc/bash.bashrc和主目录下.bashrc文件。
+      执行shell脚本...</content>
+  </entry>
+
+  <entry>
+    <title>github pages中插入带caption的图片</title>
+    <link href="https://dyxu.net/%E5%B7%A5%E5%85%B7/insert-image-with-caption.html"/>
+    <updated>2016-04-15T00:00:00+00:00</updated>
+    <id>https://dyxu.net/%E5%B7%A5%E5%85%B7/insert-image-with-caption</id>
+    <content type="html">
+1 最终效果
+
+本文讨论一种在github pages中插入带caption图片的实现方式，最终的效果如图一所示
+
+
+
+    
+    
+    
+        
+    
+    
+    
+    
+        图一 最终效果
+    
+
+
+2 实现方法
+
+
+
+2.1 _includes中插入image.html模板
+
+在_includes目录下创建image.html文件，写入以下内容
+
+
+
+    
+        
+    
+    
+        图二 image.html代码
+    
+
+
+2.2 加入CSS样式
+
+将图片显示的CSS样式加入网站的样式中，我的目...</content>
+  </entry>
+
+  <entry>
+    <title>MathJax:网页中显示精美公式</title>
+    <link href="https://dyxu.net/%E5%B7%A5%E5%85%B7/tmathjax-webpage-display-formula.html"/>
+    <updated>2016-01-21T00:00:00+00:00</updated>
+    <id>https://dyxu.net/%E5%B7%A5%E5%85%B7/tmathjax-webpage-display-formula</id>
+    <content type="html">
+MathJax是什么？
+
+
+  MathJax是一个开源JavaScript库。它支持LaTeX、MathML、AsciiMath符号，可以运行于所有流行浏览器上。 
+它的设计目标是利用最新的web技术，构建一个支持math的web平台。
+
+
+MathJax是一款帮你在网页上快捷地显示漂亮公式的引擎，支持LaTex、MathML、AsciiMath等语法。本教程教大家如何使用
+这个工具。
+
+安装
+
+MathJax的安装方式十分便捷，只要把官方提供的JavaScript的代码插入到网页中便可。（特别是用Jekyll在github上搭建博客的朋友，可以直接将以下这段代码复制到_includ...</content>
+  </entry>
+
+  <entry>
+    <title>2015年阅读书单</title>
+    <link href="https://dyxu.net/%E9%98%85%E8%AF%BB/Book-List-2015.html"/>
+    <updated>2015-01-01T00:00:00+00:00</updated>
+    <id>https://dyxu.net/%E9%98%85%E8%AF%BB/Book-List-2015</id>
+    <content type="html">
+</content>
+  </entry>
+
+
+</feed>

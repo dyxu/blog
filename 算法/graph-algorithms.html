@@ -1,0 +1,1553 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 7 ]>    <html lang="zh-CN" class="ie7"> <![endif]-->
+<!--[if IE 8 ]>    <html lang="zh-CN" class="ie8"> <![endif]-->
+<!--[if IE 9 ]>    <html lang="zh-CN" class="ie9"> <![endif]-->
+<!--[if (gte IE 10)|!(IE)]><!--> <html lang="zh-CN"> <!--<![endif]-->
+
+<head>
+  <meta charset="UTF-8">
+
+  <title>图算法总结 - 南有嘉鱼</title>
+  <meta name="keywords" content="图算法,数据结构">
+  
+  <meta name="author" content="Dylan Xu">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="/icon.png">
+
+  <!-- Feed -->
+  <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="/rss.xml">
+  <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/atom.xml">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/assets/themes/twitter/css/style.css">
+  <link rel="stylesheet" href="/assets/themes/twitter/css/font-awesome.min.css">
+  <!--[if IE 7 ]><link rel="stylesheet" href="/assets/themes/twitter/css/font-awesome-ie7.min.css?ver=20151122"><![endif]-->
+
+  <!-- Gitalk -->
+  <link rel="stylesheet" href="/assets/themes/twitter/css/gitalk-style.css">
+  <script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
+
+  <!-- Scripts -->
+  <script type="text/javascript" src="/assets/themes/twitter/js/jquery-1.11.1.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/github.min.css">
+</head>
+
+<body>
+
+  <div id="wrap">
+    <header id="top">
+      <!-- Home Link -->
+      <a id="logo" href="/" title="回到首页">
+        <img src="/assets/themes/twitter/img/icon.png" height="50" alt="南有嘉鱼">
+      </a>
+      
+      <!-- Navigation Bar -->
+      <nav id="navbar">
+        <ul>
+          <li>
+            <a href="/" title="首页">首页</a>
+          </li>
+          <li>
+            <a href="/categories.html" title="分类">分类</a>
+          </li>
+          <li>
+            <a href="/tags.html" title="标签">标签</a>
+          </li>
+          <li>
+            <a href="/messages.html" title="留言板">留言板</a>
+          </li>
+          <li id="about-link" >
+            <a href="/about.html" title="关于我">关于我</a>
+          </li>
+          <li id="rss-link">
+            <a href="/rss.xml" title="订阅 RSS"><i class="icon-large icon-fixed-width icon-rss"></i></a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <section id="main">
+
+      <!-- Sidebar -->
+      <aside id="sidebar">
+        <section id="search-box">
+          <form id="search-form">
+  <input id="query" type="text" placeholder="正则搜索"></input>
+  <button type="submit"><i class="icon-search"></i></button>
+</form>
+<script type="text/javascript">
+$(document).ready(function() {
+  $('#search-form').submit(function() {
+    $('#query').blur().attr('disabled', true);
+    $('#main-content').hide();
+    $('#loader').show();
+    $.ajax({url: '/atom.xml?r=' + (Math.random() * 999999), dataType: 'xml', success: function(data) {
+      var rq = new RegExp($('#query').val(), 'im');
+      var rl = /\/([^\/]+)\.html$/;
+      var html = '';
+      $(data).find('entry').each(function(index, entry) {
+        var title = $(entry).find('title').text();
+        var link = $(entry).find('link').attr('href');
+        var title_en = rl.exec(link)[1].replace('-', ' ');
+        var content = $(entry).find('content').text();
+        if (rq.test(title) || rq.test(title_en) || rq.test(content)) {
+          var parts = $(entry).find('updated').text().split(/[-T:+]/g);
+          var months = [ "January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December" ];
+          date = parts[2] + ' ' + months[parts[1] - 1] + ' ' + parts[0];
+          html += '<article class="nested">';
+          html += '<header><h2><a href="' + link + '">' + title + '</a></h2></header>';
+          html += '<section><p>' + content + '</p></section>';
+          html += '<footer><p>更新日期：' + date + '</p></footer>';
+          html += '</article>';
+        }
+      });
+      $('#main-content').html(html);
+      $('#loader').hide();
+      $('#main-content').show();
+    }});
+    $('#query').blur().attr('disabled', false);
+    return false;
+  });
+});
+</script>
+
+        </section>
+        <section class="active">
+          <a href="/" title="查看最近发表"><i class="icon-fixed-width icon-edit"></i> 最近发表</a>
+<ul>
+
+  <li><a href="/%E6%8A%80%E6%9C%AF/max-min-fairness.html" title="查看《Max-Min Fairness算法及边缘计算应用》">Max-Min Fairness算法及边缘计算应用</a></li>
+
+  <li><a href="/%E7%AE%97%E6%B3%95/graph-algorithms.html" title="查看《图算法总结》">图算法总结</a></li>
+
+  <li><a href="/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/system-design.html" title="查看《系统设计入门【转载】》">系统设计入门【转载】</a></li>
+
+  <li><a href="/%E7%AE%97%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/algorithms-primer.html" title="查看《算法刷题总结【转载】》">算法刷题总结【转载】</a></li>
+
+  <li><a href="/%E6%8A%80%E6%9C%AF/delay-message.html" title="查看《延迟消息设计与实现【转载】》">延迟消息设计与实现【转载】</a></li>
+
+  <li><a href="/%E6%8A%80%E6%9C%AF/game-programer.html" title="查看《游戏开发学习之路》">游戏开发学习之路</a></li>
+
+  <li><a href="/%E5%B7%A5%E5%85%B7/supervisor.html" title="查看《supervisor进程管理工具》">supervisor进程管理工具</a></li>
+
+  <li><a href="/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1/database-design.html" title="查看《关系型数据库设计【转载】》">关系型数据库设计【转载】</a></li>
+
+  <li><a href="/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E8%AF%AD%E8%A8%80/go-performance-optimization.html" title="查看《Go性能优化【转载】》">Go性能优化【转载】</a></li>
+
+  <li><a href="/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1/nosql-misunderstanding.html" title="查看《几种NoSQL的使用误区【转载】》">几种NoSQL的使用误区【转载】</a></li>
+
+</ul>
+
+        </section>
+        <section>
+          <a href="/archive.html" title="查看所有存档"><i class="icon-fixed-width icon-file-text"></i> 文章存档</a>
+<span title="文章总数">21</span>
+<ul>
+
+
+  
+  
+  
+  
+
+  
+  
+  
+  
+    <li><a href="/archive.html#June-2022">2022 年 06 月 (2)</a></li>
+    
+  
+
+  
+  
+  
+  
+
+  
+  
+  
+  
+    <li><a href="/archive.html#May-2022">2022 年 05 月 (2)</a></li>
+    
+  
+
+  
+  
+  
+  
+    <li><a href="/archive.html#October-2017">2017 年 10 月 (1)</a></li>
+    
+  
+
+  
+  
+  
+  
+
+  
+  
+  
+  
+
+  
+  
+  
+  
+
+  
+  
+  
+  
+
+  
+  
+  
+  
+
+  
+  
+  
+  
+    <li><a href="/archive.html#July-2017">2017 年 07 月 (6)</a></li>
+    
+  
+
+  
+  
+  
+  
+    <li><a href="/archive.html#October-2016">2016 年 10 月 (1)</a></li>
+    
+  
+
+  
+  
+  
+  
+    <li><a href="/archive.html#September-2016">2016 年 09 月 (1)</a></li>
+    
+  
+
+  
+  
+  
+  
+
+  
+  
+  
+  
+
+  
+  
+  
+  
+    <li><a href="/archive.html#July-2016">2016 年 07 月 (3)</a></li>
+    
+  
+
+  
+  
+  
+  
+
+  
+  
+  
+  
+
+  
+  
+  
+  
+    <li><a href="/archive.html#April-2016">2016 年 04 月 (3)</a></li>
+    
+  
+
+  
+  
+  
+  
+    <li><a href="/archive.html#January-2016">2016 年 01 月 (1)</a></li>
+    
+  
+
+  
+  
+  
+  
+    <li><a href="/archive.html#January-2015">2015 年 01 月 (1)</a></li>
+    
+  
+
+</ul>
+
+        </section>
+        <section>
+          <a href="/categories.html" title="查看所有分类"><i class="icon-fixed-width icon-folder-open"></i> 文章分类</a>
+<span title="分类总数">11</span>
+<ul>
+
+  <li><a href="/categories.html#阅读-ref">阅读 (1)</a></li>
+
+  <li><a href="/categories.html#工具-ref">工具 (3)</a></li>
+
+  <li><a href="/categories.html#技术-ref">技术 (9)</a></li>
+
+  <li><a href="/categories.html#解决方案-ref">解决方案 (1)</a></li>
+
+  <li><a href="/categories.html#行业-ref">行业 (1)</a></li>
+
+  <li><a href="/categories.html#数据库设计-ref">数据库设计 (2)</a></li>
+
+  <li><a href="/categories.html#程序设计语言-ref">程序设计语言 (1)</a></li>
+
+  <li><a href="/categories.html#算法-ref">算法 (2)</a></li>
+
+  <li><a href="/categories.html#数据结构-ref">数据结构 (1)</a></li>
+
+  <li><a href="/categories.html#系统设计-ref">系统设计 (1)</a></li>
+
+  <li><a href="/categories.html#分布式系统-ref">分布式系统 (1)</a></li>
+
+</ul>
+
+        </section>
+        <section>
+          <a href="/tags.html" title="查看所有标签"><i class="icon-fixed-width icon-tags"></i> 标签云</a>
+<span title="标签总数">23</span>
+<div id="tag-cloud">
+
+
+
+
+
+
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#工具-ref" style="font-size: 13.5pt; color: #444;">工具</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#博客-ref" style="font-size: 9pt; color: #999;">博客</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#shell-ref" style="font-size: 13.5pt; color: #444;">shell</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#C++-ref" style="font-size: 13.5pt; color: #444;">C++</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#Algorithm-ref" style="font-size: 9pt; color: #999;">Algorithm</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#程序员-ref" style="font-size: 13.5pt; color: #444;">程序员</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#CDN-ref" style="font-size: 9pt; color: #999;">CDN</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#linux-ref" style="font-size: 9pt; color: #999;">linux</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#NoSQL-ref" style="font-size: 9pt; color: #999;">NoSQL</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#数据库-ref" style="font-size: 13.5pt; color: #444;">数据库</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#Go-ref" style="font-size: 9pt; color: #999;">Go</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#性能优化-ref" style="font-size: 9pt; color: #999;">性能优化</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#SQL-ref" style="font-size: 9pt; color: #999;">SQL</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#python-ref" style="font-size: 9pt; color: #999;">python</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#进程管理-ref" style="font-size: 9pt; color: #999;">进程管理</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#游戏开发-ref" style="font-size: 9pt; color: #999;">游戏开发</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#Golang-ref" style="font-size: 9pt; color: #999;">Golang</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#数据结构-ref" style="font-size: 18pt; color: #000;">数据结构</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#算法-ref" style="font-size: 13.5pt; color: #444;">算法</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#系统设计-ref" style="font-size: 9pt; color: #999;">系统设计</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#分布式系统-ref" style="font-size: 9pt; color: #999;">分布式系统</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#资源调度-ref" style="font-size: 9pt; color: #999;">资源调度</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#算法设计-ref" style="font-size: 9pt; color: #999;">算法设计</a>
+  
+
+</div>
+
+        </section>
+        <div id="fixed-container">
+  <section>
+    <a href="#"><i class="icon-fixed-width icon-code"></i> 代码仓库</a>
+<ul>
+</ul>
+
+  </section>
+  <section>
+    <a href="#"><i class="icon-fixed-width icon-heart"></i> 与我联系</a>
+<div id="contacts-list">
+  <a href="mailto:dunyixu@gmail.com" target="_blank" title="Gmail">
+    <i class="icon-large icon-fixed-width icon-envelope"></i>
+  </a>
+  <a href="https://github.com/dyxu" target="_blank" title="GitHub">
+    <i class="icon-large icon-fixed-width icon-github"></i>
+  </a>
+  <a href="http://weibo.com/dunyixu" target="_blank" title="新浪微博">
+    <i class="icon-large icon-fixed-width icon-weibo"></i>
+  </a>
+  <a href="https://twitter.com/dunyixu" target="_blank" title="Twitter">
+    <i class="icon-large icon-fixed-width icon-twitter"></i>
+  </a>
+</div>
+
+  </section>
+  <section>
+    <a href="#"><i class="icon-fixed-width icon-link"></i> 友情链接</a>
+<ul>
+  <li><a href="https://wfwu.github.io" target="_blank">会叫猫～的猫</a></li>
+</ul>
+
+  </section>
+</div>
+<script type="text/javascript">
+$(document).ready(function() {
+  var position = $('#fixed-container').offset();
+  $(window).scroll(function() {
+    if($(window).scrollTop() > position.top) {
+      $('#fixed-container').css('position','fixed').css('top','0');
+    } else {
+      $('#fixed-container').css('position','static');
+    }
+  });
+});
+</script>
+
+      </aside>
+
+      <!-- Main Content -->
+      <div id="main-inner">
+        <div id="loader"><img src="/assets/themes/twitter/img/loading.gif" alt="请稍侯"></div>
+        <div id="main-content">
+          
+
+<section id="content">
+  <article class="post">
+
+    <header>
+      <h1>图算法总结</h1>
+    </header>
+
+    <section>
+      <div class="post-extra">
+        <div class="pull-left">
+          <span>09 June 2022</span>
+        </div>
+        <div class="pull-right">
+          
+
+
+  <span id="share">
+  <a class="wechat" target="_blank" title="分享到微信" href="http://chart.apis.google.com/chart?cht=qr&amp;chs=300x300&amp;chl=https://dyxu.net/%E7%AE%97%E6%B3%95/graph-algorithms.html"><i class="icon-large icon-wechat"></i></a>
+  <a class="weibo" target="_blank" title="分享到微博" href="http://service.weibo.com/share/share.php?title=图算法总结 - 南有嘉鱼&amp;url=https://dyxu.net/%E7%AE%97%E6%B3%95/graph-algorithms.html&amp;type=3&amp;searchPic=1"><i class="icon-large icon-weibo"></i></a>
+  <a class="twitter" target="_blank" title="Share to Twitter" href="https://twitter.com/intent/tweet?url=https://dyxu.net/%E7%AE%97%E6%B3%95/graph-algorithms.html&amp;text=图算法总结 - 南有嘉鱼&amp;via=dunyixu"><i class="icon-large icon-twitter"></i></a>
+</span>
+
+
+
+
+
+        </div>
+      </div>
+      
+<h1 id="图算法总结">图算法总结</h1>
+<h2 id="概述">概述</h2>
+
+<p>编程的通用模式：</p>
+<ol>
+  <li>问题理解和建模。</li>
+  <li>分解子问题，简化复杂度。</li>
+  <li>逐个解决子问题，解决主问题。</li>
+</ol>
+
+<p>本文尝试用尽量短的文字概况问题的核心，总结LeetCode中图算法题目。</p>
+
+<h2 id="经典图算法">经典图算法</h2>
+
+<h3 id="图的搜索">图的搜索</h3>
+
+<ol>
+  <li>DFS（深度优先搜索）</li>
+</ol>
+
+<pre><code class="language-cpp">void bfs(vector&lt;vector&lt;int&gt;&gt;&amp; G, vector&lt;bool&gt;&amp; seen, int u) {
+	if (减枝条件) {
+		return;
+	}
+	if (满足答案) {
+		// 记录结果
+		return;
+	}
+	
+	// 访问节点u
+	seen[u] = true;
+	for (int v: G[u]) {
+		// 访问边 u-&gt;v
+		dfs(G, seen, v);
+		// 回溯边 u-&gt;v
+	}
+	// 回溯节点u
+	seen[u] = false;
+}
+</code></pre>
+
+<ol>
+  <li>BFS（广度优先搜索）</li>
+</ol>
+
+<pre><code class="language-cpp">void bfs(vector&lt;vector&lt;int&gt;&gt;&amp; G, int src) {
+    queue&lt;int&gt; q;
+	vector&lt;bool&gt; seen(G.size());
+	q.push(src);
+	seen[src] = true;
+	int level = 0;
+    while (!q.empty()) {
+        int n = q.size();
+		for (int i = 0; i &lt; n; i++) {
+			int u = q.front();
+			q.pop();
+			for (int v: G[u]) {
+				if (!seen[v]) {
+					q.push(v);
+					seen[v] = true;
+				}
+			}
+		}
+		level++;
+    }
+}
+</code></pre>
+
+<h3 id="最短路径">最短路径</h3>
+<p>单源最短路径Dijkstra</p>
+<pre><code class="language-cpp">vector&lt;int&gt; dijkstra(vector&lt;vector&lt;pair&lt;int, int&gt;&gt;&gt; &amp;G, int s) {
+    vector&lt;int&gt; dist(G.size(), INT_MAX);
+    dist[s] = 0;
+    priority_queue&lt;pair&lt;int, int&gt;, vector&lt;pair&lt;int, int&gt;&gt;, greater&lt;&gt;&gt; pq;
+    pq.emplace(0, s);
+
+    while (!pq.empty()) {
+        auto [du, u] = pq.top();
+        pq.pop();
+        if (du &gt; dist[u])
+            continue;
+        for (auto &amp;[v, dv] : G[u]) {
+            int d = dist[u] + dv;
+            if (dist[v] &gt; d) {
+                dist[v] = d;
+                pq.emplace(d, v);
+            }
+        }
+    }
+
+    return dist;
+};
+</code></pre>
+<h3 id="最小生成树">最小生成树</h3>
+<ol>
+  <li>Kruskal算法</li>
+</ol>
+
+<pre><code class="language-cpp">vector&lt;vector&lt;int&gt;&gt; kruskal(vector&lt;vector&lt;int&gt;&gt;&amp; edges) {
+    sort(edges.begin(), edges.end(),
+         [](auto &amp;u, auto &amp;v) { return u[2] &lt; v[2]; });
+    UnionFind fa(n);
+    vector&lt;vector&lt;int&gt;&gt; tree;
+    for (auto &amp;e : edges) {
+        if (fa.unite(e[0], e[1])) {
+            tree.push_back(e);
+        }
+    }
+
+    return tree;
+}
+</code></pre>
+
+<h3 id="计算连通性">计算连通性</h3>
+
+<ol>
+  <li>并查集</li>
+</ol>
+
+<pre><code class="language-cpp">class UnionFind {
+  private:
+    vector&lt;int&gt; _parent;
+    int _count;
+  public:
+    UnionFind(int n): _count(n), _parent(n) {
+        for (int i = 0; i &lt; n; i++) {
+            _parent[i] = i;
+        }
+    }
+    int find(int x) {
+        return _parent[x] == x ? x: _parent[x] = find(_parent[x]);
+    }
+    bool unite(int x, int y) {
+        x = find(x);
+        y = find(y);
+        if (x == y) return false;
+
+        _parent[y] = x;
+        _count--;
+        return true;
+    }
+    int count() const {
+        return _count;
+    }
+};
+</code></pre>
+
+<h3 id="拓扑排序">拓扑排序</h3>
+
+<pre><code class="language-cpp">vector&lt;int&gt; topologySort(int n, vector&lt;vector&lt;int&gt;&gt;&amp; edges) {
+    vector&lt;int&gt; order, deg(n);
+    vector&lt;vector&lt;int&gt;&gt; G(n);
+    for (auto&amp; e: edges) {
+        G[e[0]].push_back(e[1]);
+        deg[e[1]]--;
+    }
+
+    queue&lt;int&gt; q;
+    for (int i = 0; i &lt; n; i++) {
+        if (deg[i] == 0) {
+            q.push(i);
+            order.push_back(i);
+        }
+    }
+    while (!q.empty()) {
+        int u = q.front();
+        q.pop();
+        for (int v : G[u]) {
+            deg[v]--;
+            if (deg[v] == 0) {
+                order.push_back(v);
+                q.push(v);
+            }
+        }
+    }
+
+    return order;
+}
+</code></pre>
+
+<h2 id="图算法题">图算法题</h2>
+<h3 id="2065-最大化一张图中的路径价值"><a href="https://leetcode.cn/problems/maximum-path-quality-of-a-graph/">2065. 最大化一张图中的路径价值</a></h3>
+<ol>
+  <li>问题理解
+    <blockquote>
+      <p>给定无向图、点和边的权值，求包含0节点的环中，满足边权不超过maxTime的点权最大值。</p>
+    </blockquote>
+  </li>
+  <li>建模和解决
+    <blockquote>
+      <p>建有向图，回溯法遍历所有节点。</p>
+    </blockquote>
+  </li>
+  <li>代码
+    <blockquote>
+      <p>时间复杂度：<code>O(N+M)</code>，M是边数，N是节点数。
+空间复杂度：<code>O(N+M)</code></p>
+    </blockquote>
+  </li>
+</ol>
+
+<pre><code class="language-cpp">class Solution {
+public:
+    int maximalPathQuality(vector&lt;int&gt;&amp; values, vector&lt;vector&lt;int&gt;&gt;&amp; edges, int maxTime) {
+        int n = values.size();
+        vector&lt;vector&lt;PII&gt;&gt; G(n);
+        for (auto&amp; e: edges) {
+            G[e[0]].emplace_back(e[1], e[2]);
+            G[e[1]].emplace_back(e[0], e[2]);
+        }
+        vector&lt;int&gt; seen(n);
+        seen[0] = true;
+        int ans = 0;
+        function&lt;void(int, int, int)&gt; dfs = [&amp;](int u, int time, int value) {
+            if (u == 0) {
+                ans = max(ans, value);
+            }
+            for (auto&amp; [v, dist]: G[u]) {
+                if (time + dist &lt;= maxTime) {
+                    if (!seen[v]) {
+                        seen[v] = true;
+                        dfs(v, time + dist, value + values[v]);
+                        seen[v] = false;
+                    } else {
+                        dfs(v, time + dist, value);
+                    }
+                }
+            }
+        };
+
+        dfs(0, 0, values[0]);
+
+        return ans;
+    }
+};
+</code></pre>
+
+<h3 id="1632-矩阵转换后的秩"><a href="https://leetcode.cn/problems/rank-transform-of-a-matrix/">1632. 矩阵转换后的秩</a></h3>
+
+<ol>
+  <li>问题理解
+    <blockquote>
+      <p>秩定义了坐标（i，j）间的依赖关系，计算矩阵的秩。</p>
+    </blockquote>
+  </li>
+  <li>建模和解决
+    <blockquote>
+      <ol>
+        <li>以坐标<code>（i，j）=&gt; i*m+i</code>为节点建有向图，边为秩定义建立。</li>
+        <li>同一行和同一列中相同value的节点（利用并查集）属于同一个连通分量，排序后建立值小节点连通分量到值大节点的分量的边。</li>
+        <li>拓扑排序时，初始秩为1，存在 <code>u-&gt;v</code>的边，则<code>R(v) = max(R[v], R[u]+1)</code>，类似于<a href="https://leetcode.cn/problems/parallel-courses-iii/">2050. 并行课程 III</a></li>
+      </ol>
+    </blockquote>
+  </li>
+  <li>代码
+    <blockquote>
+      <p>时间复杂度：<code>O(NMlog(max(NM)))</code>，N、M为矩阵行列。</p>
+    </blockquote>
+  </li>
+</ol>
+
+<pre><code class="language-cpp">using PII = pair&lt;int, int&gt;;
+
+class UnionFind {
+  private:
+    vector&lt;int&gt; _parent;
+    int _count;
+  public:
+    UnionFind(int n): _count(n), _parent(n) {
+        for (int i = 0; i &lt; n; i++) {
+            _parent[i] = i;
+        }
+    }
+    int find(int x) {
+        return _parent[x] == x ? x: _parent[x] = find(_parent[x]);
+    }
+    bool unite(int x, int y) {
+        x = find(x);
+        y = find(y);
+        if (x == y) return false;
+
+        _parent[y] = x;
+        _count--;
+        return true;
+    }
+    int count() const {
+        return _count;
+    }
+};
+
+class Solution {
+  public:
+    vector&lt;vector&lt;int&gt;&gt; matrixRankTransform(vector&lt;vector&lt;int&gt;&gt; &amp;mat) {
+        int n = mat.size(), m = mat[0].size();
+        UnionFind uf(n*m);
+		
+		// row range
+        for (int i = 0; i &lt; n; i++) {
+            unordered_map&lt;int, vector&lt;int&gt;&gt; mm; // value =&gt; [i*m+j];
+            for (int j = 0; j &lt; m; j++) {
+                mm[mat[i][j]].push_back(i*m+j);
+            }
+            for (auto&amp; [val, idxs]: mm) {
+                for (int k = 1; k &lt; idxs.size(); k++) {
+                    uf.unite(idxs[k - 1], idxs[k]);
+                }
+            }
+        }
+		
+		// column range
+        for (int j = 0; j &lt; m; j++) {
+            unordered_map&lt;int, vector&lt;int&gt;&gt; mm; // value =&gt; [i*m+j];
+            for (int i = 0; i &lt; n; i++) {
+                mm[mat[i][j]].push_back(i*m+j);
+            }
+            for (auto &amp;[val, idxs] : mm) {
+                for (int k = 1; k &lt; idxs.size(); k++) {
+                    uf.unite(idxs[k - 1], idxs[k]);
+                }
+            }
+        }
+
+        // build graph
+        vector&lt;vector&lt;int&gt;&gt; G(n*m);
+        vector&lt;int&gt; deg(n*m);
+        for (int i = 0; i &lt; n; i++) {
+            vector&lt;PII&gt; nums; // value =&gt; index
+            for (int j = 0; j &lt; m; j++) {
+                nums.emplace_back(mat[i][j], i*m+j);
+            }
+            sort(nums.begin(), nums.end());
+            for (int k = 1; k &lt; nums.size(); k++) {
+                if (nums[k-1].first &lt; nums[k].first) {
+                    int u = uf.find(nums[k - 1].second);
+                    int v = uf.find(nums[k].second);
+					// build edge by order
+                    G[u].push_back(v);
+                    deg[v]++;
+                }
+            }
+        }
+        for (int j = 0; j &lt; m; j++) {
+            vector&lt;PII&gt; nums; // value =&gt; index
+            for (int i = 0; i &lt; n; i++) {
+                nums.emplace_back(mat[i][j], i * m + j);
+            }
+            sort(nums.begin(), nums.end());
+            for (int k = 1; k &lt; nums.size(); k++) {
+                if (nums[k - 1].first &lt; nums[k].first) {
+                    int u = uf.find(nums[k - 1].second);
+                    int v = uf.find(nums[k].second);
+                    G[u].push_back(v);
+                    deg[v]++;
+                }
+            }
+        }
+		
+		// topology sort
+        queue&lt;int&gt; q;
+        for (int i = 0; i &lt; n * m; i++) {
+            if (deg[i] == 0 &amp;&amp; uf.find(i) == i) {
+                q.push(i);
+            }
+        }
+
+        vector&lt;int&gt; r(n*m, 1);
+        while (!q.empty()) {
+            int u = q.front();
+            q.pop();
+            for (int v: G[u]) {
+				// dp
+                r[v] = max(r[v], r[u]+1);
+                deg[v]--;
+                if (deg[v] == 0) {
+                    q.push(v);
+                }
+            }
+        }
+
+        vector&lt;vector&lt;int&gt;&gt; res(n, vector&lt;int&gt;(m));
+        for (int i = 0; i &lt; n; i++) {
+            for (int j = 0; j &lt; m; j++) {
+                res[i][j] = r[uf.find(i*m+j)];
+            }
+        }
+
+        return res;
+    }
+};
+
+</code></pre>
+
+<h3 id="2203-得到要求路径的最小带权子图"><a href="https://leetcode.cn/problems/minimum-weighted-subgraph-with-the-required-paths/">2203. 得到要求路径的最小带权子图</a></h3>
+<ol>
+  <li>问题理解
+    <blockquote>
+      <p>带权有向图，求解从src1，src2到dst路径组成的最小子图。</p>
+    </blockquote>
+  </li>
+  <li>建模和解决
+    <blockquote>
+      <ol>
+        <li>最短路问题，分别以src1、src2和dst计算单源最短路。</li>
+        <li>以某一个节点为中继，枚举最小子图。</li>
+      </ol>
+    </blockquote>
+  </li>
+  <li>代码
+    <blockquote>
+      <p>时间复杂度：<code>O(N+Mlog(M))</code>，N、M分别为节点和边数。
+空间复杂度：<code>O(NM)</code></p>
+    </blockquote>
+  </li>
+</ol>
+
+<pre><code class="language-cpp">using PII = pair&lt;int, int&gt;;
+class Solution {
+  public:
+    vector&lt;long&gt; dijkstra(vector&lt;vector&lt;PII&gt;&gt;&amp; G, int s) {
+        vector&lt;long&gt; dist(G.size(), LONG_MAX/3);
+        dist[s] = 0;
+        priority_queue&lt;pair&lt;long, int&gt;, vector&lt;pair&lt;long, int&gt;&gt;, greater&lt;&gt;&gt; pq;
+        pq.emplace(0, s);
+
+        while (!pq.empty()) {
+            auto [du, u] = pq.top();
+            pq.pop();
+            if (du &gt; dist[u]) continue;
+            for (auto&amp; [v, dv]: G[u]) {
+                long d = dist[u] + dv;
+                if (dist[v] &gt; d) {
+                    dist[v] = d;
+                    pq.emplace(d, v);
+                }
+            }
+        }
+
+        return dist;
+    }
+
+    long long minimumWeight(int n, vector&lt;vector&lt;int&gt;&gt; &amp;edges, int src1, int src2, int dest) {
+        vector&lt;vector&lt;PII&gt;&gt; G(n), RG(n);
+        for (auto&amp; e: edges) {
+            int u = e[0], v = e[1], d = e[2];
+            G[u].emplace_back(v, d);
+            RG[v].emplace_back(u, d);
+        }
+
+        auto da = dijkstra(G, src1);
+        auto db = dijkstra(G, src2);
+        auto dc = dijkstra(RG, dest);
+
+        long res = LONG_MAX/3;
+        for (int i = 0; i &lt; n; i++) {
+            res = min(res, da[i]+db[i]+dc[i]);
+        }
+
+        return res &lt; LONG_MAX/3 ? res: -1;
+    }
+};
+</code></pre>
+
+<h3 id="1489-找到最小生成树里的关键边和伪关键边"><a href="https://leetcode.cn/problems/find-critical-and-pseudo-critical-edges-in-minimum-spanning-tree/">1489. 找到最小生成树里的关键边和伪关键边</a></h3>
+<ol>
+  <li>问题理解
+    <blockquote>
+      <p>带权无向图中求关键边（去除边最小生成树权重增大）和伪关键边（去除边不影响最小生成树）。</p>
+    </blockquote>
+  </li>
+  <li>建模和解决
+    <blockquote>
+      <ol>
+        <li>计算最小生成树，记录最小边权。</li>
+        <li>枚举每条边，判断关键和伪关键边性质。</li>
+      </ol>
+    </blockquote>
+  </li>
+  <li>代码
+    <blockquote>
+      <p>时间复杂度：<code>O(M^2\alpha(N))</code>，N、M分别为节点和边数。
+空间复杂度：<code>O(N+M)</code></p>
+    </blockquote>
+  </li>
+</ol>
+
+<pre><code class="language-cpp">using VII = vector&lt;vector&lt;int&gt;&gt;;
+
+class UnionFind {
+  private:
+    vector&lt;int&gt; _parent;
+    int _count;
+  public:
+    UnionFind(int n): _count(n), _parent(n) {
+        for (int i = 0; i &lt; n; i++) {
+            _parent[i] = i;
+        }
+    }
+    int find(int x) {
+        return _parent[x] == x ? x: _parent[x] = find(_parent[x]);
+    }
+    bool unite(int x, int y) {
+        x = find(x);
+        y = find(y);
+        if (x == y) return false;
+
+        _parent[y] = x;
+        _count--;
+        return true;
+    }
+    int count() const {
+        return _count;
+    }
+};
+
+class Solution {
+  public:
+    vector&lt;vector&lt;int&gt;&gt; findCriticalAndPseudoCriticalEdges(int n, vector&lt;vector&lt;int&gt;&gt; &amp;edges) {
+        int m = edges.size();
+        for (int i = 0; i &lt; m; i++) {
+            edges[i].push_back(i);
+        }
+        int minValue = 0;
+        sort(edges.begin(), edges.end(), [](auto&amp; x, auto&amp; y) {
+            return x[2] &lt; y[2];
+        });
+        UnionFind fa(n);
+        for (auto&amp; e: edges) {
+            if (fa.unite(e[0], e[1])) {
+                minValue += e[2];
+            }
+        }
+
+        vector&lt;vector&lt;int&gt;&gt; res(2);
+        for (int i = 0; i &lt; m; i++) {
+            int value = 0;
+            UnionFind fb(n);
+            for (int k = 0; k &lt; m; k++) {
+                if (i != k &amp;&amp; fb.unite(edges[k][0], edges[k][1])) {
+                    value += edges[k][2];
+                }
+            }
+            if (fb.count() != 1 || (fb.count() == 1 &amp;&amp; value &gt; minValue)) {
+                res[0].push_back(edges[i][3]);
+                continue;
+            }
+
+            UnionFind fc(n);
+            fc.unite(edges[i][0], edges[i][1]);
+            value = edges[i][2];
+            for (int k = 0; k &lt; m; k++) {
+                if (i != k &amp;&amp; fc.unite(edges[k][0], edges[k][1])) {
+                    value += edges[k][2];
+                }
+            }
+            if (value == minValue) {
+                res[1].push_back(edges[i][3]);
+            }
+        }
+
+        return res;
+    }
+};
+</code></pre>
+
+<h3 id="2050-并行课程-iii"><a href="https://leetcode.cn/problems/parallel-courses-iii/">2050. 并行课程 III</a></h3>
+<ol>
+  <li>问题理解
+    <blockquote>
+      <p>课程相互依赖，并且修完耗费一定时间，求解修完所有课的最短时间。</p>
+    </blockquote>
+  </li>
+  <li>建模和解决
+    <blockquote>
+      <ol>
+        <li>典型的拓扑排序问题。</li>
+        <li>动态规划解决课程开始的最短时间，存在<code>u-&gt;v</code>边，则start[v] = max(start[v], start[u] + time[v])。</li>
+      </ol>
+    </blockquote>
+  </li>
+  <li>代码
+    <blockquote>
+      <p>时间复杂度：<code>O(N+M)</code>，N、M分别为节点和边数。
+空间复杂度：<code>O(N+M)</code></p>
+    </blockquote>
+  </li>
+</ol>
+
+<pre><code class="language-cpp">class Solution {
+public:
+  int minimumTime(int n, vector&lt;vector&lt;int&gt;&gt; &amp;relations, vector&lt;int&gt; &amp;time) {
+      vector&lt;int&gt; start(n), deg(n);
+      VII G(n);
+      for (auto&amp; e: relations) {
+          G[e[0]-1].push_back(e[1]-1);
+          deg[e[1]-1]++;
+      }
+      queue&lt;int&gt; q;
+      for (int i = 0; i &lt; n; i++) {
+          if (deg[i] == 0) {
+              q.push(i);
+          }
+      }
+      int ans = 0;
+      while (!q.empty()) {
+          int u = q.front();
+          q.pop();
+          ans = max(ans, start[u]+time[u]);
+          for (int v: G[u]) {
+              deg[v]--;
+              start[v] = max(start[v], start[u] + time[u]);
+              if (deg[v] == 0) {
+                  q.push(v);
+              }
+          }
+      }
+
+      return ans;
+  }
+};
+</code></pre>
+
+<h3 id="1928-规定时间内到达终点的最小花费"><a href="https://leetcode.cn/problems/minimum-cost-to-reach-destination-in-time/">1928. 规定时间内到达终点的最小花费</a></h3>
+<ol>
+  <li>问题理解
+    <blockquote>
+      <p>点和边都带权的无向图，求救从0出发到n-1，且边权不大于maxTime的最小点权值。</p>
+    </blockquote>
+  </li>
+  <li>建模和解决
+    <blockquote>
+      <p>回溯+剪枝。</p>
+    </blockquote>
+  </li>
+  <li>代码</li>
+</ol>
+
+<pre><code class="language-cpp">using MII = unordered_map&lt;int, int&gt;;
+
+class Solution {
+private:
+    int _cost = 0;
+    int _costTime = 0;
+    int _minCost = INT_MAX;
+    int _maxTime, _n;
+    vector&lt;MII&gt; _G;
+    vector&lt;int&gt; _fees;
+    vector&lt;bool&gt; _seen;
+    vector&lt;int&gt; _minPathTime, _minPathCost;
+public:
+    int minCost(int maxTime, vector&lt;vector&lt;int&gt;&gt; &amp;edges, vector&lt;int&gt; &amp;fees) {
+        _n = fees.size();
+        _G.resize(_n);
+        _fees = fees;
+        _seen.resize(_n);
+        _minPathCost = vector&lt;int&gt;(_n, INT_MAX);
+        _minPathTime = vector&lt;int&gt;(_n, INT_MAX);
+        for (auto&amp; e: edges) {
+            if (_G[e[1]].count(e[0])) {
+                _G[e[1]][e[0]] = min(_G[e[1]][e[0]], e[2]);
+                _G[e[0]][e[1]] = min(_G[e[0]][e[1]], e[2]);
+            } else {
+                _G[e[0]][e[1]] = _G[e[1]][e[0]] = e[2];
+            }
+        }
+        _maxTime = maxTime;
+        backtrack(0);
+        return _minCost == INT_MAX ? -1: _minCost;
+
+    }
+
+    void backtrack(int u) {
+		// 剪枝很关键
+        if (_costTime &gt; _maxTime || _cost &gt; _minCost || (_cost &gt; _minPathCost[u] &amp;&amp; _costTime &gt; _minPathTime[u])) {
+            return;;
+        }
+        if (u == _n-1) {
+            _minCost = min(_minCost, _cost+_fees[u]);
+            return;
+        }
+
+        _seen[u] = true;
+        _cost += _fees[u];
+        _minPathCost[u] = min(_minPathCost[u], _cost);
+        _minPathTime[u] = min(_minPathTime[u], _costTime);
+        for (auto&amp; v: _G[u]) {
+            if (!_seen[v.first]) {
+                _costTime += v.second;
+                backtrack(v.first);
+                _costTime -= v.second;
+            }
+        }
+        _seen[u] = false;
+        _cost -= _fees[u];
+    }
+};
+</code></pre>
+
+<h3 id="2076-处理含限制条件的好友请求"><a href="https://leetcode.cn/problems/process-restricted-friend-requests/">2076. 处理含限制条件的好友请求</a></h3>
+<ol>
+  <li>问题理解
+    <blockquote>
+      <p>合并连通分量时满足非连通性约束。</p>
+    </blockquote>
+  </li>
+  <li>建模和解决
+    <blockquote>
+      <p>并查集，每次合并u–v时，检查是否满足yeu’s</p>
+    </blockquote>
+  </li>
+  <li>代码
+    <blockquote>
+      <p>时间复杂度：<code>O(KM\alpha(N))</code>，K、M分别是请求和约束条件数目，N为节点数
+空间复杂度：<code>O(N)</code></p>
+    </blockquote>
+  </li>
+</ol>
+
+<pre><code class="language-cpp">class Solution {
+  private:
+    vector&lt;int&gt; _parent;
+  public:
+    vector&lt;bool&gt; friendRequests(int n, vector&lt;vector&lt;int&gt;&gt; &amp;res, vector&lt;vector&lt;int&gt;&gt; &amp;req) {
+        _parent.resize(n);
+        for (int i = 0; i &lt; n; i++) {
+            _parent[i] = i;
+        }
+        vector&lt;bool&gt; ans;
+        for (auto&amp; r: req) {
+            int x = find(r[0]), y = find(r[1]);
+            if (x == y) {
+                ans.push_back(true);
+            } else {
+                bool ok = true;
+                for (auto&amp; rs: res) {
+                    int u = find(rs[0]), v = find(rs[1]);
+                    if ((x == u &amp;&amp; y == v) ||(x == v &amp;&amp; y == u)) {
+                        ok = false;
+                        break;
+                    }
+                }
+
+                if (ok) {
+                    unite(x, y);
+                    ans.push_back(true);
+                } else {
+                    ans.push_back(false);
+                }
+            }
+        }
+
+        return ans;
+    }
+    int find(int x) {
+        return _parent[x] == x? x: _parent[x] = find(_parent[x]);
+    }
+    bool unite(int x, int y) {
+        x = find(x);
+        y = find(y);
+        if (x == y) return false;
+
+        _parent[y] = x;
+        return true;
+    }
+};
+</code></pre>
+
+<h3 id="2246-相邻字符不同的最长路径"><a href="https://leetcode.cn/problems/longest-path-with-different-adjacent-characters/">2246. 相邻字符不同的最长路径</a></h3>
+<ol>
+  <li>问题理解
+    <blockquote>
+      <p>附带条件的树最长直径。</p>
+    </blockquote>
+  </li>
+  <li>建模和解决
+    <blockquote>
+      <p>DFS，回溯时计算最长路径</p>
+    </blockquote>
+  </li>
+  <li>代码
+    <blockquote>
+      <p>时间复杂度：<code>O(N)</code>，N为节点数
+空间复杂度：<code>O(N^2)</code></p>
+    </blockquote>
+  </li>
+</ol>
+
+<pre><code class="language-cpp">class Solution {
+  public:
+    int longestPath(vector&lt;int&gt; &amp;parent, string s) {
+        int n = parent.size();
+        vector&lt;vector&lt;int&gt;&gt; tree(n);
+        for (int i = 1; i &lt; n; i++) {
+            tree[parent[i]].push_back(i);
+        }
+        int ans = 0;
+
+        function&lt;int(int)&gt; dfs = [&amp;](int u) -&gt; int {
+            int longest = 0;
+            for (int v: tree[u]) {
+                int len = dfs(v) + 1;
+                if (s[u] != s[v]) {
+                    ans = max(ans, longest + len);
+                    longest = max(longest, len);
+                }
+            }
+
+            return longest;
+        };
+        dfs(0);
+
+        return ans + 1;
+    }
+};
+</code></pre>
+
+      
+      <footer>
+        <p>
+          本作品由 <a href="mailto:dunyixu@gmail.com">Dylan Xu</a> 创作或转载，采用
+          <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="查看协议详细信息" target="_blank">CC BY-NC-SA 3.0 许可协议</a>
+          进行许可。
+        </p>
+      </footer>
+      
+    </section>
+
+  </article>
+</section>
+
+<section>
+
+  <div class="tag-box-wrapper">
+    
+    <ul class="tag-box inline">
+      <li><i class="icon-large icon-folder-open"></i></li>
+      
+      
+
+
+  
+     
+    	<li><a href="/categories.html#算法-ref">
+    		算法 <span>2</span>
+    	</a></li>
+    
+  
+
+
+
+    </ul>
+    
+
+    
+    <ul class="tag-box inline">
+      <li><i class="icon-large icon-tags"></i></li>
+      
+      
+
+
+  
+     
+    	<li><a href="/tags.html#算法-ref">算法 <span>2</span></a></li>
+     
+    	<li><a href="/tags.html#数据结构-ref">数据结构 <span>3</span></a></li>
+    
+  
+
+
+
+    </ul>
+    
+  </div>
+
+  <div class="pagination">
+    <ul>
+      
+      <li class="prev"><a href="/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/system-design.html" title="系统设计入门【转载】">&larr; 上一篇</a></li>
+      
+      <li><a href="/archive.html">文章列表</a></li>
+      
+      <li class="next"><a href="/%E6%8A%80%E6%9C%AF/max-min-fairness.html" title="Max-Min Fairness算法及边缘计算应用">下一篇 &rarr;</a></li>
+      
+    </ul>
+  </div>
+
+</section>
+
+<section id="comments">
+  
+
+
+  
+<div id="gitalk-container"></div>
+
+
+<script>
+    var gitalk = new Gitalk({
+        id: '图算法总结',
+        clientID: 'bcc0fcb9be8afc0e7a91',
+        clientSecret: 'eb79578ece8e4dcefa19ebd39b224c6c605cd563',
+        repo: 'blog',
+        owner: 'dyxu',
+        admin: 'dyxu',
+        distractionFreeMode: 'false'
+    })
+
+    gitalk.render('gitalk-container')
+</script>
+
+
+
+
+
+</section>
+
+
+        </div>
+      </div>
+
+      <div id="back-top">
+  <a href="#top" title="回到顶部">
+    <i class="icon-2x icon-arrow-up"></i>
+  </a>
+</div>
+<script type="text/javascript">
+$("#back-top").hide();
+$(document).ready(function () {
+  $(window).scroll(function () {
+    if ($(this).scrollTop() > 100) {
+      $('#back-top').fadeIn();
+    } else {
+      $('#back-top').fadeOut();
+    }
+  });
+  $('#back-top a').click(function () {
+    $('body,html').animate({
+      scrollTop: 0
+    }, 500);
+    return false;
+  });
+});
+</script>
+
+
+    </section>
+
+    <footer id="bottom">
+      <p align="center">&copy; 2022 Dylan Xu
+        with help from <a href="https://jekyllrb.com" target="_blank" title="Transform your plain text into static websites and blogs.">Jekyll Bootstrap</a>
+        and <a href="https://getbootstrap.com" target="_blank">Twitter Bootstrap</a>
+      </p>
+    </footer>
+  </div>
+
+  <script type="text/javascript">
+    $('article.post a').attr('target', '_blank');
+    if (navigator.appVersion.indexOf("Mac") != -1) {
+      $('code, pre').css('font-family', 'Courier, monospace');
+    }
+  </script>
+  
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({ TeX: {equationNumbers: {autoNumber: ["AMS"], useLabelIds: true}}, "HTML-CSS": {linebreaks: {automatic:true}},
+    SVG: {linebreaks: {automatic: true}} });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
+</body>
+</html>
+

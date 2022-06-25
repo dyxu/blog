@@ -1,0 +1,816 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 7 ]>    <html lang="zh-CN" class="ie7"> <![endif]-->
+<!--[if IE 8 ]>    <html lang="zh-CN" class="ie8"> <![endif]-->
+<!--[if IE 9 ]>    <html lang="zh-CN" class="ie9"> <![endif]-->
+<!--[if (gte IE 10)|!(IE)]><!--> <html lang="zh-CN"> <!--<![endif]-->
+
+<head>
+  <meta charset="UTF-8">
+
+  <title>一篇文让你秒懂CDN（转载） - 南有嘉鱼</title>
+  
+  
+  <meta name="author" content="Dylan Xu">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="/icon.png">
+
+  <!-- Feed -->
+  <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="/rss.xml">
+  <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/atom.xml">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/assets/themes/twitter/css/style.css">
+  <link rel="stylesheet" href="/assets/themes/twitter/css/font-awesome.min.css">
+  <!--[if IE 7 ]><link rel="stylesheet" href="/assets/themes/twitter/css/font-awesome-ie7.min.css?ver=20151122"><![endif]-->
+
+  <!-- Gitalk -->
+  <link rel="stylesheet" href="/assets/themes/twitter/css/gitalk-style.css">
+  <script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
+
+  <!-- Scripts -->
+  <script type="text/javascript" src="/assets/themes/twitter/js/jquery-1.11.1.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/github.min.css">
+</head>
+
+<body>
+
+  <div id="wrap">
+    <header id="top">
+      <!-- Home Link -->
+      <a id="logo" href="/" title="回到首页">
+        <img src="/assets/themes/twitter/img/icon.png" height="50" alt="南有嘉鱼">
+      </a>
+      
+      <!-- Navigation Bar -->
+      <nav id="navbar">
+        <ul>
+          <li>
+            <a href="/" title="首页">首页</a>
+          </li>
+          <li>
+            <a href="/categories.html" title="分类">分类</a>
+          </li>
+          <li>
+            <a href="/tags.html" title="标签">标签</a>
+          </li>
+          <li>
+            <a href="/messages.html" title="留言板">留言板</a>
+          </li>
+          <li id="about-link" >
+            <a href="/about.html" title="关于我">关于我</a>
+          </li>
+          <li id="rss-link">
+            <a href="/rss.xml" title="订阅 RSS"><i class="icon-large icon-fixed-width icon-rss"></i></a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <section id="main">
+
+      <!-- Sidebar -->
+      <aside id="sidebar">
+        <section id="search-box">
+          <form id="search-form">
+  <input id="query" type="text" placeholder="正则搜索"></input>
+  <button type="submit"><i class="icon-search"></i></button>
+</form>
+<script type="text/javascript">
+$(document).ready(function() {
+  $('#search-form').submit(function() {
+    $('#query').blur().attr('disabled', true);
+    $('#main-content').hide();
+    $('#loader').show();
+    $.ajax({url: '/atom.xml?r=' + (Math.random() * 999999), dataType: 'xml', success: function(data) {
+      var rq = new RegExp($('#query').val(), 'im');
+      var rl = /\/([^\/]+)\.html$/;
+      var html = '';
+      $(data).find('entry').each(function(index, entry) {
+        var title = $(entry).find('title').text();
+        var link = $(entry).find('link').attr('href');
+        var title_en = rl.exec(link)[1].replace('-', ' ');
+        var content = $(entry).find('content').text();
+        if (rq.test(title) || rq.test(title_en) || rq.test(content)) {
+          var parts = $(entry).find('updated').text().split(/[-T:+]/g);
+          var months = [ "January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December" ];
+          date = parts[2] + ' ' + months[parts[1] - 1] + ' ' + parts[0];
+          html += '<article class="nested">';
+          html += '<header><h2><a href="' + link + '">' + title + '</a></h2></header>';
+          html += '<section><p>' + content + '</p></section>';
+          html += '<footer><p>更新日期：' + date + '</p></footer>';
+          html += '</article>';
+        }
+      });
+      $('#main-content').html(html);
+      $('#loader').hide();
+      $('#main-content').show();
+    }});
+    $('#query').blur().attr('disabled', false);
+    return false;
+  });
+});
+</script>
+
+        </section>
+        <section class="active">
+          <a href="/" title="查看最近发表"><i class="icon-fixed-width icon-edit"></i> 最近发表</a>
+<ul>
+
+  <li><a href="/%E6%8A%80%E6%9C%AF/max-min-fairness.html" title="查看《Max-Min Fairness算法及边缘计算应用》">Max-Min Fairness算法及边缘计算应用</a></li>
+
+  <li><a href="/%E7%AE%97%E6%B3%95/graph-algorithms.html" title="查看《图算法总结》">图算法总结</a></li>
+
+  <li><a href="/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/system-design.html" title="查看《系统设计入门【转载】》">系统设计入门【转载】</a></li>
+
+  <li><a href="/%E7%AE%97%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/algorithms-primer.html" title="查看《算法刷题总结【转载】》">算法刷题总结【转载】</a></li>
+
+  <li><a href="/%E6%8A%80%E6%9C%AF/delay-message.html" title="查看《延迟消息设计与实现【转载】》">延迟消息设计与实现【转载】</a></li>
+
+  <li><a href="/%E6%8A%80%E6%9C%AF/game-programer.html" title="查看《游戏开发学习之路》">游戏开发学习之路</a></li>
+
+  <li><a href="/%E5%B7%A5%E5%85%B7/supervisor.html" title="查看《supervisor进程管理工具》">supervisor进程管理工具</a></li>
+
+  <li><a href="/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1/database-design.html" title="查看《关系型数据库设计【转载】》">关系型数据库设计【转载】</a></li>
+
+  <li><a href="/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E8%AF%AD%E8%A8%80/go-performance-optimization.html" title="查看《Go性能优化【转载】》">Go性能优化【转载】</a></li>
+
+  <li><a href="/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1/nosql-misunderstanding.html" title="查看《几种NoSQL的使用误区【转载】》">几种NoSQL的使用误区【转载】</a></li>
+
+</ul>
+
+        </section>
+        <section>
+          <a href="/archive.html" title="查看所有存档"><i class="icon-fixed-width icon-file-text"></i> 文章存档</a>
+<span title="文章总数">21</span>
+<ul>
+
+
+  
+  
+  
+  
+
+  
+  
+  
+  
+    <li><a href="/archive.html#June-2022">2022 年 06 月 (2)</a></li>
+    
+  
+
+  
+  
+  
+  
+
+  
+  
+  
+  
+    <li><a href="/archive.html#May-2022">2022 年 05 月 (2)</a></li>
+    
+  
+
+  
+  
+  
+  
+    <li><a href="/archive.html#October-2017">2017 年 10 月 (1)</a></li>
+    
+  
+
+  
+  
+  
+  
+
+  
+  
+  
+  
+
+  
+  
+  
+  
+
+  
+  
+  
+  
+
+  
+  
+  
+  
+
+  
+  
+  
+  
+    <li><a href="/archive.html#July-2017">2017 年 07 月 (6)</a></li>
+    
+  
+
+  
+  
+  
+  
+    <li><a href="/archive.html#October-2016">2016 年 10 月 (1)</a></li>
+    
+  
+
+  
+  
+  
+  
+    <li><a href="/archive.html#September-2016">2016 年 09 月 (1)</a></li>
+    
+  
+
+  
+  
+  
+  
+
+  
+  
+  
+  
+
+  
+  
+  
+  
+    <li><a href="/archive.html#July-2016">2016 年 07 月 (3)</a></li>
+    
+  
+
+  
+  
+  
+  
+
+  
+  
+  
+  
+
+  
+  
+  
+  
+    <li><a href="/archive.html#April-2016">2016 年 04 月 (3)</a></li>
+    
+  
+
+  
+  
+  
+  
+    <li><a href="/archive.html#January-2016">2016 年 01 月 (1)</a></li>
+    
+  
+
+  
+  
+  
+  
+    <li><a href="/archive.html#January-2015">2015 年 01 月 (1)</a></li>
+    
+  
+
+</ul>
+
+        </section>
+        <section>
+          <a href="/categories.html" title="查看所有分类"><i class="icon-fixed-width icon-folder-open"></i> 文章分类</a>
+<span title="分类总数">11</span>
+<ul>
+
+  <li><a href="/categories.html#阅读-ref">阅读 (1)</a></li>
+
+  <li><a href="/categories.html#工具-ref">工具 (3)</a></li>
+
+  <li><a href="/categories.html#技术-ref">技术 (9)</a></li>
+
+  <li><a href="/categories.html#解决方案-ref">解决方案 (1)</a></li>
+
+  <li><a href="/categories.html#行业-ref">行业 (1)</a></li>
+
+  <li><a href="/categories.html#数据库设计-ref">数据库设计 (2)</a></li>
+
+  <li><a href="/categories.html#程序设计语言-ref">程序设计语言 (1)</a></li>
+
+  <li><a href="/categories.html#算法-ref">算法 (2)</a></li>
+
+  <li><a href="/categories.html#数据结构-ref">数据结构 (1)</a></li>
+
+  <li><a href="/categories.html#系统设计-ref">系统设计 (1)</a></li>
+
+  <li><a href="/categories.html#分布式系统-ref">分布式系统 (1)</a></li>
+
+</ul>
+
+        </section>
+        <section>
+          <a href="/tags.html" title="查看所有标签"><i class="icon-fixed-width icon-tags"></i> 标签云</a>
+<span title="标签总数">23</span>
+<div id="tag-cloud">
+
+
+
+
+
+
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#工具-ref" style="font-size: 13.5pt; color: #444;">工具</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#博客-ref" style="font-size: 9pt; color: #999;">博客</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#shell-ref" style="font-size: 13.5pt; color: #444;">shell</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#C++-ref" style="font-size: 13.5pt; color: #444;">C++</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#Algorithm-ref" style="font-size: 9pt; color: #999;">Algorithm</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#程序员-ref" style="font-size: 13.5pt; color: #444;">程序员</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#CDN-ref" style="font-size: 9pt; color: #999;">CDN</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#linux-ref" style="font-size: 9pt; color: #999;">linux</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#NoSQL-ref" style="font-size: 9pt; color: #999;">NoSQL</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#数据库-ref" style="font-size: 13.5pt; color: #444;">数据库</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#Go-ref" style="font-size: 9pt; color: #999;">Go</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#性能优化-ref" style="font-size: 9pt; color: #999;">性能优化</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#SQL-ref" style="font-size: 9pt; color: #999;">SQL</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#python-ref" style="font-size: 9pt; color: #999;">python</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#进程管理-ref" style="font-size: 9pt; color: #999;">进程管理</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#游戏开发-ref" style="font-size: 9pt; color: #999;">游戏开发</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#Golang-ref" style="font-size: 9pt; color: #999;">Golang</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#数据结构-ref" style="font-size: 18pt; color: #000;">数据结构</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#算法-ref" style="font-size: 13.5pt; color: #444;">算法</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#系统设计-ref" style="font-size: 9pt; color: #999;">系统设计</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#分布式系统-ref" style="font-size: 9pt; color: #999;">分布式系统</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#资源调度-ref" style="font-size: 9pt; color: #999;">资源调度</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#算法设计-ref" style="font-size: 9pt; color: #999;">算法设计</a>
+  
+
+</div>
+
+        </section>
+        <div id="fixed-container">
+  <section>
+    <a href="#"><i class="icon-fixed-width icon-code"></i> 代码仓库</a>
+<ul>
+</ul>
+
+  </section>
+  <section>
+    <a href="#"><i class="icon-fixed-width icon-heart"></i> 与我联系</a>
+<div id="contacts-list">
+  <a href="mailto:dunyixu@gmail.com" target="_blank" title="Gmail">
+    <i class="icon-large icon-fixed-width icon-envelope"></i>
+  </a>
+  <a href="https://github.com/dyxu" target="_blank" title="GitHub">
+    <i class="icon-large icon-fixed-width icon-github"></i>
+  </a>
+  <a href="http://weibo.com/dunyixu" target="_blank" title="新浪微博">
+    <i class="icon-large icon-fixed-width icon-weibo"></i>
+  </a>
+  <a href="https://twitter.com/dunyixu" target="_blank" title="Twitter">
+    <i class="icon-large icon-fixed-width icon-twitter"></i>
+  </a>
+</div>
+
+  </section>
+  <section>
+    <a href="#"><i class="icon-fixed-width icon-link"></i> 友情链接</a>
+<ul>
+  <li><a href="https://wfwu.github.io" target="_blank">会叫猫～的猫</a></li>
+</ul>
+
+  </section>
+</div>
+<script type="text/javascript">
+$(document).ready(function() {
+  var position = $('#fixed-container').offset();
+  $(window).scroll(function() {
+    if($(window).scrollTop() > position.top) {
+      $('#fixed-container').css('position','fixed').css('top','0');
+    } else {
+      $('#fixed-container').css('position','static');
+    }
+  });
+});
+</script>
+
+      </aside>
+
+      <!-- Main Content -->
+      <div id="main-inner">
+        <div id="loader"><img src="/assets/themes/twitter/img/loading.gif" alt="请稍侯"></div>
+        <div id="main-content">
+          
+
+<section id="content">
+  <article class="post">
+
+    <header>
+      <h1>一篇文让你秒懂CDN（转载）</h1>
+    </header>
+
+    <section>
+      <div class="post-extra">
+        <div class="pull-left">
+          <span>21 October 2016</span>
+        </div>
+        <div class="pull-right">
+          
+
+
+  <span id="share">
+  <a class="wechat" target="_blank" title="分享到微信" href="http://chart.apis.google.com/chart?cht=qr&amp;chs=300x300&amp;chl=https://dyxu.net/%E8%A1%8C%E4%B8%9A/CDN.html"><i class="icon-large icon-wechat"></i></a>
+  <a class="weibo" target="_blank" title="分享到微博" href="http://service.weibo.com/share/share.php?title=一篇文让你秒懂CDN（转载） - 南有嘉鱼&amp;url=https://dyxu.net/%E8%A1%8C%E4%B8%9A/CDN.html&amp;type=3&amp;searchPic=1"><i class="icon-large icon-weibo"></i></a>
+  <a class="twitter" target="_blank" title="Share to Twitter" href="https://twitter.com/intent/tweet?url=https://dyxu.net/%E8%A1%8C%E4%B8%9A/CDN.html&amp;text=一篇文让你秒懂CDN（转载） - 南有嘉鱼&amp;via=dunyixu"><i class="icon-large icon-twitter"></i></a>
+</span>
+
+
+
+
+
+        </div>
+      </div>
+      
+<p><a href="http://mp.weixin.qq.com/s?__biz=MzAwMzI3Njc1MA%3D%3D&amp;mid=2650202731&amp;idx=2&amp;sn=a41438808c079dacb780f30657909b6d&amp;chksm=833fe8cab44861dc12511d82322229de518d03ff66ea1491a7453d855b36feeeea7949c57a2a&amp;scene=4&amp;utm_source=tuicool&amp;utm_medium=referral">原文链接</a></p>
+
+<p>著名的 <strong>《哲学简史》</strong> 将2400年的西方哲学取精用宏、深入浅出地呈现给读者。虽然 <strong>内容分发网络（CDN）</strong> 的历史要比哲学史短得多，但受此启发，<strong>Akamai</strong>将CDN 18年来的演化历程浓缩到本文中，以期帮助人们了解CDN的成因、历年的变化以及未来发展前景。</p>
+
+<h3 id="第一章-缓存年代1998年-2003年">第一章 缓存年代（1998年-2003年</h3>
+
+<p>我们的旅程要从麻省理工学院一栋大楼的走廊开始，在这里，一位计算机科学家与一位数学教授见了面。这位计算机科学家就是  <strong>万维网的发明人Tim Berners Lee</strong>  ，他当时注意到互联网正变得异常拥挤和缓慢。于是，他便向那位名叫Tom Leighton的数学教授请教，问其能否写个算法来解决该问题。在此后的日子里，Tom和他的研究生Danny Lewin不但写出了这个算法，还决定凭借此算法来建立一番事业。同年，  <strong>Akamai</strong>   <strong>公司</strong>  **  便正式成立，世界上第一个 CDN 也就此诞生。  **</p>
+
+<p>Leighton和Lewin最初的核心理念是 ** 将内容缓存在终端用户附近 ** ，使他们不必大费周折地访问这些内容。例如，以这种方式缓存内容，《星球大战》的影迷就能从附近的CDN服务器下载最新预告片，而不必从位于互联网另一端的原始服务器（Origin：原始服务器，存放内容或应用的数据中心）中获取。这种改变会带来三大好处：  用户能够更快地看到视频；网站运维人员可以将以前任务分派给CDN提供商，从而降低服务器负载；缓存能够减轻互联网中间一英里的流量负担 。</p>
+
+<p>Akamai就此一举成功。很快，每个人都开始将内容缓存到网络“边缘”。但互联网仍在增长，因此，人们急需 ** 新的利器对抗网络拥堵 ** 。</p>
+
+<h3 id="第二章-加速年代2003年-2012年">第二章 加速年代（2003年-2012年</h3>
+
+<p><img src="http://img0.tuicool.com/Rf6bA3Z.gif" alt="" /></p>
+
+<p>对于静态内容，缓存能够很好地解决用户问题，但它对  ** 优化交易处理  ** 或 **  动态内容 **  却无能为力。因此，在面对涉及大量交易处理的各种在线应用，包括：  <strong>电子商务、游戏和企业应用时，缓存技术将面临重重挑战</strong>  。试想：当您登录亚马逊网站并将某个商品放入购物车时，您无法缓存此类数据；当Netflix显示一张个性化广告时，您不能缓存这个信息；当一位客户经理在Salesforce软件上记录一个销售机会时，无法实现任何缓存。</p>
+
+<p>2003年，Akamai率先提出了世界上第一个应对该问题的解决办法，即“  <strong>动态网站加速</strong>  ”。Akamai的工程师们将动态交易拆分开，并利用规模庞大且神奇的数学算法为交互中的每一元素找到最快的传送路径。现在，每当一项交易在终端用户与数据中心之间传输时，它将以最佳路径穿行互联网，自动避免拥堵和延迟。</p>
+
+<p>Akamai再次获得了空前成功。自此，人们能够在网上安心地购物和交流。而移动时代也随之到来。</p>
+
+<h3 id="第三章-移动体验和安全时代2012年-2015年">第三章 移动体验和安全时代（2012年-2015年</h3>
+
+<p><img src="http://img1.tuicool.com/6ryaEjq.jpg!web" alt="" /></p>
+
+<p>2012年12月，全球最大的实体零售商沃尔玛宣称该公司购物网站的  <strong>40%</strong>  访问量均来自移动设备。此后一个月，Akamai观察到  <strong>29%</strong>  的移动用户都通过手机购买商品。不过，由于蜂窝网络性能不稳，用户均对手机体验不甚满意，并将之称为“ ** 最后一英里问题 ** ”。此外，呈爆炸式增长的移动设备、浏览器和网络连接（3G、4G、Wi-Fi）也使这一问题更加复杂。</p>
+
+<p>这一时期，Akamai再次担当起行业领导者的角色，引导人们走过了新的动荡移动年代。Akamai通过旗舰型  <strong>ION解决方案</strong>  ，成功解决了“最后一英里问题”。该解决方案能够基于用户情况或使用情境（如：用户正在使用3G上网、iPhone和移动chrome浏览器访问您的网站，这就是用户情况/情境）动态优化内容和进行应用交付。</p>
+
+<p>同年，Akamai首先认识到它为内容交付而构建的云服务平台非常适于帮助企业增强在线业务安全。随后，Akamai正式发布了云安全解决方案，保护客户免受应用攻击和分布式拒绝服务攻击等网络威胁。</p>
+
+<p>Akamai将该方案称作  <strong>“保护和性能（Protect and Perform）”解决方案</strong>  ，意谓着客户能一举两得，以最佳性能和最高安全性向其终端用户交付内容或应用。</p>
+
+<p>到2015年， ** CDN ** 已不再仅仅指缓存，还是加速、移动优化和安全的代表词。 不过，CDN的发展远未止步，更多激动人心的创新正在到来。</p>
+
+<h3 id="第四章-业务逻辑支持年代截至目前">第四章 业务逻辑支持年代（截至目前）</h3>
+
+<p><img src="http://img1.tuicool.com/eeqYjmi.jpg!web" alt="" /></p>
+
+<p>如果您是一家公司电子商务部的数字化营销经理，并在最近重新设计了公司网站，现在希望比较一下新、旧网站的用户转化率。这就是一种典型的  <strong>A/B测试案例</strong>  。</p>
+
+<p>以往人们通常依靠内部IT资源来完成这一目的，但这不仅成本高而且容易出错。现在，使用CDN即能实现。事实上，借助一个简单的、Akamai称之为  <strong>Cloudlet</strong>  的服务，我们的  <strong>CDN</strong>  便可与您的后端系统完美配合，将客户引向A/B站点并开展追踪，帮助您将用户转化数据与每次客户访问关联起来 。</p>
+
+<p>您可以将一些业务逻辑工作委托给CDN提供商，从而更快地将新服务推向市场，而您的IT人员也能够专注于核心职能。通过在互联网边缘执行业务逻辑，您还能实现更大的可扩展性和确保最佳用户体验。</p>
+
+<p>现在，对于所有已经建立网络系统的企业而言，CDN已成为一个得力的助手。CDN的黄金期已经到来。</p>
+
+<div></div>
+
+<h3 id="第五章-展望未来">第五章 展望未来</h3>
+
+<p><img src="http://img2.tuicool.com/6nmqEbA.jpg!web" alt="" /></p>
+
+<p>CDN简短的历史到这里就要结束了。但重要的是，我们应思考：“未来会有什么？”Akamai认为CDN可能或正在朝以下五个方向发展：</p>
+
+<p>1.无处不在的CDN</p>
+
+<p>广泛的部署是CDN发展良好的基础之一。CDN分布越广，距离终端用户就会越近，因而就越能带来更好的客户体验。Akamai预计未来的CDN平台将遍及手机信号塔、移动设备、人们的起居室、机顶盒、虚拟现实头盔等各个领域。</p>
+
+<p>2. 大数据分析
+201
+CDN携带了大量信息。比如，Akamai交付了全世界网络流量的15-30%。通过这些数据，Akamai可帮助企业深入了解客户体验和行为，并据此做出最明智的商业决策。此外，CDN还有可能涉及机器学习和人工智能等有趣的使用场景。</p>
+
+<p>3. 物联网（IoT）CDN</p>
+
+<p>物联网将建立在各种设备之间的API交互之上。Akamai能够为不同的API交易提供加速。CDN将在物联网流量和数据安全与管理方面增强物联网的解决方案能力。</p>
+
+<p>4. 行业化CDN</p>
+
+<p>每个行业都在技术、使用场景和法规方面对CDN服务提出了独特要求。随着CDN市场的蛋糕越来越大，Akamai预计将有一些CDN提供商专注于提供针对金融、证券和保险（FSI）、在线游戏、视频流媒体以及电子商务等具体行业的CDN解决方案。</p>
+
+<p>5. 虚拟专有化CDN</p>
+
+<p>虚拟专有化CDN是指专用于某一公司的虚拟CDN。利用更加优化的互联网传输和本地设备，电信公司可能向其全球或地方企业客户提供这种解决方案。</p>
+
+<p>CDN的未来发展将一片光明。在数字化转型进程中，各企业正变得日益依赖于互联网与其客户、合作伙伴和员工的沟通交流。而根植于互联网的CDN将成为企业推动数字化转型和商业成果的一个有力工具。</p>
+
+<p>如今，在线商务发展和不断提升的客户期望促进着CDN的演化。正如Nigel的书中所述，“  这是在整个哲学史中永恒的主题，每个时代都有它的特点和变革，但这个主题永远不会消失  ”。而CDN也是如此。</p>
+
+      
+      <footer>
+        <p>
+          本作品由 <a href="mailto:dunyixu@gmail.com">Dylan Xu</a> 创作或转载，采用
+          <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="查看协议详细信息" target="_blank">CC BY-NC-SA 3.0 许可协议</a>
+          进行许可。
+        </p>
+      </footer>
+      
+    </section>
+
+  </article>
+</section>
+
+<section>
+
+  <div class="tag-box-wrapper">
+    
+    <ul class="tag-box inline">
+      <li><i class="icon-large icon-folder-open"></i></li>
+      
+      
+
+
+  
+     
+    	<li><a href="/categories.html#行业-ref">
+    		行业 <span>1</span>
+    	</a></li>
+    
+  
+
+
+
+    </ul>
+    
+
+    
+    <ul class="tag-box inline">
+      <li><i class="icon-large icon-tags"></i></li>
+      
+      
+
+
+  
+     
+    	<li><a href="/tags.html#CDN-ref">CDN <span>1</span></a></li>
+    
+  
+
+
+
+    </ul>
+    
+  </div>
+
+  <div class="pagination">
+    <ul>
+      
+      <li class="prev"><a href="/%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/chrome-fcitx.html" title="Chrome漏字母解决方案">&larr; 上一篇</a></li>
+      
+      <li><a href="/archive.html">文章列表</a></li>
+      
+      <li class="next"><a href="/%E6%8A%80%E6%9C%AF/archlinux-build-system.html" title="Archlinux构建系统">下一篇 &rarr;</a></li>
+      
+    </ul>
+  </div>
+
+</section>
+
+<section id="comments">
+  
+
+
+  
+<div id="gitalk-container"></div>
+
+
+<script>
+    var gitalk = new Gitalk({
+        id: '一篇文让你秒懂CDN（转载）',
+        clientID: 'bcc0fcb9be8afc0e7a91',
+        clientSecret: 'eb79578ece8e4dcefa19ebd39b224c6c605cd563',
+        repo: 'blog',
+        owner: 'dyxu',
+        admin: 'dyxu',
+        distractionFreeMode: 'false'
+    })
+
+    gitalk.render('gitalk-container')
+</script>
+
+
+
+
+
+</section>
+
+
+        </div>
+      </div>
+
+      <div id="back-top">
+  <a href="#top" title="回到顶部">
+    <i class="icon-2x icon-arrow-up"></i>
+  </a>
+</div>
+<script type="text/javascript">
+$("#back-top").hide();
+$(document).ready(function () {
+  $(window).scroll(function () {
+    if ($(this).scrollTop() > 100) {
+      $('#back-top').fadeIn();
+    } else {
+      $('#back-top').fadeOut();
+    }
+  });
+  $('#back-top a').click(function () {
+    $('body,html').animate({
+      scrollTop: 0
+    }, 500);
+    return false;
+  });
+});
+</script>
+
+
+    </section>
+
+    <footer id="bottom">
+      <p align="center">&copy; 2022 Dylan Xu
+        with help from <a href="https://jekyllrb.com" target="_blank" title="Transform your plain text into static websites and blogs.">Jekyll Bootstrap</a>
+        and <a href="https://getbootstrap.com" target="_blank">Twitter Bootstrap</a>
+      </p>
+    </footer>
+  </div>
+
+  <script type="text/javascript">
+    $('article.post a').attr('target', '_blank');
+    if (navigator.appVersion.indexOf("Mac") != -1) {
+      $('code, pre').css('font-family', 'Courier, monospace');
+    }
+  </script>
+  
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({ TeX: {equationNumbers: {autoNumber: ["AMS"], useLabelIds: true}}, "HTML-CSS": {linebreaks: {automatic:true}},
+    SVG: {linebreaks: {automatic: true}} });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
+</body>
+</html>
+

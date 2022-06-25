@@ -1,0 +1,1055 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 7 ]>    <html lang="zh-CN" class="ie7"> <![endif]-->
+<!--[if IE 8 ]>    <html lang="zh-CN" class="ie8"> <![endif]-->
+<!--[if IE 9 ]>    <html lang="zh-CN" class="ie9"> <![endif]-->
+<!--[if (gte IE 10)|!(IE)]><!--> <html lang="zh-CN"> <!--<![endif]-->
+
+<head>
+  <meta charset="UTF-8">
+
+  <title>Go性能优化【转载】 - 南有嘉鱼</title>
+  <meta name="keywords" content="Go">
+  
+  <meta name="author" content="Dylan Xu">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="/icon.png">
+
+  <!-- Feed -->
+  <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="/rss.xml">
+  <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/atom.xml">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/assets/themes/twitter/css/style.css">
+  <link rel="stylesheet" href="/assets/themes/twitter/css/font-awesome.min.css">
+  <!--[if IE 7 ]><link rel="stylesheet" href="/assets/themes/twitter/css/font-awesome-ie7.min.css?ver=20151122"><![endif]-->
+
+  <!-- Gitalk -->
+  <link rel="stylesheet" href="/assets/themes/twitter/css/gitalk-style.css">
+  <script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
+
+  <!-- Scripts -->
+  <script type="text/javascript" src="/assets/themes/twitter/js/jquery-1.11.1.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/github.min.css">
+</head>
+
+<body>
+
+  <div id="wrap">
+    <header id="top">
+      <!-- Home Link -->
+      <a id="logo" href="/" title="回到首页">
+        <img src="/assets/themes/twitter/img/icon.png" height="50" alt="南有嘉鱼">
+      </a>
+      
+      <!-- Navigation Bar -->
+      <nav id="navbar">
+        <ul>
+          <li>
+            <a href="/" title="首页">首页</a>
+          </li>
+          <li>
+            <a href="/categories.html" title="分类">分类</a>
+          </li>
+          <li>
+            <a href="/tags.html" title="标签">标签</a>
+          </li>
+          <li>
+            <a href="/messages.html" title="留言板">留言板</a>
+          </li>
+          <li id="about-link" >
+            <a href="/about.html" title="关于我">关于我</a>
+          </li>
+          <li id="rss-link">
+            <a href="/rss.xml" title="订阅 RSS"><i class="icon-large icon-fixed-width icon-rss"></i></a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <section id="main">
+
+      <!-- Sidebar -->
+      <aside id="sidebar">
+        <section id="search-box">
+          <form id="search-form">
+  <input id="query" type="text" placeholder="正则搜索"></input>
+  <button type="submit"><i class="icon-search"></i></button>
+</form>
+<script type="text/javascript">
+$(document).ready(function() {
+  $('#search-form').submit(function() {
+    $('#query').blur().attr('disabled', true);
+    $('#main-content').hide();
+    $('#loader').show();
+    $.ajax({url: '/atom.xml?r=' + (Math.random() * 999999), dataType: 'xml', success: function(data) {
+      var rq = new RegExp($('#query').val(), 'im');
+      var rl = /\/([^\/]+)\.html$/;
+      var html = '';
+      $(data).find('entry').each(function(index, entry) {
+        var title = $(entry).find('title').text();
+        var link = $(entry).find('link').attr('href');
+        var title_en = rl.exec(link)[1].replace('-', ' ');
+        var content = $(entry).find('content').text();
+        if (rq.test(title) || rq.test(title_en) || rq.test(content)) {
+          var parts = $(entry).find('updated').text().split(/[-T:+]/g);
+          var months = [ "January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December" ];
+          date = parts[2] + ' ' + months[parts[1] - 1] + ' ' + parts[0];
+          html += '<article class="nested">';
+          html += '<header><h2><a href="' + link + '">' + title + '</a></h2></header>';
+          html += '<section><p>' + content + '</p></section>';
+          html += '<footer><p>更新日期：' + date + '</p></footer>';
+          html += '</article>';
+        }
+      });
+      $('#main-content').html(html);
+      $('#loader').hide();
+      $('#main-content').show();
+    }});
+    $('#query').blur().attr('disabled', false);
+    return false;
+  });
+});
+</script>
+
+        </section>
+        <section class="active">
+          <a href="/" title="查看最近发表"><i class="icon-fixed-width icon-edit"></i> 最近发表</a>
+<ul>
+
+  <li><a href="/%E6%8A%80%E6%9C%AF/max-min-fairness.html" title="查看《Max-Min Fairness算法及边缘计算应用》">Max-Min Fairness算法及边缘计算应用</a></li>
+
+  <li><a href="/%E7%AE%97%E6%B3%95/graph-algorithms.html" title="查看《图算法总结》">图算法总结</a></li>
+
+  <li><a href="/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/system-design.html" title="查看《系统设计入门【转载】》">系统设计入门【转载】</a></li>
+
+  <li><a href="/%E7%AE%97%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/algorithms-primer.html" title="查看《算法刷题总结【转载】》">算法刷题总结【转载】</a></li>
+
+  <li><a href="/%E6%8A%80%E6%9C%AF/delay-message.html" title="查看《延迟消息设计与实现【转载】》">延迟消息设计与实现【转载】</a></li>
+
+  <li><a href="/%E6%8A%80%E6%9C%AF/game-programer.html" title="查看《游戏开发学习之路》">游戏开发学习之路</a></li>
+
+  <li><a href="/%E5%B7%A5%E5%85%B7/supervisor.html" title="查看《supervisor进程管理工具》">supervisor进程管理工具</a></li>
+
+  <li><a href="/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1/database-design.html" title="查看《关系型数据库设计【转载】》">关系型数据库设计【转载】</a></li>
+
+  <li><a href="/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E8%AF%AD%E8%A8%80/go-performance-optimization.html" title="查看《Go性能优化【转载】》">Go性能优化【转载】</a></li>
+
+  <li><a href="/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1/nosql-misunderstanding.html" title="查看《几种NoSQL的使用误区【转载】》">几种NoSQL的使用误区【转载】</a></li>
+
+</ul>
+
+        </section>
+        <section>
+          <a href="/archive.html" title="查看所有存档"><i class="icon-fixed-width icon-file-text"></i> 文章存档</a>
+<span title="文章总数">21</span>
+<ul>
+
+
+  
+  
+  
+  
+
+  
+  
+  
+  
+    <li><a href="/archive.html#June-2022">2022 年 06 月 (2)</a></li>
+    
+  
+
+  
+  
+  
+  
+
+  
+  
+  
+  
+    <li><a href="/archive.html#May-2022">2022 年 05 月 (2)</a></li>
+    
+  
+
+  
+  
+  
+  
+    <li><a href="/archive.html#October-2017">2017 年 10 月 (1)</a></li>
+    
+  
+
+  
+  
+  
+  
+
+  
+  
+  
+  
+
+  
+  
+  
+  
+
+  
+  
+  
+  
+
+  
+  
+  
+  
+
+  
+  
+  
+  
+    <li><a href="/archive.html#July-2017">2017 年 07 月 (6)</a></li>
+    
+  
+
+  
+  
+  
+  
+    <li><a href="/archive.html#October-2016">2016 年 10 月 (1)</a></li>
+    
+  
+
+  
+  
+  
+  
+    <li><a href="/archive.html#September-2016">2016 年 09 月 (1)</a></li>
+    
+  
+
+  
+  
+  
+  
+
+  
+  
+  
+  
+
+  
+  
+  
+  
+    <li><a href="/archive.html#July-2016">2016 年 07 月 (3)</a></li>
+    
+  
+
+  
+  
+  
+  
+
+  
+  
+  
+  
+
+  
+  
+  
+  
+    <li><a href="/archive.html#April-2016">2016 年 04 月 (3)</a></li>
+    
+  
+
+  
+  
+  
+  
+    <li><a href="/archive.html#January-2016">2016 年 01 月 (1)</a></li>
+    
+  
+
+  
+  
+  
+  
+    <li><a href="/archive.html#January-2015">2015 年 01 月 (1)</a></li>
+    
+  
+
+</ul>
+
+        </section>
+        <section>
+          <a href="/categories.html" title="查看所有分类"><i class="icon-fixed-width icon-folder-open"></i> 文章分类</a>
+<span title="分类总数">11</span>
+<ul>
+
+  <li><a href="/categories.html#阅读-ref">阅读 (1)</a></li>
+
+  <li><a href="/categories.html#工具-ref">工具 (3)</a></li>
+
+  <li><a href="/categories.html#技术-ref">技术 (9)</a></li>
+
+  <li><a href="/categories.html#解决方案-ref">解决方案 (1)</a></li>
+
+  <li><a href="/categories.html#行业-ref">行业 (1)</a></li>
+
+  <li><a href="/categories.html#数据库设计-ref">数据库设计 (2)</a></li>
+
+  <li><a href="/categories.html#程序设计语言-ref">程序设计语言 (1)</a></li>
+
+  <li><a href="/categories.html#算法-ref">算法 (2)</a></li>
+
+  <li><a href="/categories.html#数据结构-ref">数据结构 (1)</a></li>
+
+  <li><a href="/categories.html#系统设计-ref">系统设计 (1)</a></li>
+
+  <li><a href="/categories.html#分布式系统-ref">分布式系统 (1)</a></li>
+
+</ul>
+
+        </section>
+        <section>
+          <a href="/tags.html" title="查看所有标签"><i class="icon-fixed-width icon-tags"></i> 标签云</a>
+<span title="标签总数">23</span>
+<div id="tag-cloud">
+
+
+
+
+
+
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#工具-ref" style="font-size: 13.5pt; color: #444;">工具</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#博客-ref" style="font-size: 9pt; color: #999;">博客</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#shell-ref" style="font-size: 13.5pt; color: #444;">shell</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#C++-ref" style="font-size: 13.5pt; color: #444;">C++</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#Algorithm-ref" style="font-size: 9pt; color: #999;">Algorithm</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#程序员-ref" style="font-size: 13.5pt; color: #444;">程序员</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#CDN-ref" style="font-size: 9pt; color: #999;">CDN</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#linux-ref" style="font-size: 9pt; color: #999;">linux</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#NoSQL-ref" style="font-size: 9pt; color: #999;">NoSQL</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#数据库-ref" style="font-size: 13.5pt; color: #444;">数据库</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#Go-ref" style="font-size: 9pt; color: #999;">Go</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#性能优化-ref" style="font-size: 9pt; color: #999;">性能优化</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#SQL-ref" style="font-size: 9pt; color: #999;">SQL</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#python-ref" style="font-size: 9pt; color: #999;">python</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#进程管理-ref" style="font-size: 9pt; color: #999;">进程管理</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#游戏开发-ref" style="font-size: 9pt; color: #999;">游戏开发</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#Golang-ref" style="font-size: 9pt; color: #999;">Golang</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#数据结构-ref" style="font-size: 18pt; color: #000;">数据结构</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#算法-ref" style="font-size: 13.5pt; color: #444;">算法</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#系统设计-ref" style="font-size: 9pt; color: #999;">系统设计</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#分布式系统-ref" style="font-size: 9pt; color: #999;">分布式系统</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#资源调度-ref" style="font-size: 9pt; color: #999;">资源调度</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#算法设计-ref" style="font-size: 9pt; color: #999;">算法设计</a>
+  
+
+</div>
+
+        </section>
+        <div id="fixed-container">
+  <section>
+    <a href="#"><i class="icon-fixed-width icon-code"></i> 代码仓库</a>
+<ul>
+</ul>
+
+  </section>
+  <section>
+    <a href="#"><i class="icon-fixed-width icon-heart"></i> 与我联系</a>
+<div id="contacts-list">
+  <a href="mailto:dunyixu@gmail.com" target="_blank" title="Gmail">
+    <i class="icon-large icon-fixed-width icon-envelope"></i>
+  </a>
+  <a href="https://github.com/dyxu" target="_blank" title="GitHub">
+    <i class="icon-large icon-fixed-width icon-github"></i>
+  </a>
+  <a href="http://weibo.com/dunyixu" target="_blank" title="新浪微博">
+    <i class="icon-large icon-fixed-width icon-weibo"></i>
+  </a>
+  <a href="https://twitter.com/dunyixu" target="_blank" title="Twitter">
+    <i class="icon-large icon-fixed-width icon-twitter"></i>
+  </a>
+</div>
+
+  </section>
+  <section>
+    <a href="#"><i class="icon-fixed-width icon-link"></i> 友情链接</a>
+<ul>
+  <li><a href="https://wfwu.github.io" target="_blank">会叫猫～的猫</a></li>
+</ul>
+
+  </section>
+</div>
+<script type="text/javascript">
+$(document).ready(function() {
+  var position = $('#fixed-container').offset();
+  $(window).scroll(function() {
+    if($(window).scrollTop() > position.top) {
+      $('#fixed-container').css('position','fixed').css('top','0');
+    } else {
+      $('#fixed-container').css('position','static');
+    }
+  });
+});
+</script>
+
+      </aside>
+
+      <!-- Main Content -->
+      <div id="main-inner">
+        <div id="loader"><img src="/assets/themes/twitter/img/loading.gif" alt="请稍侯"></div>
+        <div id="main-content">
+          
+
+<section id="content">
+  <article class="post">
+
+    <header>
+      <h1>Go性能优化【转载】</h1>
+    </header>
+
+    <section>
+      <div class="post-extra">
+        <div class="pull-left">
+          <span>17 July 2017</span>
+        </div>
+        <div class="pull-right">
+          
+
+
+  <span id="share">
+  <a class="wechat" target="_blank" title="分享到微信" href="http://chart.apis.google.com/chart?cht=qr&amp;chs=300x300&amp;chl=https://dyxu.net/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E8%AF%AD%E8%A8%80/go-performance-optimization.html"><i class="icon-large icon-wechat"></i></a>
+  <a class="weibo" target="_blank" title="分享到微博" href="http://service.weibo.com/share/share.php?title=Go性能优化【转载】 - 南有嘉鱼&amp;url=https://dyxu.net/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E8%AF%AD%E8%A8%80/go-performance-optimization.html&amp;type=3&amp;searchPic=1"><i class="icon-large icon-weibo"></i></a>
+  <a class="twitter" target="_blank" title="Share to Twitter" href="https://twitter.com/intent/tweet?url=https://dyxu.net/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E8%AF%AD%E8%A8%80/go-performance-optimization.html&amp;text=Go性能优化【转载】 - 南有嘉鱼&amp;via=dunyixu"><i class="icon-large icon-twitter"></i></a>
+</span>
+
+
+
+
+
+        </div>
+      </div>
+      
+<p><strong>本文转载自<a href="https://zhuanlan.zhihu.com/p/27800985?utm_source=tuicool&amp;utm_medium=referral">知乎专栏</a></strong></p>
+
+<p>Go的性能优化其实总的来说和C／C++等这些都差不多，但也有它自己独有的排查方法和陷阱，这些都来源于它的语言特性和环境。</p>
+
+<h2 id="性能优化前提任何好的东西都是在正确的前提上">性能优化前提——任何好的东西都是在正确的前提上</h2>
+
+<p>代码界的很多事是和我们生活的哲学息息相关的，我们想要做好一件事，首先要保证我们能按时完成我们的任务，其次再去想如何把工作做的更好。如果一味只去要求做的尽善尽美可能会导致延期，失败，半途而废。</p>
+
+<p>所以，先写正确的代码，再去考虑如何去让代码更快更好的运行；先完成基本的功能，再去想如何优化它。正确是优化的基础，没有这个基础，任何的优化都是毫无意义的。</p>
+
+<h2 id="性能优化限制架构设计和硬件资源">性能优化限制——架构设计和硬件资源</h2>
+
+<p>良好的架构设计是我们能够发挥性能的前提，一个设计不当的架构付出再多精力优化效果也是大打折扣。这也是我们为什么经常会看到随着业务量或者用户数的增加后天架构会不断演进变化，如果说一开始设计的架构可以一直支撑下去，那么请大神请收下我的膝盖！</p>
+
+<p>硬件资源更好理解，一个16核，64G内存的服务器和4核，4G内存的垃圾机器对比简直是天与地。毋庸多说。</p>
+
+<h2 id="什么时候做性能优化">什么时候做性能优化</h2>
+
+<blockquote>
+  <p>We should forget about small efficiencies, say about 97% of the time; premature optimization is the root of all evil(大概97％的时间，我们应该忘记小的优化， 过早优化是所有邪恶的根源). —— Donald E.Knuth</p>
+</blockquote>
+
+<p>这句话不是说不去优化，不去思考算法，而是在早期我们应该更加专注于程序的实现，而不是一开始就去想着优化，你大可以放开去写。慢慢的会有驱动力让我们不自觉去优化。</p>
+
+<p>正常情况下这种驱动我觉得有两种，一种是自我驱动，比如经历过搞过ACM或者算法竞赛的童鞋们在面对一个问题时会不自觉地从复杂度角度分析问题；或者一个“强迫症患者”不能忍受慢，卡，崩等等情况。</p>
+
+<p>另一种是环境驱动，比如高并发环境，高精度环境，低延迟环境，大数据环境等等对于我们系统的某一方面甚至多个方面都有苛刻的要求，逼这着我们需要不断优(jia)化(ban)，优(jia)化(ban)，再优(jia)化(ban)。</p>
+
+<p>当你意识到这个函数可能会被经常调用，就需要想办法的优化
+当你意识到这个数据结构设计不合理导致内存占用过高，就需要想办法优化
+当用户反映服务响应太慢，就需要优化
+当老板既要好的服务又不想再花钱买机器，就需要优化
+当代码太乱，问题百出，经常报警告打扰和女票玩耍，就需要优化</p>
+
+<h2 id="花多长时间来做性能优化">花多长时间来做性能优化</h2>
+
+<p>有人说是二八定律，又名80/20定律、帕累托法则（定律）也叫巴莱特定律、最省力的法则、不平衡原则等，被广泛应用于社会学及企业管理学等。是19世纪末20世纪初意大利经济学家巴莱多发现的。他认为，在任何一组东西中，最重要的只占其中一小部分，约20%，其余80%尽管是多数，却是次要的，因此又称二八定律。—— 百度百科</p>
+
+<p>我觉得虽然我们不必一定按照二比八的要求去执行，但毫无疑问的是优化会耗费我们非常多的时间和精力，并且远远大于我们系统实现的时间，或者说自从第一次开发完，以后所有的时间都是在做优化。自己的曾经的经历，当时为了给某银行做60W终端测试优化一个API缓存系统，基本功能实现两周就完成了，后面我和性能QA童鞋一波波优化——测试——优化——测试，花费了一个多月时间做这件事，这还没完，后面在真实环境测试过程仍然暴露了很多问题，例如goruntine暴增积压，CPU暴增等等，后来发现是架构设计和组件使用上的问题，是的，当出现这样的问题时不是不可以解决，但是为了解决这样的问题会把系统搞的复杂，臃肿，虽然开发经验不多，但我觉得该是代码实现的代码实现，该是组件解决的问题就应该组件来解决，架构设计问题就是架构需要改进，不要说都可以在代码中解决，除非是不得已。</p>
+
+<h2 id="工欲善其事必先利其器">工欲善其事，必先利其器</h2>
+
+<p>首先是代码层次，好的代码是性能的关键因素，实现函数效率怎么样，排序是不是高效，操作并发性高不高等等，你可以使用代码质量评估工具来做评估，当然最好还是让有经验的司机们手把手指导。</p>
+
+<p>Go代码评估工具：</p>
+
+<ol>
+  <li>goreporter – 生成Go代码质量评估报告</li>
+  <li>dingo-hunter – 用于在Go程序中找出deadlocks的静态分析器</li>
+  <li>flen – 在Go程序包中获取函数长度信息</li>
+  <li>go/ast – Package ast声明了关于Go程序包用于表示语法树的类型</li>
+  <li>gocyclo – 在Go源代码中测算cyclomatic函数复杂性</li>
+  <li>Go Meta Linter – 同时Go lint工具且工具的输出标准化</li>
+  <li>go vet – 检测Go源代码并报告可疑的构造</li>
+  <li>ineffassign – 在Go代码中检测无效赋值</li>
+  <li>safesql – Golang静态分析工具，防止SQL注入</li>
+</ol>
+
+<p>然后是如何在运行过程来调试Go程序，Go自带了一个pprof工具，这个工具可以做CPU和内存的profiling。</p>
+
+<pre><code class="language-go">package main
+import
+   (
+    "log"
+    "net/http"
+   _"net/http/pprof"
+   )
+func main()  {
+      go func() {
+        //port is you coustom define.
+        log.Println(http.ListenAndServe("localhost:7000", nil))
+      }()
+      //do your stuff.
+}
+</code></pre>
+
+<p>只需要引入net/http 和 _“net/http/pprof”即可，然后配合工具生成流程图，占比图清晰明了。</p>
+
+<p>或者对于一些程序你还可以在运行时去改变它，调试它，使用google/gops 谷歌出品，你可以去查看栈，内存，CPU，heap等等信息，很不错，但是我不喜欢它开启了服务端口，这个项目刚开始是不需要使用新的端口，直接使用套接字文件通信，但是因为无法在windows上实现，最后作罢，从此好感降低了！</p>
+
+<p>当然你还可以使用GDB工具，最新的GDB貌似还加入了查看goruntine的命令，很棒！</p>
+
+<h2 id="算法与优化思路">算法与优化思路</h2>
+
+<p>这个不用多说，说实话个人觉得算法是区分工程师和码农的一个很大分界点，算法可以说是基本能力，很多人不以为然觉得只是面试门槛，但是看看代码实现中数据结构的设计和算法实现就明白了！当遇到问题会不自觉的想到一个算法，这个目的就够了，其实并没有说算法非常牛逼，其实之前老司机聊天也说过只要你能在遇到问题能够想到用什么算法解决即可。</p>
+
+<p>各种排序，集合操作，查询等等，没有最好的算法，只要最适合的算法。</p>
+
+<p>至于哪些方面需要优化，一方面是算法的效率还要就是现象，例如CPU特别高那么看看goruntine的调度，哪个函数占用比高，是不是存在死循环；内存大，看看是不是有大的内存分配没有及时回收，或者是不是有频繁的内存分配，是不是有内存泄露？响应慢是卡在哪里，是执行效率还是和组件通信等等。</p>
+
+<h2 id="go的陷阱与技巧">Go的陷阱与技巧</h2>
+
+<ul>
+  <li>make的陷阱</li>
+</ul>
+
+<pre><code class="language-go">func main() {
+	s := make([]int, 3)
+	s = append(s, 1, 2, 3)
+	fmt.Println(s)
+}
+// [0 0 0 1 2 3]
+</code></pre>
+
+<ul>
+  <li>map读写冲突，产生竞态</li>
+  <li>文件打开，数据库连接记得一定要关闭或释放，一般使用defer</li>
+  <li>对于一个struct值的map，你无法更新单个的struct值</li>
+  <li>简化range</li>
+</ul>
+
+<pre><code class="language-go">for range m {
+}
+</code></pre>
+
+<ul>
+  <li>defer的陷阱</li>
+</ul>
+
+<p>有名返回值则是在函数声明的同时就已经被声明，匿名返回值是在return执行时被声明，所以在defer语句中只能访问有名返回值，而不能直接访问匿名返回值。</p>
+
+<pre><code class="language-go">package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	fmt.Println("return:", defer_call())
+}
+
+func defer_call() int {
+	var i int
+	defer func() {
+		i++
+		fmt.Println("defer1:", i)
+	}()
+	defer func() {
+		i++
+		fmt.Println("defer2:", i)
+	}()
+	return i
+}
+
+// defer2: 1
+// defer1: 2
+// return: 0
+// Q2.
+
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	fmt.Println("return:", defer_call())
+}
+
+func defer_call() (i int) {
+	defer func() {
+		i++
+		fmt.Println("defer1:", i)
+	}()
+	defer func() {
+		i++
+		fmt.Println("defer2:", i)
+	}()
+	return i
+}
+
+// defer2: 1
+// defer1: 2
+// return: 2
+</code></pre>
+
+<ul>
+  <li>短式变量声明的陷阱</li>
+</ul>
+
+<p>那些使用过动态语言的开发者而言对于短式变量声明的语法很熟悉，所以很容易让人把它当成一个正常的分配操作。这个错误，将不会出现编译错误，但将不会达到你预期的效果。</p>
+
+<pre><code class="language-go">package main
+import "fmt"
+func main() {  
+    value := 1
+    fmt.Println(value)     // prints 1
+    {
+        fmt.Println(value) // prints 1
+        value := 2
+        fmt.Println(value) // prints 2
+    }
+    fmt.Println(value)     // prints 1 (bad if you need 2)
+}
+</code></pre>
+
+<p>这个说到底是代码边界和变量影响范围问题。</p>
+
+<ul>
+  <li>nil和显式类型</li>
+</ul>
+
+<p>nil标志符用于表示interface、函数、maps、slices和channels的“零值”。如果你不指定变量的类型，编译器将无法编译你的代码，因为它不知道具体的类型，同时你也不能给string赋nil值。</p>
+
+<pre><code class="language-go">package main
+
+func main() {
+    var value1 = nil // error
+    _ = value1
+    var value2 string = nil // error
+    if value2 == nil { // error
+        value2 = "test"
+    }
+}
+// 应该
+package main
+
+func main() {
+	var value1 interface{} = nil // error
+	_ = value1
+	var value2 string
+	if value2 == "" {
+		value2 = "test"
+	}
+}
+</code></pre>
+
+<ul>
+  <li>数组全部是值传递，没有引用传递</li>
+</ul>
+
+<p>如果你是一个C或则C++开发者，那么知道数组就是指针。当你向函数中传递数组时，函数会参照相同的内存区域，这样它们就可以修改原始的数据。但Go中的数组是数值，因此当你向函数中传递数组时，函数会得到原始数组数据的一份复制。如果你打算更新数组的数据，你将会失败。</p>
+
+<ul>
+  <li>
+    <p>select下的所有case遍历是随机的，在使用的过程中要注意，这和switch是不同的</p>
+  </li>
+  <li>
+    <p>使用接口实现一个类型分类函数：</p>
+  </li>
+</ul>
+
+<pre><code class="language-go">func classifier(items ...interface{}) {
+    for i, x := range items {
+        switch x.(type) {
+        case bool:
+            fmt.Printf("param #%d is a bool\n", i)
+        case float64:
+            fmt.Printf("param #%d is a float64\n", i)
+        case int, int64:
+            fmt.Printf("param #%d is an int\n", i)
+        case nil:
+            fmt.Printf("param #%d is nil\n", i)
+        case string:
+            fmt.Printf("param #%d is a string\n", i)
+        default:
+            fmt.Printf("param #%d’s type is unknown\n", i)
+        }
+    }
+}
+</code></pre>
+
+<ul>
+  <li>Map值在获取的时候是无序的，所以当我们需要有序时就需要通过字符串数组排序间接得到</li>
+</ul>
+
+<pre><code class="language-go">package main
+
+import (
+    "fmt"
+    "sort"
+)
+
+func main() {
+    var m = map[string]int{
+        "unix":         0,
+        "python":       1,
+        "go":           2,
+        "javascript":   3,
+        "testing":      4,
+        "philosophy":   5,
+        "startups":     6,
+        "productivity": 7,
+        "hn":           8,
+        "reddit":       9,
+        "C++":          10,
+    }
+    var keys []string
+    for k := range m {
+        keys = append(keys, k)
+    }
+    sort.Strings(keys)
+    for _, k := range keys {
+        fmt.Println("Key:", k, "Value:", m[k])
+    }
+}
+</code></pre>
+
+<ul>
+  <li>init函数</li>
+</ul>
+
+<p>开发过程我们经常会遇到主要逻辑开始前要声明或者一些全局的变量或者初始化操作，或者有时候我们仅仅需要import一些包，并不需要使用里面的函数，那就需要使用init初始化函数，一个package中可以有多个init，比如你在demo/A.go，demo/B.go都有一个init那么它们都会执行。</p>
+
+<ul>
+  <li>
+    <p>Go程序显示占用内存有时候并不是真正在用的内存，只是还没还给操作系统</p>
+  </li>
+  <li>
+    <p><a href="https://segmentfault.com/blog/qyuhen">雨痕学堂</a></p>
+  </li>
+  <li>
+    <p><a href="http://colobu.com/2015/09/07/gotchas-and-common-mistakes-in-go-golang/">Go的五十度灰：Golang新开发者要注意的陷阱和常见错误</a></p>
+  </li>
+</ul>
+
+
+      
+      <footer>
+        <p>
+          本作品由 <a href="mailto:dunyixu@gmail.com">Dylan Xu</a> 创作或转载，采用
+          <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="查看协议详细信息" target="_blank">CC BY-NC-SA 3.0 许可协议</a>
+          进行许可。
+        </p>
+      </footer>
+      
+    </section>
+
+  </article>
+</section>
+
+<section>
+
+  <div class="tag-box-wrapper">
+    
+    <ul class="tag-box inline">
+      <li><i class="icon-large icon-folder-open"></i></li>
+      
+      
+
+
+  
+     
+    	<li><a href="/categories.html#程序设计语言-ref">
+    		程序设计语言 <span>1</span>
+    	</a></li>
+    
+  
+
+
+
+    </ul>
+    
+
+    
+    <ul class="tag-box inline">
+      <li><i class="icon-large icon-tags"></i></li>
+      
+      
+
+
+  
+     
+    	<li><a href="/tags.html#Go-ref">Go <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#性能优化-ref">性能优化 <span>1</span></a></li>
+    
+  
+
+
+
+    </ul>
+    
+  </div>
+
+  <div class="pagination">
+    <ul>
+      
+      <li class="prev"><a href="/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1/nosql-misunderstanding.html" title="几种NoSQL的使用误区【转载】">&larr; 上一篇</a></li>
+      
+      <li><a href="/archive.html">文章列表</a></li>
+      
+      <li class="next"><a href="/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1/database-design.html" title="关系型数据库设计【转载】">下一篇 &rarr;</a></li>
+      
+    </ul>
+  </div>
+
+</section>
+
+<section id="comments">
+  
+
+
+  
+<div id="gitalk-container"></div>
+
+
+<script>
+    var gitalk = new Gitalk({
+        id: 'Go性能优化【转载】',
+        clientID: 'bcc0fcb9be8afc0e7a91',
+        clientSecret: 'eb79578ece8e4dcefa19ebd39b224c6c605cd563',
+        repo: 'blog',
+        owner: 'dyxu',
+        admin: 'dyxu',
+        distractionFreeMode: 'false'
+    })
+
+    gitalk.render('gitalk-container')
+</script>
+
+
+
+
+
+</section>
+
+
+        </div>
+      </div>
+
+      <div id="back-top">
+  <a href="#top" title="回到顶部">
+    <i class="icon-2x icon-arrow-up"></i>
+  </a>
+</div>
+<script type="text/javascript">
+$("#back-top").hide();
+$(document).ready(function () {
+  $(window).scroll(function () {
+    if ($(this).scrollTop() > 100) {
+      $('#back-top').fadeIn();
+    } else {
+      $('#back-top').fadeOut();
+    }
+  });
+  $('#back-top a').click(function () {
+    $('body,html').animate({
+      scrollTop: 0
+    }, 500);
+    return false;
+  });
+});
+</script>
+
+
+    </section>
+
+    <footer id="bottom">
+      <p align="center">&copy; 2022 Dylan Xu
+        with help from <a href="https://jekyllrb.com" target="_blank" title="Transform your plain text into static websites and blogs.">Jekyll Bootstrap</a>
+        and <a href="https://getbootstrap.com" target="_blank">Twitter Bootstrap</a>
+      </p>
+    </footer>
+  </div>
+
+  <script type="text/javascript">
+    $('article.post a').attr('target', '_blank');
+    if (navigator.appVersion.indexOf("Mac") != -1) {
+      $('code, pre').css('font-family', 'Courier, monospace');
+    }
+  </script>
+  
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({ TeX: {equationNumbers: {autoNumber: ["AMS"], useLabelIds: true}}, "HTML-CSS": {linebreaks: {automatic:true}},
+    SVG: {linebreaks: {automatic: true}} });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
+</body>
+</html>
+

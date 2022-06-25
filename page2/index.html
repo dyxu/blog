@@ -1,0 +1,994 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 7 ]>    <html lang="zh-CN" class="ie7"> <![endif]-->
+<!--[if IE 8 ]>    <html lang="zh-CN" class="ie8"> <![endif]-->
+<!--[if IE 9 ]>    <html lang="zh-CN" class="ie9"> <![endif]-->
+<!--[if (gte IE 10)|!(IE)]><!--> <html lang="zh-CN"> <!--<![endif]-->
+
+<head>
+  <meta charset="UTF-8">
+
+  <title>南有嘉鱼 [Dylan Xu's Blog] - 南有嘉鱼</title>
+  
+  <meta name="description" content="一个程序员的技术博客，分享折腾的点点滴滴">
+  <meta name="author" content="Dylan Xu">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="/icon.png">
+
+  <!-- Feed -->
+  <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="/rss.xml">
+  <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/atom.xml">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/assets/themes/twitter/css/style.css">
+  <link rel="stylesheet" href="/assets/themes/twitter/css/font-awesome.min.css">
+  <!--[if IE 7 ]><link rel="stylesheet" href="/assets/themes/twitter/css/font-awesome-ie7.min.css?ver=20151122"><![endif]-->
+
+  <!-- Gitalk -->
+  <link rel="stylesheet" href="/assets/themes/twitter/css/gitalk-style.css">
+  <script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
+
+  <!-- Scripts -->
+  <script type="text/javascript" src="/assets/themes/twitter/js/jquery-1.11.1.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/github.min.css">
+</head>
+
+<body>
+
+  <div id="wrap">
+    <header id="top">
+      <!-- Home Link -->
+      <a id="logo" href="/" title="回到首页">
+        <img src="/assets/themes/twitter/img/icon.png" height="50" alt="南有嘉鱼">
+      </a>
+      
+      <!-- Navigation Bar -->
+      <nav id="navbar">
+        <ul>
+          <li>
+            <a href="/" title="首页">首页</a>
+          </li>
+          <li>
+            <a href="/categories.html" title="分类">分类</a>
+          </li>
+          <li>
+            <a href="/tags.html" title="标签">标签</a>
+          </li>
+          <li>
+            <a href="/messages.html" title="留言板">留言板</a>
+          </li>
+          <li id="about-link" >
+            <a href="/about.html" title="关于我">关于我</a>
+          </li>
+          <li id="rss-link">
+            <a href="/rss.xml" title="订阅 RSS"><i class="icon-large icon-fixed-width icon-rss"></i></a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <section id="main">
+
+      <!-- Sidebar -->
+      <aside id="sidebar">
+        <section id="search-box">
+          <form id="search-form">
+  <input id="query" type="text" placeholder="正则搜索"></input>
+  <button type="submit"><i class="icon-search"></i></button>
+</form>
+<script type="text/javascript">
+$(document).ready(function() {
+  $('#search-form').submit(function() {
+    $('#query').blur().attr('disabled', true);
+    $('#main-content').hide();
+    $('#loader').show();
+    $.ajax({url: '/atom.xml?r=' + (Math.random() * 999999), dataType: 'xml', success: function(data) {
+      var rq = new RegExp($('#query').val(), 'im');
+      var rl = /\/([^\/]+)\.html$/;
+      var html = '';
+      $(data).find('entry').each(function(index, entry) {
+        var title = $(entry).find('title').text();
+        var link = $(entry).find('link').attr('href');
+        var title_en = rl.exec(link)[1].replace('-', ' ');
+        var content = $(entry).find('content').text();
+        if (rq.test(title) || rq.test(title_en) || rq.test(content)) {
+          var parts = $(entry).find('updated').text().split(/[-T:+]/g);
+          var months = [ "January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December" ];
+          date = parts[2] + ' ' + months[parts[1] - 1] + ' ' + parts[0];
+          html += '<article class="nested">';
+          html += '<header><h2><a href="' + link + '">' + title + '</a></h2></header>';
+          html += '<section><p>' + content + '</p></section>';
+          html += '<footer><p>更新日期：' + date + '</p></footer>';
+          html += '</article>';
+        }
+      });
+      $('#main-content').html(html);
+      $('#loader').hide();
+      $('#main-content').show();
+    }});
+    $('#query').blur().attr('disabled', false);
+    return false;
+  });
+});
+</script>
+
+        </section>
+        <section>
+          <a href="/" title="查看最近发表"><i class="icon-fixed-width icon-edit"></i> 最近发表</a>
+<ul>
+
+  <li><a href="/%E6%8A%80%E6%9C%AF/max-min-fairness.html" title="查看《Max-Min Fairness算法及边缘计算应用》">Max-Min Fairness算法及边缘计算应用</a></li>
+
+  <li><a href="/%E7%AE%97%E6%B3%95/graph-algorithms.html" title="查看《图算法总结》">图算法总结</a></li>
+
+  <li><a href="/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/system-design.html" title="查看《系统设计入门【转载】》">系统设计入门【转载】</a></li>
+
+  <li><a href="/%E7%AE%97%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/algorithms-primer.html" title="查看《算法刷题总结【转载】》">算法刷题总结【转载】</a></li>
+
+  <li><a href="/%E6%8A%80%E6%9C%AF/delay-message.html" title="查看《延迟消息设计与实现【转载】》">延迟消息设计与实现【转载】</a></li>
+
+  <li><a href="/%E6%8A%80%E6%9C%AF/game-programer.html" title="查看《游戏开发学习之路》">游戏开发学习之路</a></li>
+
+  <li><a href="/%E5%B7%A5%E5%85%B7/supervisor.html" title="查看《supervisor进程管理工具》">supervisor进程管理工具</a></li>
+
+  <li><a href="/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1/database-design.html" title="查看《关系型数据库设计【转载】》">关系型数据库设计【转载】</a></li>
+
+  <li><a href="/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E8%AF%AD%E8%A8%80/go-performance-optimization.html" title="查看《Go性能优化【转载】》">Go性能优化【转载】</a></li>
+
+  <li><a href="/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1/nosql-misunderstanding.html" title="查看《几种NoSQL的使用误区【转载】》">几种NoSQL的使用误区【转载】</a></li>
+
+</ul>
+
+        </section>
+        <section>
+          <a href="/archive.html" title="查看所有存档"><i class="icon-fixed-width icon-file-text"></i> 文章存档</a>
+<span title="文章总数">21</span>
+<ul>
+
+
+  
+  
+  
+  
+
+  
+  
+  
+  
+    <li><a href="/archive.html#June-2022">2022 年 06 月 (2)</a></li>
+    
+  
+
+  
+  
+  
+  
+
+  
+  
+  
+  
+    <li><a href="/archive.html#May-2022">2022 年 05 月 (2)</a></li>
+    
+  
+
+  
+  
+  
+  
+    <li><a href="/archive.html#October-2017">2017 年 10 月 (1)</a></li>
+    
+  
+
+  
+  
+  
+  
+
+  
+  
+  
+  
+
+  
+  
+  
+  
+
+  
+  
+  
+  
+
+  
+  
+  
+  
+
+  
+  
+  
+  
+    <li><a href="/archive.html#July-2017">2017 年 07 月 (6)</a></li>
+    
+  
+
+  
+  
+  
+  
+    <li><a href="/archive.html#October-2016">2016 年 10 月 (1)</a></li>
+    
+  
+
+  
+  
+  
+  
+    <li><a href="/archive.html#September-2016">2016 年 09 月 (1)</a></li>
+    
+  
+
+  
+  
+  
+  
+
+  
+  
+  
+  
+
+  
+  
+  
+  
+    <li><a href="/archive.html#July-2016">2016 年 07 月 (3)</a></li>
+    
+  
+
+  
+  
+  
+  
+
+  
+  
+  
+  
+
+  
+  
+  
+  
+    <li><a href="/archive.html#April-2016">2016 年 04 月 (3)</a></li>
+    
+  
+
+  
+  
+  
+  
+    <li><a href="/archive.html#January-2016">2016 年 01 月 (1)</a></li>
+    
+  
+
+  
+  
+  
+  
+    <li><a href="/archive.html#January-2015">2015 年 01 月 (1)</a></li>
+    
+  
+
+</ul>
+
+        </section>
+        <section>
+          <a href="/categories.html" title="查看所有分类"><i class="icon-fixed-width icon-folder-open"></i> 文章分类</a>
+<span title="分类总数">11</span>
+<ul>
+
+  <li><a href="/categories.html#阅读-ref">阅读 (1)</a></li>
+
+  <li><a href="/categories.html#工具-ref">工具 (3)</a></li>
+
+  <li><a href="/categories.html#技术-ref">技术 (9)</a></li>
+
+  <li><a href="/categories.html#解决方案-ref">解决方案 (1)</a></li>
+
+  <li><a href="/categories.html#行业-ref">行业 (1)</a></li>
+
+  <li><a href="/categories.html#数据库设计-ref">数据库设计 (2)</a></li>
+
+  <li><a href="/categories.html#程序设计语言-ref">程序设计语言 (1)</a></li>
+
+  <li><a href="/categories.html#算法-ref">算法 (2)</a></li>
+
+  <li><a href="/categories.html#数据结构-ref">数据结构 (1)</a></li>
+
+  <li><a href="/categories.html#系统设计-ref">系统设计 (1)</a></li>
+
+  <li><a href="/categories.html#分布式系统-ref">分布式系统 (1)</a></li>
+
+</ul>
+
+        </section>
+        <section>
+          <a href="/tags.html" title="查看所有标签"><i class="icon-fixed-width icon-tags"></i> 标签云</a>
+<span title="标签总数">23</span>
+<div id="tag-cloud">
+
+
+
+
+
+
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#工具-ref" style="font-size: 13.5pt; color: #444;">工具</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#博客-ref" style="font-size: 9pt; color: #999;">博客</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#shell-ref" style="font-size: 13.5pt; color: #444;">shell</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#C++-ref" style="font-size: 13.5pt; color: #444;">C++</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#Algorithm-ref" style="font-size: 9pt; color: #999;">Algorithm</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#程序员-ref" style="font-size: 13.5pt; color: #444;">程序员</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#CDN-ref" style="font-size: 9pt; color: #999;">CDN</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#linux-ref" style="font-size: 9pt; color: #999;">linux</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#NoSQL-ref" style="font-size: 9pt; color: #999;">NoSQL</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#数据库-ref" style="font-size: 13.5pt; color: #444;">数据库</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#Go-ref" style="font-size: 9pt; color: #999;">Go</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#性能优化-ref" style="font-size: 9pt; color: #999;">性能优化</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#SQL-ref" style="font-size: 9pt; color: #999;">SQL</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#python-ref" style="font-size: 9pt; color: #999;">python</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#进程管理-ref" style="font-size: 9pt; color: #999;">进程管理</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#游戏开发-ref" style="font-size: 9pt; color: #999;">游戏开发</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#Golang-ref" style="font-size: 9pt; color: #999;">Golang</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#数据结构-ref" style="font-size: 18pt; color: #000;">数据结构</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#算法-ref" style="font-size: 13.5pt; color: #444;">算法</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#系统设计-ref" style="font-size: 9pt; color: #999;">系统设计</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#分布式系统-ref" style="font-size: 9pt; color: #999;">分布式系统</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#资源调度-ref" style="font-size: 9pt; color: #999;">资源调度</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#算法设计-ref" style="font-size: 9pt; color: #999;">算法设计</a>
+  
+
+</div>
+
+        </section>
+        <div id="fixed-container">
+  <section>
+    <a href="#"><i class="icon-fixed-width icon-code"></i> 代码仓库</a>
+<ul>
+</ul>
+
+  </section>
+  <section>
+    <a href="#"><i class="icon-fixed-width icon-heart"></i> 与我联系</a>
+<div id="contacts-list">
+  <a href="mailto:dunyixu@gmail.com" target="_blank" title="Gmail">
+    <i class="icon-large icon-fixed-width icon-envelope"></i>
+  </a>
+  <a href="https://github.com/dyxu" target="_blank" title="GitHub">
+    <i class="icon-large icon-fixed-width icon-github"></i>
+  </a>
+  <a href="http://weibo.com/dunyixu" target="_blank" title="新浪微博">
+    <i class="icon-large icon-fixed-width icon-weibo"></i>
+  </a>
+  <a href="https://twitter.com/dunyixu" target="_blank" title="Twitter">
+    <i class="icon-large icon-fixed-width icon-twitter"></i>
+  </a>
+</div>
+
+  </section>
+  <section>
+    <a href="#"><i class="icon-fixed-width icon-link"></i> 友情链接</a>
+<ul>
+  <li><a href="https://wfwu.github.io" target="_blank">会叫猫～的猫</a></li>
+</ul>
+
+  </section>
+</div>
+<script type="text/javascript">
+$(document).ready(function() {
+  var position = $('#fixed-container').offset();
+  $(window).scroll(function() {
+    if($(window).scrollTop() > position.top) {
+      $('#fixed-container').css('position','fixed').css('top','0');
+    } else {
+      $('#fixed-container').css('position','static');
+    }
+  });
+});
+</script>
+
+      </aside>
+
+      <!-- Main Content -->
+      <div id="main-inner">
+        <div id="loader"><img src="/assets/themes/twitter/img/loading.gif" alt="请稍侯"></div>
+        <div id="main-content">
+          
+
+
+<!-- Recent Posts  -->
+<section>
+  
+  <article class="nested">
+
+    <header>
+      <h2><a href="/%E6%8A%80%E6%9C%AF/archlinux-build-system.html" title="查看《Archlinux构建系统》">Archlinux构建系统</a></h2>
+    </header>
+
+    <section>
+      <p>
+        
+1 pacman命令
+
+在archlinux中通过pacman来管理软件，全称为package manager，使用方式如下：
+
+
+  更新系统
+    
+      pacman -Syu 更新整个系统
+      pacman -Sy 同步本地包数据库和远程的仓库
+      pacma...
+      </p>
+    </section>
+
+    <footer>
+      <p>
+        发表日期：<a href="/archive.html#July-2017" title="查看此月所有文章">13 July 2017</a>，
+        作者：<a href="mailto:dunyixu@gmail.com" title="向作者发送邮件">Dylan Xu</a>，
+        类别：<a href="/categories.html#-ref" title="查看此类别下的所有文章"></a>
+      </p>
+    </footer>
+
+  </article>
+  
+  <article class="nested">
+
+    <header>
+      <h2><a href="/%E8%A1%8C%E4%B8%9A/CDN.html" title="查看《一篇文让你秒懂CDN（转载）》">一篇文让你秒懂CDN（转载）</a></h2>
+    </header>
+
+    <section>
+      <p>
+        
+原文链接
+
+著名的 《哲学简史》 将2400年的西方哲学取精用宏、深入浅出地呈现给读者。虽然 内容分发网络（CDN） 的历史要比哲学史短得多，但受此启发，Akamai将CDN 18年来的演化历程浓缩到本文中，以期帮助人们了解CDN的成因、历年的变化以及未来发展前景。
+
+第一章 缓存年代（19...
+      </p>
+    </section>
+
+    <footer>
+      <p>
+        发表日期：<a href="/archive.html#October-2016" title="查看此月所有文章">21 October 2016</a>，
+        作者：<a href="mailto:dunyixu@gmail.com" title="向作者发送邮件">Dylan Xu</a>，
+        类别：<a href="/categories.html#-ref" title="查看此类别下的所有文章"></a>
+      </p>
+    </footer>
+
+  </article>
+  
+  <article class="nested">
+
+    <header>
+      <h2><a href="/%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/chrome-fcitx.html" title="查看《Chrome漏字母解决方案》">Chrome漏字母解决方案</a></h2>
+    </header>
+
+    <section>
+      <p>
+        
+问题描述
+
+Linux版本Chrome浏览器在打字速度快时会漏字母。例如：
+我要打“今天天气真好” （jintiantianqizhenhao)
+打得快时会变成：
+“tq几年踢啊你真好”（jin(t)iantian(q)izhenhao)
+两个字母直接到屏幕上了。
+
+解决方法
+
+应该是安装的...
+      </p>
+    </section>
+
+    <footer>
+      <p>
+        发表日期：<a href="/archive.html#September-2016" title="查看此月所有文章">26 September 2016</a>，
+        作者：<a href="mailto:dunyixu@gmail.com" title="向作者发送邮件">Dylan Xu</a>，
+        类别：<a href="/categories.html#-ref" title="查看此类别下的所有文章"></a>
+      </p>
+    </footer>
+
+  </article>
+  
+  <article class="nested">
+
+    <header>
+      <h2><a href="/%E6%8A%80%E6%9C%AF/books-for-programers.html" title="查看《程序员的30本书（转载）》">程序员的30本书（转载）</a></h2>
+    </header>
+
+    <section>
+      <p>
+        
+本文转载自推酷
+
+“如果能时光倒流，回到过去，作为一个开发人员，你可以告诉自己在职业生涯初期应该读一本， 你会选择哪本书呢？我希望这个书单列表内容丰富，可以涵盖很多东西。”
+
+1、《代码大全》 史蒂夫·迈克康奈尔
+
+推荐数：1684
+
+“优秀的编程实践的百科全书，《代码大全》注重个人技术，其...
+      </p>
+    </section>
+
+    <footer>
+      <p>
+        发表日期：<a href="/archive.html#July-2016" title="查看此月所有文章">05 July 2016</a>，
+        作者：<a href="mailto:dunyixu@gmail.com" title="向作者发送邮件">Dylan Xu</a>，
+        类别：<a href="/categories.html#-ref" title="查看此类别下的所有文章"></a>
+      </p>
+    </footer>
+
+  </article>
+  
+  <article class="nested">
+
+    <header>
+      <h2><a href="/%E6%8A%80%E6%9C%AF/keith-schwarz.html" title="查看《Keith Schwarz算法实现》">Keith Schwarz算法实现</a></h2>
+    </header>
+
+    <section>
+      <p>
+        
+Keith Schwarz是一个斯坦福大学计算机科学系的讲师，他在自己的
+主页上实现了各种各样有意思的算法和数据结果。
+
+算法列表
+
+
+  
+    
+      算法
+      链接
+      语言
+      简介
+    
+    
+      Binomial Heap
+    ...
+      </p>
+    </section>
+
+    <footer>
+      <p>
+        发表日期：<a href="/archive.html#July-2016" title="查看此月所有文章">04 July 2016</a>，
+        作者：<a href="mailto:dunyixu@gmail.com" title="向作者发送邮件">Dylan Xu</a>，
+        类别：<a href="/categories.html#-ref" title="查看此类别下的所有文章"></a>
+      </p>
+    </footer>
+
+  </article>
+  
+  <article class="nested">
+
+    <header>
+      <h2><a href="/%E6%8A%80%E6%9C%AF/cpp-11.html" title="查看《C++11新特性》">C++11新特性</a></h2>
+    </header>
+
+    <section>
+      <p>
+        
+
+  C++11是曾经被叫做C++0x，是对目前C++语言的扩展和修正，C++11不仅包含核心语言的新机能，而且扩
+展了C++的标准程序库（STL），并入了大部分的C++ Technical Report 1（TR1）程序库(数学的特殊
+函数除外)。
+
+  C++11包括大量的新特性：包括l...
+      </p>
+    </section>
+
+    <footer>
+      <p>
+        发表日期：<a href="/archive.html#July-2016" title="查看此月所有文章">04 July 2016</a>，
+        作者：<a href="mailto:dunyixu@gmail.com" title="向作者发送邮件">Dylan Xu</a>，
+        类别：<a href="/categories.html#-ref" title="查看此类别下的所有文章"></a>
+      </p>
+    </footer>
+
+  </article>
+  
+  <article class="nested">
+
+    <header>
+      <h2><a href="/%E6%8A%80%E6%9C%AF/shell-learning-1.html" title="查看《Shell简明教程 1》">Shell简明教程 1</a></h2>
+    </header>
+
+    <section>
+      <p>
+        
+Shell脚本语法
+
+Shell中一条语句一行，如果想把多条语句写在同一行，则用分号;隔开。
+
+变量
+
+Shell中的变量是“弱”变量，正常情况下，被保存字符串，若要进行数学运算需要进行转换，如$((EXPR))。变量名的格式和C语言中相同
+通过NAME=VALUE定义变量，unset NA...
+      </p>
+    </section>
+
+    <footer>
+      <p>
+        发表日期：<a href="/archive.html#April-2016" title="查看此月所有文章">16 April 2016</a>，
+        作者：<a href="mailto:dunyixu@gmail.com" title="向作者发送邮件">Dylan Xu</a>，
+        类别：<a href="/categories.html#-ref" title="查看此类别下的所有文章"></a>
+      </p>
+    </footer>
+
+  </article>
+  
+  <article class="nested">
+
+    <header>
+      <h2><a href="/%E6%8A%80%E6%9C%AF/shell-learning-0.html" title="查看《Shell简明教程 0》">Shell简明教程 0</a></h2>
+    </header>
+
+    <section>
+      <p>
+        
+Shell配置
+
+Bash Shell启动配置文件
+
+用户在登录shell时，会执行相应的配置文件，对shell进行配置和定制。主要分为三种类型
+
+
+  用户登录主机时，loginshell先执行/etc/profile，接着依次检查用户主目录是否有.bash_profile 或 .bash...
+      </p>
+    </section>
+
+    <footer>
+      <p>
+        发表日期：<a href="/archive.html#April-2016" title="查看此月所有文章">16 April 2016</a>，
+        作者：<a href="mailto:dunyixu@gmail.com" title="向作者发送邮件">Dylan Xu</a>，
+        类别：<a href="/categories.html#-ref" title="查看此类别下的所有文章"></a>
+      </p>
+    </footer>
+
+  </article>
+  
+  <article class="nested">
+
+    <header>
+      <h2><a href="/%E5%B7%A5%E5%85%B7/insert-image-with-caption.html" title="查看《github pages中插入带caption的图片》">github pages中插入带caption的图片</a></h2>
+    </header>
+
+    <section>
+      <p>
+        
+1 最终效果
+
+本文讨论一种在github pages中插入带caption图片的实现方式，最终的效果如图一所示
+
+
+
+    
+    
+    
+        
+    
+    
+    
+    
+        图一 最终效果
+    
+
+
+2 实现方法
+
+
+
+2.1 _incl...
+      </p>
+    </section>
+
+    <footer>
+      <p>
+        发表日期：<a href="/archive.html#April-2016" title="查看此月所有文章">15 April 2016</a>，
+        作者：<a href="mailto:dunyixu@gmail.com" title="向作者发送邮件">Dylan Xu</a>，
+        类别：<a href="/categories.html#-ref" title="查看此类别下的所有文章"></a>
+      </p>
+    </footer>
+
+  </article>
+  
+  <article class="nested">
+
+    <header>
+      <h2><a href="/%E5%B7%A5%E5%85%B7/tmathjax-webpage-display-formula.html" title="查看《MathJax:网页中显示精美公式》">MathJax:网页中显示精美公式</a></h2>
+    </header>
+
+    <section>
+      <p>
+        
+MathJax是什么？
+
+
+  MathJax是一个开源JavaScript库。它支持LaTeX、MathML、AsciiMath符号，可以运行于所有流行浏览器上。 
+它的设计目标是利用最新的web技术，构建一个支持math的web平台。
+
+
+MathJax是一款帮你在网页上快捷地显示漂亮公...
+      </p>
+    </section>
+
+    <footer>
+      <p>
+        发表日期：<a href="/archive.html#January-2016" title="查看此月所有文章">21 January 2016</a>，
+        作者：<a href="mailto:dunyixu@gmail.com" title="向作者发送邮件">Dylan Xu</a>，
+        类别：<a href="/categories.html#-ref" title="查看此类别下的所有文章"></a>
+      </p>
+    </footer>
+
+  </article>
+  
+
+  
+    
+<div id="gitalk-container"></div>
+
+
+<script>
+    var gitalk = new Gitalk({
+        id: '南有嘉鱼 [Dylan Xu's Blog]',
+        clientID: 'bcc0fcb9be8afc0e7a91',
+        clientSecret: 'eb79578ece8e4dcefa19ebd39b224c6c605cd563',
+        repo: 'blog',
+        owner: 'dyxu',
+        admin: 'dyxu',
+        distractionFreeMode: 'false'
+    })
+
+    gitalk.render('gitalk-container')
+</script>
+
+  
+
+</section>
+
+<!-- Pagination Links -->
+<section class="pagination pagination-centered">
+  <ul>
+    <!-- First Page -->
+    
+    <li><a href="/index.html">&laquo;&laquo;</a></li>
+    
+
+    <!-- Previous Page -->
+    
+    <li>
+      
+      <a href="/index.html">&laquo;</a>
+      
+    </li>
+    
+
+    <!-- Current Page -->
+    <li class="active">
+      <span class="page_number ">第 2/3 页</span>
+    </li>
+
+    <!-- Next Page -->
+    
+    <li><a href="/page3">&raquo;</a></li>
+    
+
+    <!-- Last Page -->
+    
+    <li><a href="/page3">&raquo;&raquo;</a></li>
+    
+  </ul>
+</section>
+
+        </div>
+      </div>
+
+      <div id="back-top">
+  <a href="#top" title="回到顶部">
+    <i class="icon-2x icon-arrow-up"></i>
+  </a>
+</div>
+<script type="text/javascript">
+$("#back-top").hide();
+$(document).ready(function () {
+  $(window).scroll(function () {
+    if ($(this).scrollTop() > 100) {
+      $('#back-top').fadeIn();
+    } else {
+      $('#back-top').fadeOut();
+    }
+  });
+  $('#back-top a').click(function () {
+    $('body,html').animate({
+      scrollTop: 0
+    }, 500);
+    return false;
+  });
+});
+</script>
+
+
+    </section>
+
+    <footer id="bottom">
+      <p align="center">&copy; 2022 Dylan Xu
+        with help from <a href="https://jekyllrb.com" target="_blank" title="Transform your plain text into static websites and blogs.">Jekyll Bootstrap</a>
+        and <a href="https://getbootstrap.com" target="_blank">Twitter Bootstrap</a>
+      </p>
+    </footer>
+  </div>
+
+  <script type="text/javascript">
+    $('article.post a').attr('target', '_blank');
+    if (navigator.appVersion.indexOf("Mac") != -1) {
+      $('code, pre').css('font-family', 'Courier, monospace');
+    }
+  </script>
+  
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({ TeX: {equationNumbers: {autoNumber: ["AMS"], useLabelIds: true}}, "HTML-CSS": {linebreaks: {automatic:true}},
+    SVG: {linebreaks: {automatic: true}} });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
+</body>
+</html>
+

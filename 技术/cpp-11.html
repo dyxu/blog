@@ -1,0 +1,1067 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 7 ]>    <html lang="zh-CN" class="ie7"> <![endif]-->
+<!--[if IE 8 ]>    <html lang="zh-CN" class="ie8"> <![endif]-->
+<!--[if IE 9 ]>    <html lang="zh-CN" class="ie9"> <![endif]-->
+<!--[if (gte IE 10)|!(IE)]><!--> <html lang="zh-CN"> <!--<![endif]-->
+
+<head>
+  <meta charset="UTF-8">
+
+  <title>C++11新特性 - 南有嘉鱼</title>
+  <meta name="keywords" content="C++11">
+  
+  <meta name="author" content="Dylan Xu">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="/icon.png">
+
+  <!-- Feed -->
+  <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="/rss.xml">
+  <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/atom.xml">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/assets/themes/twitter/css/style.css">
+  <link rel="stylesheet" href="/assets/themes/twitter/css/font-awesome.min.css">
+  <!--[if IE 7 ]><link rel="stylesheet" href="/assets/themes/twitter/css/font-awesome-ie7.min.css?ver=20151122"><![endif]-->
+
+  <!-- Gitalk -->
+  <link rel="stylesheet" href="/assets/themes/twitter/css/gitalk-style.css">
+  <script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
+
+  <!-- Scripts -->
+  <script type="text/javascript" src="/assets/themes/twitter/js/jquery-1.11.1.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/github.min.css">
+</head>
+
+<body>
+
+  <div id="wrap">
+    <header id="top">
+      <!-- Home Link -->
+      <a id="logo" href="/" title="回到首页">
+        <img src="/assets/themes/twitter/img/icon.png" height="50" alt="南有嘉鱼">
+      </a>
+      
+      <!-- Navigation Bar -->
+      <nav id="navbar">
+        <ul>
+          <li>
+            <a href="/" title="首页">首页</a>
+          </li>
+          <li>
+            <a href="/categories.html" title="分类">分类</a>
+          </li>
+          <li>
+            <a href="/tags.html" title="标签">标签</a>
+          </li>
+          <li>
+            <a href="/messages.html" title="留言板">留言板</a>
+          </li>
+          <li id="about-link" >
+            <a href="/about.html" title="关于我">关于我</a>
+          </li>
+          <li id="rss-link">
+            <a href="/rss.xml" title="订阅 RSS"><i class="icon-large icon-fixed-width icon-rss"></i></a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <section id="main">
+
+      <!-- Sidebar -->
+      <aside id="sidebar">
+        <section id="search-box">
+          <form id="search-form">
+  <input id="query" type="text" placeholder="正则搜索"></input>
+  <button type="submit"><i class="icon-search"></i></button>
+</form>
+<script type="text/javascript">
+$(document).ready(function() {
+  $('#search-form').submit(function() {
+    $('#query').blur().attr('disabled', true);
+    $('#main-content').hide();
+    $('#loader').show();
+    $.ajax({url: '/atom.xml?r=' + (Math.random() * 999999), dataType: 'xml', success: function(data) {
+      var rq = new RegExp($('#query').val(), 'im');
+      var rl = /\/([^\/]+)\.html$/;
+      var html = '';
+      $(data).find('entry').each(function(index, entry) {
+        var title = $(entry).find('title').text();
+        var link = $(entry).find('link').attr('href');
+        var title_en = rl.exec(link)[1].replace('-', ' ');
+        var content = $(entry).find('content').text();
+        if (rq.test(title) || rq.test(title_en) || rq.test(content)) {
+          var parts = $(entry).find('updated').text().split(/[-T:+]/g);
+          var months = [ "January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December" ];
+          date = parts[2] + ' ' + months[parts[1] - 1] + ' ' + parts[0];
+          html += '<article class="nested">';
+          html += '<header><h2><a href="' + link + '">' + title + '</a></h2></header>';
+          html += '<section><p>' + content + '</p></section>';
+          html += '<footer><p>更新日期：' + date + '</p></footer>';
+          html += '</article>';
+        }
+      });
+      $('#main-content').html(html);
+      $('#loader').hide();
+      $('#main-content').show();
+    }});
+    $('#query').blur().attr('disabled', false);
+    return false;
+  });
+});
+</script>
+
+        </section>
+        <section class="active">
+          <a href="/" title="查看最近发表"><i class="icon-fixed-width icon-edit"></i> 最近发表</a>
+<ul>
+
+  <li><a href="/%E6%8A%80%E6%9C%AF/max-min-fairness.html" title="查看《Max-Min Fairness算法及边缘计算应用》">Max-Min Fairness算法及边缘计算应用</a></li>
+
+  <li><a href="/%E7%AE%97%E6%B3%95/graph-algorithms.html" title="查看《图算法总结》">图算法总结</a></li>
+
+  <li><a href="/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/system-design.html" title="查看《系统设计入门【转载】》">系统设计入门【转载】</a></li>
+
+  <li><a href="/%E7%AE%97%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/algorithms-primer.html" title="查看《算法刷题总结【转载】》">算法刷题总结【转载】</a></li>
+
+  <li><a href="/%E6%8A%80%E6%9C%AF/delay-message.html" title="查看《延迟消息设计与实现【转载】》">延迟消息设计与实现【转载】</a></li>
+
+  <li><a href="/%E6%8A%80%E6%9C%AF/game-programer.html" title="查看《游戏开发学习之路》">游戏开发学习之路</a></li>
+
+  <li><a href="/%E5%B7%A5%E5%85%B7/supervisor.html" title="查看《supervisor进程管理工具》">supervisor进程管理工具</a></li>
+
+  <li><a href="/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1/database-design.html" title="查看《关系型数据库设计【转载】》">关系型数据库设计【转载】</a></li>
+
+  <li><a href="/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E8%AF%AD%E8%A8%80/go-performance-optimization.html" title="查看《Go性能优化【转载】》">Go性能优化【转载】</a></li>
+
+  <li><a href="/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1/nosql-misunderstanding.html" title="查看《几种NoSQL的使用误区【转载】》">几种NoSQL的使用误区【转载】</a></li>
+
+</ul>
+
+        </section>
+        <section>
+          <a href="/archive.html" title="查看所有存档"><i class="icon-fixed-width icon-file-text"></i> 文章存档</a>
+<span title="文章总数">21</span>
+<ul>
+
+
+  
+  
+  
+  
+
+  
+  
+  
+  
+    <li><a href="/archive.html#June-2022">2022 年 06 月 (2)</a></li>
+    
+  
+
+  
+  
+  
+  
+
+  
+  
+  
+  
+    <li><a href="/archive.html#May-2022">2022 年 05 月 (2)</a></li>
+    
+  
+
+  
+  
+  
+  
+    <li><a href="/archive.html#October-2017">2017 年 10 月 (1)</a></li>
+    
+  
+
+  
+  
+  
+  
+
+  
+  
+  
+  
+
+  
+  
+  
+  
+
+  
+  
+  
+  
+
+  
+  
+  
+  
+
+  
+  
+  
+  
+    <li><a href="/archive.html#July-2017">2017 年 07 月 (6)</a></li>
+    
+  
+
+  
+  
+  
+  
+    <li><a href="/archive.html#October-2016">2016 年 10 月 (1)</a></li>
+    
+  
+
+  
+  
+  
+  
+    <li><a href="/archive.html#September-2016">2016 年 09 月 (1)</a></li>
+    
+  
+
+  
+  
+  
+  
+
+  
+  
+  
+  
+
+  
+  
+  
+  
+    <li><a href="/archive.html#July-2016">2016 年 07 月 (3)</a></li>
+    
+  
+
+  
+  
+  
+  
+
+  
+  
+  
+  
+
+  
+  
+  
+  
+    <li><a href="/archive.html#April-2016">2016 年 04 月 (3)</a></li>
+    
+  
+
+  
+  
+  
+  
+    <li><a href="/archive.html#January-2016">2016 年 01 月 (1)</a></li>
+    
+  
+
+  
+  
+  
+  
+    <li><a href="/archive.html#January-2015">2015 年 01 月 (1)</a></li>
+    
+  
+
+</ul>
+
+        </section>
+        <section>
+          <a href="/categories.html" title="查看所有分类"><i class="icon-fixed-width icon-folder-open"></i> 文章分类</a>
+<span title="分类总数">11</span>
+<ul>
+
+  <li><a href="/categories.html#阅读-ref">阅读 (1)</a></li>
+
+  <li><a href="/categories.html#工具-ref">工具 (3)</a></li>
+
+  <li><a href="/categories.html#技术-ref">技术 (9)</a></li>
+
+  <li><a href="/categories.html#解决方案-ref">解决方案 (1)</a></li>
+
+  <li><a href="/categories.html#行业-ref">行业 (1)</a></li>
+
+  <li><a href="/categories.html#数据库设计-ref">数据库设计 (2)</a></li>
+
+  <li><a href="/categories.html#程序设计语言-ref">程序设计语言 (1)</a></li>
+
+  <li><a href="/categories.html#算法-ref">算法 (2)</a></li>
+
+  <li><a href="/categories.html#数据结构-ref">数据结构 (1)</a></li>
+
+  <li><a href="/categories.html#系统设计-ref">系统设计 (1)</a></li>
+
+  <li><a href="/categories.html#分布式系统-ref">分布式系统 (1)</a></li>
+
+</ul>
+
+        </section>
+        <section>
+          <a href="/tags.html" title="查看所有标签"><i class="icon-fixed-width icon-tags"></i> 标签云</a>
+<span title="标签总数">23</span>
+<div id="tag-cloud">
+
+
+
+
+
+
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#工具-ref" style="font-size: 13.5pt; color: #444;">工具</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#博客-ref" style="font-size: 9pt; color: #999;">博客</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#shell-ref" style="font-size: 13.5pt; color: #444;">shell</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#C++-ref" style="font-size: 13.5pt; color: #444;">C++</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#Algorithm-ref" style="font-size: 9pt; color: #999;">Algorithm</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#程序员-ref" style="font-size: 13.5pt; color: #444;">程序员</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#CDN-ref" style="font-size: 9pt; color: #999;">CDN</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#linux-ref" style="font-size: 9pt; color: #999;">linux</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#NoSQL-ref" style="font-size: 9pt; color: #999;">NoSQL</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#数据库-ref" style="font-size: 13.5pt; color: #444;">数据库</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#Go-ref" style="font-size: 9pt; color: #999;">Go</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#性能优化-ref" style="font-size: 9pt; color: #999;">性能优化</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#SQL-ref" style="font-size: 9pt; color: #999;">SQL</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#python-ref" style="font-size: 9pt; color: #999;">python</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#进程管理-ref" style="font-size: 9pt; color: #999;">进程管理</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#游戏开发-ref" style="font-size: 9pt; color: #999;">游戏开发</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#Golang-ref" style="font-size: 9pt; color: #999;">Golang</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#数据结构-ref" style="font-size: 18pt; color: #000;">数据结构</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#算法-ref" style="font-size: 13.5pt; color: #444;">算法</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#系统设计-ref" style="font-size: 9pt; color: #999;">系统设计</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#分布式系统-ref" style="font-size: 9pt; color: #999;">分布式系统</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#资源调度-ref" style="font-size: 9pt; color: #999;">资源调度</a>
+  
+    
+    
+    
+    
+    
+    <a href="/tags.html#算法设计-ref" style="font-size: 9pt; color: #999;">算法设计</a>
+  
+
+</div>
+
+        </section>
+        <div id="fixed-container">
+  <section>
+    <a href="#"><i class="icon-fixed-width icon-code"></i> 代码仓库</a>
+<ul>
+</ul>
+
+  </section>
+  <section>
+    <a href="#"><i class="icon-fixed-width icon-heart"></i> 与我联系</a>
+<div id="contacts-list">
+  <a href="mailto:dunyixu@gmail.com" target="_blank" title="Gmail">
+    <i class="icon-large icon-fixed-width icon-envelope"></i>
+  </a>
+  <a href="https://github.com/dyxu" target="_blank" title="GitHub">
+    <i class="icon-large icon-fixed-width icon-github"></i>
+  </a>
+  <a href="http://weibo.com/dunyixu" target="_blank" title="新浪微博">
+    <i class="icon-large icon-fixed-width icon-weibo"></i>
+  </a>
+  <a href="https://twitter.com/dunyixu" target="_blank" title="Twitter">
+    <i class="icon-large icon-fixed-width icon-twitter"></i>
+  </a>
+</div>
+
+  </section>
+  <section>
+    <a href="#"><i class="icon-fixed-width icon-link"></i> 友情链接</a>
+<ul>
+  <li><a href="https://wfwu.github.io" target="_blank">会叫猫～的猫</a></li>
+</ul>
+
+  </section>
+</div>
+<script type="text/javascript">
+$(document).ready(function() {
+  var position = $('#fixed-container').offset();
+  $(window).scroll(function() {
+    if($(window).scrollTop() > position.top) {
+      $('#fixed-container').css('position','fixed').css('top','0');
+    } else {
+      $('#fixed-container').css('position','static');
+    }
+  });
+});
+</script>
+
+      </aside>
+
+      <!-- Main Content -->
+      <div id="main-inner">
+        <div id="loader"><img src="/assets/themes/twitter/img/loading.gif" alt="请稍侯"></div>
+        <div id="main-content">
+          
+
+<section id="content">
+  <article class="post">
+
+    <header>
+      <h1>C++11新特性</h1>
+    </header>
+
+    <section>
+      <div class="post-extra">
+        <div class="pull-left">
+          <span>04 July 2016</span>
+        </div>
+        <div class="pull-right">
+          
+
+
+  <span id="share">
+  <a class="wechat" target="_blank" title="分享到微信" href="http://chart.apis.google.com/chart?cht=qr&amp;chs=300x300&amp;chl=https://dyxu.net/%E6%8A%80%E6%9C%AF/cpp-11.html"><i class="icon-large icon-wechat"></i></a>
+  <a class="weibo" target="_blank" title="分享到微博" href="http://service.weibo.com/share/share.php?title=C++11新特性 - 南有嘉鱼&amp;url=https://dyxu.net/%E6%8A%80%E6%9C%AF/cpp-11.html&amp;type=3&amp;searchPic=1"><i class="icon-large icon-weibo"></i></a>
+  <a class="twitter" target="_blank" title="Share to Twitter" href="https://twitter.com/intent/tweet?url=https://dyxu.net/%E6%8A%80%E6%9C%AF/cpp-11.html&amp;text=C++11新特性 - 南有嘉鱼&amp;via=dunyixu"><i class="icon-large icon-twitter"></i></a>
+</span>
+
+
+
+
+
+        </div>
+      </div>
+      
+<blockquote>
+  <p>C++11是曾经被叫做C++0x，是对目前C++语言的扩展和修正，C++11不仅包含核心语言的新机能，而且扩
+展了C++的标准程序库（STL），并入了大部分的C++ Technical Report 1（TR1）程序库(数学的特殊
+函数除外)。</p>
+
+  <p>C++11包括大量的新特性：包括lambda表达式，类型推导关键字auto、decltype，和模板的大量改进。
+编译器通过添加 <code>-std=c++11</code> 或者 <code>-std=c++0x</code> 参数来支持C++11。</p>
+</blockquote>
+
+<h2 id="核心语言运行时性能强化">核心语言运行时性能强化</h2>
+
+<p>以下特性基本上用于提升程序运行时的性能。</p>
+
+<h3 id="右值引用和move语义">右值引用和move语义</h3>
+
+<p>右值引用(R-values)是C++11标准中一个令人难以捉摸的特性。在Ｃ语言时代，左值和右值的定义如下：
+<strong>左值是一个可以出现在赋值运算符左边或者右边的表达式exp，而右值是只能出现在右边的表达式。</strong>
+例如：</p>
+
+<pre><code>int a = 1;  
+int b = 2;
+// a和b是左值
+a = b;  // ok
+b = a;  // ok
+
+// a * b是右值
+a * b = 11;   // error
+</code></pre>
+
+<p>在C++中由于自定义类型的引入使得上述的定义变得不那么准确，另一个较好的定义<strong>左值是一个指向某内存
+空间的表达式，并且我们可以用&amp;操作符获得该内存空间的地址，右值就是非左值的表达式。</strong></p>
+
+<pre><code>int a = 1;  // ok
+int *ptr = &amp;a; // ok
+int&amp; func();
+func() = 42;  // ok
+// ptr, a和func()都是左值
+
+int rfunc();
+int *ptr1 = &amp;rfunc(); // error rfunc()是右值
+int *ptr = &amp;42; // error 42是右值
+</code></pre>
+
+<p>右值引用的加入主要是为了解决move语义和完美转发。</p>
+
+<p>(未完待续)</p>
+
+<h3 id="常量表达式constexpr">常量表达式constexpr</h3>
+
+<p>C++11中引入了新的关键字constexpr，其语义是“常量表达式”，即在编译期间可以求值的表达式。如：</p>
+
+<pre><code>constexpr int func(int t) {
+    return t + 1;
+}
+
+constexpr int a = func(1);  // ok
+constexpr int b = func(cin.get()); // error
+constexpr int c = a * 2 + 3; // ok
+</code></pre>
+
+<p>constexpr还可以用于修饰类的构造函数，在保证如果提供给构造函数的参数都是constexpr的前提下，那
+么产生的对象中的所有成员都会是constexpr，可用于各种只能使用constexpr对象的场合。</p>
+
+<h2 id="核心语言编译期间的加强">核心语言编译期间的加强</h2>
+
+<h3 id="外部模板">外部模板</h3>
+
+<p>在标准C++中，在编译过程中需要对出现的每一处模板进行实例化；链接时，链接器还要移除重复的实例化代
+码，有时候这会大大增加编译和链接的时间。而在C++中已经有强制编译器在特定位置进行实例化的语法了：</p>
+
+<pre><code>template class std::vector&lt;MyClass&gt;;
+</code></pre>
+
+<p>在C++11中简单地加入了外部模板的语法：</p>
+
+<pre><code>extern template class std::vector&lt;MyClass&gt;;
+</code></pre>
+
+<p>例如：</p>
+
+<pre><code>// func.h
+template &lt;typename T&gt;
+void func(T t) { }
+
+// src1.cpp
+void test0() {
+    func&lt;int&gt;(1);
+}
+
+// src2.cpp
+extern template void func&lt;int&gt;(int);
+void test1() {
+    func&lt;int&gt;(1);
+}   
+</code></pre>
+
+<h2 id="核心语言使用性的加强">核心语言使用性的加强</h2>
+
+<h3 id="统一初始化语法">统一初始化语法</h3>
+
+<p>C++11用大括号统一了初始化的方法。</p>
+
+<p>对于POD类型(<a href="https://zh.wikipedia.org/wiki/POD_(%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1)">Plain Old Data</a>):</p>
+
+<pre><code class="language-cpp">int arr[3] = {1, 2, 3};
+struct tm today = {0};
+</code></pre>
+
+<p>在类(class/struct)是极简的、属于标准布局，以及它的所有非静态变量成员都是POD时，会被识别为POD。</p>
+
+<pre><code class="language-cpp">struct A { int m; }; // POD
+struct B { ~B(); int m; }; // non-POD
+struct C { C() : m() {}; ~(); int m; }; // non-POD
+</code></pre>
+
+<p>对于POD类型如上述中类A, <code>new A</code>和<code>new A()</code>是不一样的，前者m没有被初始化话，后者被初始化了。
+而对于non-POD类型，两种方式m都会被初始化。因此，在C++11中对初始化进行了统一。</p>
+
+<pre><code class="language-cpp">int * nums = new int[3]{1, 2, 3}; // C++11 only
+class X {
+  private:
+    int nums_[4];
+  public:
+    X() : nums_{1, 2, 3, 4} {} // C++11 only
+};
+   
+vector&lt;string&gt; vs = {"first", "second", "third"};
+map&lt;string, string&gt; user = {
+    {"Lady Gaga", "123456789"},
+    {"Michael Joseph", "987654321"}};
+</code></pre>
+
+<h3 id="类型推导">类型推导</h3>
+
+<p>在标准C++和C中，使用变量定义时必须指明其类型。但是在模板编程中有时候函数的返回值难以确定，为了
+解决上述的问题，C++11引入了两个新的关键字: auto和decltype。 auto的示例如下：</p>
+
+<pre><code class="language-cpp">auto a = 0;   // int
+auto b = 'b'; // char
+vecotr&lt;string&gt; vs;
+auto it = vs.begin(); // vector&lt;string&gt;::const_iterator 
+</code></pre>
+
+<p>decltype用于评估括号内的类型，对于decltype(expr)其规则如下：</p>
+
+<ol>
+  <li>如果表达式expr是一个变量，那么代表该变量的类型。</li>
+  <li>如果表达式expr是一个函数，那么代表函数返回值的类型。</li>
+  <li>如果不符合1和2，如果expr是左值，类型为T，那么decltype(e)是T&amp;；如果是右值，则是T。</li>
+</ol>
+
+<p>示例如下：</p>
+
+<pre><code class="language-cpp">template &lt;typename X, typename Y&gt;
+auto z = [](X x, Y y)-&gt;decltype(x+y) { return x + y;}
+</code></pre>
+
+<h3 id="基于范围的for循环">基于范围的for循环</h3>
+
+<p>直接上示例：</p>
+
+<pre><code class="language-cpp">int arr[3] = {1, 2, 3};
+for(const int&amp; e : arr) {
+    std::cout &lt;&lt; e &lt;&lt; std::endl;
+}
+
+for(auto&amp; e : arr) { // or auto&amp; e =&gt; int&amp; e
+    e &amp;= 0xFF;
+}
+</code></pre>
+
+<h3 id="lambda-表达式">Lambda 表达式</h3>
+
+<p>C++11中引入了Lambda表达式，既匿名函数。其语法如下</p>
+
+<pre><code class="language-cpp">[capture](parameters) -&gt; return_type { body }
+[]  // body中不能引用外部变量
+[=] // body中外部变量以值传递的形式传入
+[&amp;] // body中外部变量以引用的形式传入
+[x, &amp;y]  // body中x值传递的形式传入，y为引用传入
+[&amp;, x] // body中除了x为值传递外其他都是引用传递
+[=, &amp;x] // body除x为引用传递外，其他外部变量都是值传递
+-&gt;return_type // 为可选项
+</code></pre>
+<p>示例：</p>
+
+<pre><code class="language-cpp">int sum = 0;
+vector&lt;int&gt; v{1, 2, 3};
+for_each(v.begin(), v.end(), [&amp;sum](int x) {
+    sum += x;
+});
+</code></pre>
+
+<h3 id="返回值后置的函数定义">返回值后置的函数定义</h3>
+
+<p>在C++03中一下代码是不合法的，因为ReturnType的类型必须在x+y的结果出来后才能确定。</p>
+
+<pre><code class="language-cpp">template &lt;typename X, typename Y&gt;
+ReturnType Func(const X&amp; x, const Y&amp; y) { 
+    return x + y; // ReturnType 必须是x + y类型
+} 
+
+template &lt;typename X, typename Y&gt;
+decltype(x+y) Func(const X&amp; x, const Y&amp; y) { 
+    return x + y;
+} // error: x和y的定义编译器在分析到函数原型的后半部分时才出现
+</code></pre>
+
+<p>C++11引入了一种新的函数定义声明语法：</p>
+
+<pre><code class="language-cpp">template &lt;typename X, typename Y&gt;
+auto Func(const X&amp; x, const Y&amp; y) -&gt; decltype(x+y) { 
+    return x + y; // ok
+} 
+</code></pre>
+
+<h3 id="委托构造">委托构造</h3>
+
+<p>在以前版本的C++中，构造函数之间不能相互调用。如果要写内容相似的构造函数就必须把相同的内容放到私
+有的成员函数中，并且基类的构造函数不能直接成为派生类的构造函数，即使它已经够用了。C++11中允许构
+函数调用其他构造函数，称为委托构造。</p>
+
+<pre><code class="language-cpp">class User {
+  public:
+    User() : User("None", 0){}
+    User(string name) : User(name, 0) {}
+    User(string name, ulong id) : name_(name), id_(id) {}
+
+  private:
+    string name_;
+    ulong  id_;
+};
+
+class Student : public User{
+  public:
+    using User::User;
+
+  private:
+   string school = "xmu"; // c++11 only
+};
+</code></pre>
+
+<h3 id="虚函数重载">虚函数重载</h3>
+
+<p>在C++里面，派生类容易意外地重载虚函数，比如说</p>
+
+<pre><code class="language-cpp">class Base {
+  public:
+    virtual void Func();
+};
+
+class Derived: Base {
+  public:
+    void Func();
+};
+</code></pre>
+
+<p>此时如果基类Base中的虚函数签名被改变，那么派生类将不再重载虚函数，程序员很可能不会注意到这个问
+题，从而导致错误的调用。</p>
+
+<p>C++11中加入override来防止上述情况的发生，并在编译期间捕获此类错误，该功能是向下兼容的。</p>
+
+<pre><code class="language-cpp">class Base {
+  public:
+    virtual void Func();
+};
+
+class Derived: Base {
+  public:
+    virtual void Func() override; //ok
+    virtual void Func(int) override; // error
+};
+</code></pre>
+
+<p>C++11中还提供了关键字final来防止类被继承或是函数被重载。</p>
+
+<pre><code class="language-cpp">class Base final {};
+class Derived : public Base {}; // error: Base is marked as final
+
+class User {
+  public:
+    virtual void Func() final;
+};
+
+class Student {
+  public:
+    virtual void Func();  // error
+};
+</code></pre>
+
+<h3 id="空指针nullptr">空指针nullptr</h3>
+
+<p>在C语言中空指针NULL被定义为<code>((void*)0)</code>或是0。在C++中不允许<code>void*</code>隐式转换为别的类型的指针，
+为了使代码<code>char *ptr = NULL</code>通过编译，NULL只能被设为0。这就出现了一些无法区分代码语义的情况。</p>
+
+<pre><code class="language-cpp">void Func(char *);
+void Func(int);
+</code></pre>
+
+<p>当你调用Func(NULL)时，想调用上者，实际上将调用的却是Func(int)函数。C++11中引入的空指针nullptr，
+nullptr的类型为nullptr_t，可以隐式地转换成任何指针类型，也可以进行相等或不等的比较，但不能隐
+式转换成整数，也不能与整数进行比较。</p>
+
+<h3 id="强枚举类型">强枚举类型</h3>
+
+<p>在标准C++中，枚举类型不是类型安全的。枚举类型被视为整型，这使得不同类型之间可以比较。此外枚举类型
+所使用的整型的类型无法确定。最重要的是枚举类型名暴露在一般范围中，两个不同的枚举类型不能拥有相同的
+枚举名。</p>
+
+<pre><code class="language-cpp">enum Side{ LEFT, RIGHT};
+enum Dir { UP, DOWN, LEFT, RIGHT}; // error
+</code></pre>
+
+<p>C++11中需要为枚举类型提供类型，默认为int类型。</p>
+
+<pre><code class="language-cpp">enum Enum1;  // error
+enum Enum2 : unsigned int; // c++11 only
+enum class Enum3; // c++11 only, default(int)
+enum class Enum4 : unsigned int; // c++11 only
+</code></pre>
+
+<h3 id="角括号修正">角括号修正</h3>
+
+<p>C++11的编译器可以更好地解析右角括号的语法</p>
+
+<pre><code class="language-cpp">std::vector&lt;vector&lt;int&gt;&gt; v; // error with C++03 but ok with C++11
+</code></pre>
+
+<h2 id="核心语言能力的提升">核心语言能力的提升</h2>
+
+
+      
+      <footer>
+        <p>
+          本作品由 <a href="mailto:dunyixu@gmail.com">Dylan Xu</a> 创作或转载，采用
+          <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="查看协议详细信息" target="_blank">CC BY-NC-SA 3.0 许可协议</a>
+          进行许可。
+        </p>
+      </footer>
+      
+    </section>
+
+  </article>
+</section>
+
+<section>
+
+  <div class="tag-box-wrapper">
+    
+    <ul class="tag-box inline">
+      <li><i class="icon-large icon-folder-open"></i></li>
+      
+      
+
+
+  
+     
+    	<li><a href="/categories.html#技术-ref">
+    		技术 <span>9</span>
+    	</a></li>
+    
+  
+
+
+
+    </ul>
+    
+
+    
+    <ul class="tag-box inline">
+      <li><i class="icon-large icon-tags"></i></li>
+      
+      
+
+
+  
+     
+    	<li><a href="/tags.html#C++-ref">C++ <span>2</span></a></li>
+    
+  
+
+
+
+    </ul>
+    
+  </div>
+
+  <div class="pagination">
+    <ul>
+      
+      <li class="prev"><a href="/%E6%8A%80%E6%9C%AF/shell-learning-1.html" title="Shell简明教程 1">&larr; 上一篇</a></li>
+      
+      <li><a href="/archive.html">文章列表</a></li>
+      
+      <li class="next"><a href="/%E6%8A%80%E6%9C%AF/keith-schwarz.html" title="Keith Schwarz算法实现">下一篇 &rarr;</a></li>
+      
+    </ul>
+  </div>
+
+</section>
+
+<section id="comments">
+  
+
+
+  
+<div id="gitalk-container"></div>
+
+
+<script>
+    var gitalk = new Gitalk({
+        id: 'C++11新特性',
+        clientID: 'bcc0fcb9be8afc0e7a91',
+        clientSecret: 'eb79578ece8e4dcefa19ebd39b224c6c605cd563',
+        repo: 'blog',
+        owner: 'dyxu',
+        admin: 'dyxu',
+        distractionFreeMode: 'false'
+    })
+
+    gitalk.render('gitalk-container')
+</script>
+
+
+
+
+
+</section>
+
+
+        </div>
+      </div>
+
+      <div id="back-top">
+  <a href="#top" title="回到顶部">
+    <i class="icon-2x icon-arrow-up"></i>
+  </a>
+</div>
+<script type="text/javascript">
+$("#back-top").hide();
+$(document).ready(function () {
+  $(window).scroll(function () {
+    if ($(this).scrollTop() > 100) {
+      $('#back-top').fadeIn();
+    } else {
+      $('#back-top').fadeOut();
+    }
+  });
+  $('#back-top a').click(function () {
+    $('body,html').animate({
+      scrollTop: 0
+    }, 500);
+    return false;
+  });
+});
+</script>
+
+
+    </section>
+
+    <footer id="bottom">
+      <p align="center">&copy; 2022 Dylan Xu
+        with help from <a href="https://jekyllrb.com" target="_blank" title="Transform your plain text into static websites and blogs.">Jekyll Bootstrap</a>
+        and <a href="https://getbootstrap.com" target="_blank">Twitter Bootstrap</a>
+      </p>
+    </footer>
+  </div>
+
+  <script type="text/javascript">
+    $('article.post a').attr('target', '_blank');
+    if (navigator.appVersion.indexOf("Mac") != -1) {
+      $('code, pre').css('font-family', 'Courier, monospace');
+    }
+  </script>
+  
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({ TeX: {equationNumbers: {autoNumber: ["AMS"], useLabelIds: true}}, "HTML-CSS": {linebreaks: {automatic:true}},
+    SVG: {linebreaks: {automatic: true}} });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
+</body>
+</html>
+
